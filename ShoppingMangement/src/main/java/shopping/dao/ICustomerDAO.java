@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public interface ICustomerDAO {
 
-    CustomerDTO getCustomerByUsername(String username) throws SQLException;
+    CustomerDTO getUserByUserNameAndPassword(String username, String password) throws SQLException;
 
-    boolean insertCustomer(CustomerDTO customer) throws SQLException;
+    boolean insertUser(CustomerDTO user) throws SQLException;
 
-    boolean updateCustomer(CustomerDTO customer) throws SQLException;
+    boolean updateUser(CustomerDTO user) throws SQLException;
 }

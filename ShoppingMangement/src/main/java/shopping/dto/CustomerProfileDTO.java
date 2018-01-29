@@ -3,7 +3,7 @@ package shopping.dto;
 /**
  * Created by Duong Truong on 1/29/2018.
  */
-public class UserProfileDTO {
+public class CustomerProfileDTO {
     private String id;
 
     private String username;

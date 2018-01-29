@@ -1,28 +1,14 @@
 package shopping.dto;
 
-public class CustomerDTO {
+/**
+ * Created by Duong Truong on 1/29/2018.
+ */
 
-    private String id;
+public class CustomerDTO {
 
     private String username;
 
-    private String customerName;
-
-    private String address;
-
-    private String email;
-
-    private String bankCardNo;
-
-    private String shippingAddress;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String password;
 
     public String getUsername() {
         return username;
@@ -32,43 +18,11 @@ public class CustomerDTO {
         this.username = username;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
-
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
