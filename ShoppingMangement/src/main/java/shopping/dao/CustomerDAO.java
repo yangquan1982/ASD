@@ -22,7 +22,7 @@ public class CustomerDAO implements ICustomerDAO {
             ResultSet rs = ps.executeQuery();
             if(rs.next())
             {
-                return extractUCustomerFromResultSet(rs);
+                return extractCustomerFromResultSet(rs);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -33,16 +33,48 @@ public class CustomerDAO implements ICustomerDAO {
         return null;
     }
 
-    private CustomerDTO extractUCustomerFromResultSet(ResultSet rs) throws SQLException {
+    private CustomerDTO extractCustomerFromResultSet(ResultSet rs) throws SQLException {
         CustomerDTO customer = new CustomerDTO();
         customer.setUsername(rs.getString("username"));
         return customer;
     }
+
     public boolean insertUser(CustomerDTO user) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO User VALUES (?, ?)");
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
         return false;
     }
 
     public boolean updateUser(CustomerDTO user) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "UPDATE User SET password=? WHERE username=?");
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getUsername());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
         return false;
     }
 }
