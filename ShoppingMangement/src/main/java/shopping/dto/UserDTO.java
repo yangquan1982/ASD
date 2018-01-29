@@ -1,5 +1,9 @@
 package shopping.dto;
 
+/**
+ * Created by Duong Truong on 1/29/2018.
+ */
+
 public class UserDTO {
 
     private String username;
