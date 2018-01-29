@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Xsxk</display-name>
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+  	<filter-name>loginFilter</filter-name>
+  	<filter-class>com.java1234.filter.LoginFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>loginFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <servlet>
+  	<servlet-name>userServlet</servlet-name>
+  	<servlet-class>com.java1234.servlet.UserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>userServlet</servlet-name>
+  	<url-pattern>/user</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>customerServlet</servlet-name>
+  	<servlet-class>com.java1234.servlet.CustomerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>customerServlet</servlet-name>
+  	<url-pattern>/student</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>sellerServlet</servlet-name>
+  	<servlet-class>com.java1234.servlet.SellerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>sellerServlet</servlet-name>
+  	<url-pattern>/teacher</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>goodsServlet</servlet-name>
+  	<servlet-class>com.java1234.servlet.GoodsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>goodsServlet</servlet-name>
+  	<url-pattern>/course</url-pattern>
+  </servlet-mapping>
+  
+  
+</web-app>
