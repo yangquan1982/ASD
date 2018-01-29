@@ -5,12 +5,11 @@ package shopping.dto;
  */
 public class CustomerProfileDTO {
     private String id;
+    private String fullName;
 
-    private String username;
-
-    private String settingName;
-
-    private String settingValue;
+    private String address;
+    private String bankCardNo;
+    private String shippingAddress;
 
     public String getId() {
         return id;
@@ -20,27 +19,35 @@ public class CustomerProfileDTO {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getSettingName() {
-        return settingName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setSettingName(String settingName) {
-        this.settingName = settingName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getSettingValue() {
-        return settingValue;
+    public String getBankCardNo() {
+        return bankCardNo;
     }
 
-    public void setSettingValue(String settingValue) {
-        this.settingValue = settingValue;
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 }
