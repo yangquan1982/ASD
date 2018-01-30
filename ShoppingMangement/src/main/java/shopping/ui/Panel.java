@@ -68,17 +68,17 @@ public class Panel extends JFrame {
 //			}
 //		});
 		
-//		JButton btnNewButton_2 = new JButton("Purchase");
-//		btnNewButton_2.setForeground(new Color(128, 0, 0));
-//		btnNewButton_2.setBackground(Color.WHITE);
-//		btnNewButton_2.setBounds(0, 201, 145, 35);
-//		btnNewButton_2.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 14));
-//		btnNewButton_2.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
+		JButton btnNewButton_2 = new JButton("Purchase");
+		btnNewButton_2.setForeground(new Color(128, 0, 0));
+		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setBounds(0, 201, 145, 35);
+		btnNewButton_2.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 14));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 //				Purchase purchase = new Purchase();
 //				purchase.setVisible(true);
-//			}
-//		});
+			}
+		});
 		
 //		JButton btnNewButton_1 = new JButton("Employee List");
 //		btnNewButton_1.setForeground(new Color(128, 0, 0));
@@ -111,7 +111,7 @@ public class Panel extends JFrame {
 		});
 		contentPane.add(btnNewButton);
 //		contentPane.add(btnNewButton_1);
-//		contentPane.add(btnNewButton_2);
+		contentPane.add(btnNewButton_2);
 		
 //		JButton btnNewButton_3 = new JButton("Admin Page");
 //		btnNewButton_3.setForeground(new Color(128, 0, 0));
