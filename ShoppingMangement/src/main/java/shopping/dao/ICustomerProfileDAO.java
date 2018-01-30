@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICustomerProfileDAO {
 
-    List<CustomerProfileDTO> getUserSettingsByUsername(String username) throws SQLException;
+    CustomerProfileDTO getUserSettingsByUsername(String username) throws SQLException;
 
     boolean insertUserSetting(CustomerProfileDTO userProfile) throws SQLException;
 
