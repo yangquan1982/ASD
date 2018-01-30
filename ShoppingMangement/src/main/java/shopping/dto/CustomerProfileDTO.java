@@ -6,13 +6,31 @@ package shopping.dto;
 public class CustomerProfileDTO {
     private String id;
     private String fullName;
+    private String username;
 
     private String address;
+    private String email;
     private String bankCardNo;
     private String shippingAddress;
 
     public String getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setId(String id) {

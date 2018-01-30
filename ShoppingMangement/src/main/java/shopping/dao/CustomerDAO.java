@@ -1,6 +1,7 @@
 package shopping.dao;
 
 import shopping.dto.CustomerDTO;
+import shopping.dto.CustomerProfileDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ public class CustomerDAO implements ICustomerDAO {
     public CustomerDTO getCustomerByUserNameAndPassword(String username, String password) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM User WHERE username=? AND password=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM Customer WHERE username=? AND password=?");
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -42,7 +43,7 @@ public class CustomerDAO implements ICustomerDAO {
     public boolean insertUser(CustomerDTO user) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO User VALUES (?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO Customer VALUES (?, ?)");
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             int i = ps.executeUpdate();
@@ -62,7 +63,7 @@ public class CustomerDAO implements ICustomerDAO {
         Connection connection = dbConnection.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE User SET password=? WHERE username=?");
+                    "UPDATE Customer SET password=? WHERE username=?");
             ps.setString(1, user.getPassword());
             ps.setString(2, user.getUsername());
             int i = ps.executeUpdate();
@@ -77,4 +78,6 @@ public class CustomerDAO implements ICustomerDAO {
 
         return false;
     }
+
+
 }
