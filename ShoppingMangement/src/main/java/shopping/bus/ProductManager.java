@@ -22,6 +22,7 @@ public class ProductManager implements IProductManager {
 	/* (non-Javadoc)
 	 * @see shopping.bus.IProductManager#addProduct(shopping.model.Product.Product)
 	 */
+	@Override
 	public boolean addProduct(Product product) {
 		return list.getProducts().add(product);
 	}
@@ -29,6 +30,7 @@ public class ProductManager implements IProductManager {
 	/* (non-Javadoc)
 	 * @see shopping.bus.IProductManager#removeProducts(java.util.List)
 	 */
+	@Override
 	public boolean removeProducts(List<Product> products) {
 		for (Product product : products) {
 			if (!removeProduct(product)) {
@@ -43,6 +45,7 @@ public class ProductManager implements IProductManager {
 	/* (non-Javadoc)
 	 * @see shopping.bus.IProductManager#updateProduct(shopping.model.Product.Product)
 	 */
+	@Override
 	public boolean updateProduct(Product product) {
 		boolean isExist = false;
 		Product toBeUpdated = null;
