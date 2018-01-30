@@ -6,11 +6,23 @@ package shopping.model.Customer;
 public class CustomerProfile {
     private Customer customer;
     private String id;
+    private String username;
     private String fullName;
 
     private String address;
+    private String email;
     private String bankCardNo;
     private String shippingAddress;
+
+    public CustomerProfile(String id, String username, String fullName, String address, String email, String bankCardNo, String shippingAddress) {
+        this.id = id;
+        this.username = username;
+        this.fullName = fullName;
+        this.address = address;
+        this.email = email;
+        this.bankCardNo = bankCardNo;
+        this.shippingAddress = shippingAddress;
+    }
 
     public Customer getCustomer() {
         return customer;
@@ -20,8 +32,24 @@ public class CustomerProfile {
         this.customer = customer;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setId(String id) {

@@ -26,7 +26,7 @@ public class CustomerProfileDAO implements ICustomerProfileDAO{
         return userSetting;
     }
 
-    public CustomerProfileDTO getUserSettingsByUsername(String username) throws SQLException {
+    public CustomerProfileDTO getCustomerProfileByUsername(String username) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM UserSetting WHERE username=?");
@@ -44,11 +44,51 @@ public class CustomerProfileDAO implements ICustomerProfileDAO{
         return null;
     }
 
-    public boolean insertUserSetting(CustomerProfileDTO userProfile) throws SQLException {
+    public boolean insertCustomerProfile(CustomerProfileDTO profileDTO) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO CustomerProfile VALUES (?, ?, ?, ?, ?, ?, ?)");
+            ps.setString(1, profileDTO.getId());
+            ps.setString(2, profileDTO.getUsername());
+            ps.setString(3, profileDTO.getFullName());
+            ps.setString(4, profileDTO.getAddress());
+            ps.setString(5, profileDTO.getEmail());
+            ps.setString(6, profileDTO.getBankCardNo());
+            ps.setString(7, profileDTO.getShippingAddress());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
         return false;
     }
 
-    public boolean updateUserSetting(CustomerProfileDTO userProfile) throws SQLException {
+    public boolean updateCustomerProfile(CustomerProfileDTO profileDTO) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "UPDATE Customer SET customerName=?, address=?, email=?, bankCardNo=?, shippingAddress=? WHERE username=?");
+            ps.setString(1, profileDTO.getFullName());
+            ps.setString(2, profileDTO.getAddress());
+            ps.setString(3, profileDTO.getEmail());
+            ps.setString(4, profileDTO.getBankCardNo());
+            ps.setString(5, profileDTO.getShippingAddress());
+            ps.setString(6, profileDTO.getUsername());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
         return false;
     }
 }
