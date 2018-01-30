@@ -14,6 +14,10 @@ import java.sql.SQLException;
 public class CustomerDAO implements ICustomerDAO {
     private IDbConnection dbConnection;
 
+    public CustomerDAO() {
+        dbConnection = new DbConnection();
+    }
+
     public CustomerDTO getCustomerByUserNameAndPassword(String username, String password) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {

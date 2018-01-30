@@ -1,4 +1,8 @@
 package shopping.ui;
+import shopping.bus.CustomerBUS;
+import shopping.bus.ICustomerBUS;
+import shopping.model.Customer.Customer;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -84,34 +88,20 @@ public class LoginPage {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String query = "select * from Login where Username=? and Password=?";
-					PreparedStatement pst= connection.prepareStatement (query);
-					pst.setString(1, textFieldUN.getText());
-					pst.setString(2, passwordField.getText());
-					
-					ResultSet rs = pst.executeQuery();
-					int count = 0;
-					while (rs.next())
-					{
-						count = count+1;
-					} 
-					if (count==1)
+					ICustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
+					boolean login = customerBUS.login(textFieldUN.getText(),passwordField.getText());
+
+					if (login)
 					{
 						JOptionPane.showMessageDialog(null, "Username & Password is correct");
 						frame.dispose();
 						Panel panel = new Panel();
 						panel.setVisible(true);
 					}
-					else if (count>1)
-					{
-						JOptionPane.showMessageDialog(null, "Duplicate Username & Password\n Try again");
-					}
 					else 
 					{
 						JOptionPane.showMessageDialog(null, "Username & Password is not correct");
 					}
-					rs.close();
-					pst.close();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e);
 				}
