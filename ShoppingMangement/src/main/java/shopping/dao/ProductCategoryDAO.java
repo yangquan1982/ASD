@@ -23,19 +23,19 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	@Override
 	public ProductCategoryDTO getCategoryById(String id) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryid=?");
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE id=?");
         ps.setString(1, id);
         ResultSet rs = ps.executeQuery();
         if(rs.next())
         {
-            return extractCustomerFromResultSet(rs);
+            return extractProductCategoryFromResultSet(rs);
         }
 		return null;
 	}
-    private ProductCategoryDTO extractCustomerFromResultSet(ResultSet rs) throws SQLException {
+    private ProductCategoryDTO extractProductCategoryFromResultSet(ResultSet rs) throws SQLException {
     	ProductCategoryDTO category = new ProductCategoryDTO();
-    	category.setId(rs.getString("categoryid"));
-    	category.setCategoryName(rs.getString("categoryname"));
+    	category.setId(rs.getString("id"));
+    	category.setCategoryName(rs.getString("categoryName"));
         return category;
     }
 
@@ -45,12 +45,12 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
     @Override
 	public ProductCategoryDTO getCategoryByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryname=?");
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryName=?");
         ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
         if(rs.next())
         {
-            return extractCustomerFromResultSet(rs);
+            return extractProductCategoryFromResultSet(rs);
         }
 		return null;
 	}
@@ -59,9 +59,23 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	 * @see shopping.dao.IProductCategoryDAO#insertCategory(shopping.dto.ProductCategoryDTO)
 	 */
     @Override
-	public boolean insertCategory(ProductCategoryDTO Category) throws SQLException {
-		
-		return false;
+	public boolean insertCategory(ProductCategoryDTO category) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO ProductCategory VALUES (?, ?)");
+            ps.setString(1, category.getId());
+            ps.setString(2, category.getCategoryName());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
+        return false;
 	}
 
 	/* (non-Javadoc)
@@ -69,17 +83,46 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	 */
     @Override
 	public boolean deleteCategory(ProductCategoryDTO Category) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM ProductCategory WHERE id=?");
+            ps.setString(1, Category.getId());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
+        return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see shopping.dao.IProductCategoryDAO#updateCategory(shopping.dto.ProductCategoryDTO)
 	 */
     @Override
-	public boolean updateCategory(ProductCategoryDTO Category) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateCategory(ProductCategoryDTO category) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "UPDATE ProductCategory SET categoryName=? WHERE id=?");
+            ps.setString(1, category.getCategoryName());
+            ps.setString(2, category.getId());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
+        return false;
 	}
 
 }

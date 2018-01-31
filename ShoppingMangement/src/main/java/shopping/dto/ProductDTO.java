@@ -9,7 +9,9 @@ package shopping.dto;
  */
 public class ProductDTO {
 	private String id;
-	private String name;
+	private String productName;
+	private String productCategoryId;
+	private String productSupplierId;
 	private double unitPrice;
 	private int totalCnt;
 	private boolean isDiscount;
@@ -20,11 +22,23 @@ public class ProductDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getProductName() {
+		return productName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getProductCategoryId() {
+		return productCategoryId;
+	}
+	public void setProductCategoryId(String productCategoryId) {
+		this.productCategoryId = productCategoryId;
+	}
+	public String getProductSupplierId() {
+		return productSupplierId;
+	}
+	public void setProductSupplierId(String productSupplierId) {
+		this.productSupplierId = productSupplierId;
 	}
 	public double getUnitPrice() {
 		return unitPrice;
@@ -50,5 +64,4 @@ public class ProductDTO {
 	public void setDiscountRatio(double discountRatio) {
 		this.discountRatio = discountRatio;
 	}
-	
 }
