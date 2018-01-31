@@ -22,10 +22,15 @@ import java.awt.Dialog.ModalExclusionType;
 
 public class Registration extends JFrame {
 	private JTextField txtUsername;
+	private JTextField passwordField_1;
+	private static Registration frame;
+	Connection connection = null;
+	private JTextField textOldu;
+
+	private JTextField textOldpw;
+
 	private JLabel lblUsername;
 	private JLabel lblNewPassword;
-	private static Registration frame;
-
 	/**
 	 * Launch the application.
 	 */
@@ -41,10 +46,7 @@ public class Registration extends JFrame {
 			}
 		});
 	}
-	Connection connection = null;
-	private JTextField textOldu;
-	private JTextField passwordField_1;
-	private JTextField textOldpw;
+
 	private void closeWindow() {
 		frame.setVisible(false);
 		frame.dispose();
@@ -94,7 +96,10 @@ public class Registration extends JFrame {
 					customer.setPassword(password);
 
 					customerBUS.register(customer);
-					System.out.println("Sign up");
+					JOptionPane.showMessageDialog(null, "Sign up successful");LoginPage loginPage = new LoginPage();
+					loginPage.getFrame().setVisible(true);
+					closeWindow();
+
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e);
 				}

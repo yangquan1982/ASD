@@ -55,19 +55,20 @@ public class CustomerBUS implements ICustomerBUS {
             customerDTO.setPassword(SecurityHelper.hashMD5String(customer.getPassword()).toLowerCase());
             boolean success = customerDAO.insertUser(customerDTO);
             if (success){
-                CustomerProfileDTO profileDTO = new CustomerProfileDTO();
-                CustomerProfile profile = customer.getCustomerProfile();
-
-                UUID customerId = UUID.randomUUID();
-                profileDTO.setId(customerId.toString());
-                profileDTO.setUsername(customer.getUsername());
-                profileDTO.setEmail(profile.getEmail());
-                profileDTO.setAddress(profile.getAddress());
-                profileDTO.setFullName(profile.getFullName());
-                profileDTO.setBankCardNo(profile.getBankCardNo());
-                profileDTO.setShippingAddress(profile.getShippingAddress());
-
-                profileDAO.insertCustomerProfile(profileDTO);
+                return customer;
+//                CustomerProfileDTO profileDTO = new CustomerProfileDTO();
+//                CustomerProfile profile = customer.getCustomerProfile();
+//
+//                UUID customerId = UUID.randomUUID();
+//                profileDTO.setId(customerId.toString());
+//                profileDTO.setUsername(customer.getUsername());
+//                profileDTO.setEmail(profile.getEmail());
+//                profileDTO.setAddress(profile.getAddress());
+//                profileDTO.setFullName(profile.getFullName());
+//                profileDTO.setBankCardNo(profile.getBankCardNo());
+//                profileDTO.setShippingAddress(profile.getShippingAddress());
+//
+//                profileDAO.insertCustomerProfile(profileDTO);
 
             }
         } catch (SQLException e) {
