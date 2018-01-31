@@ -1,4 +1,7 @@
 package shopping.ui;
+import shopping.bus.CustomerBUS;
+import shopping.model.Customer.Customer;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -66,8 +69,8 @@ public class Registration extends JFrame {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				LoginPage loginPage = new LoginPage();
-//				loginPage.getFrame().setVisible(true);
+				LoginPage loginPage = new LoginPage();
+				loginPage.getFrame().setVisible(true);
 				closeWindow();
 			}
 		});
@@ -83,36 +86,15 @@ public class Registration extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-//					String query = "select * from Login where Username=? and Password=?";
-//					PreparedStatement pst= connection.prepareStatement (query);
-//					pst.setString(1, textOldu.getText());
-//					pst.setString(2, textOldpw.getText());
-//					
-//					ResultSet rs = pst.executeQuery();
-//					int count = 0;
-//					while (rs.next())
-//					{
-//						count = count+1;
-//					} 
-//					if (count==1)
-//					{	
-//						String query1 = "Update Login set Username='"+txtUsername.getText()+"' , Password='"+passwordField_1.getText()+"' where Username='"+textOldu.getText()+"' ";
-//						PreparedStatement pst1= connection.prepareStatement (query1);
-//						pst1.execute();
-//						JOptionPane.showMessageDialog(null, "Username & Password is Changed...!!!");
-//						pst1.close();
-//						frame.dispose();
-//					}
-//					else if (count>1)
-//					{
-//						JOptionPane.showMessageDialog(null, "Duplicate Username & Password...!\n Try again");
-//					}
-//					else 
-//					{
-//						JOptionPane.showMessageDialog(null, "Username and Password is Wrong...!!!");
-//					}
-//					rs.close();
-//					pst.close();
+					CustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
+
+					String username = txtUsername.getText();
+					String password = passwordField_1.getText();
+					Customer customer = new Customer(username);
+					customer.setPassword(password);
+
+					customerBUS.register(customer);
+					System.out.println("Sign up");
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e);
 				}
