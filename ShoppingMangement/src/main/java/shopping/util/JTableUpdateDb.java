@@ -1,11 +1,11 @@
-package net.proteanit.sql;
+package shopping.util;
 
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-
-import javax.swing.table.DefaultTableModel;
 
 /*
  * Create a DefaultTableModel and take note

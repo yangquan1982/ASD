@@ -1,13 +1,13 @@
-package net.proteanit.sql;
+package shopping.util;
 
-
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 public class XmlUtils {
 	private static String ROOT_NODE_NAME = "dataset";
@@ -48,7 +48,7 @@ public class XmlUtils {
 	
 	// Only for demo/testing
 	public static void main(String[] args) throws Exception {
-		ResultSet d = new net.proteanit.sql.DummyNRowCol(4, 10);
+		ResultSet d = new DummyNRowCol(4, 10);
 		System.out.println(XmlUtils.resultSetToHtml(d));
 
 	}

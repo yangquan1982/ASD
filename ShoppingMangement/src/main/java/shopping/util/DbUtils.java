@@ -1,14 +1,14 @@
-package net.proteanit.sql;
+package shopping.util;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import net.proteanit.sql.DummySimplestPlusMetaData;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 
 public class DbUtils {

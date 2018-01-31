@@ -30,7 +30,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
-import net.proteanit.sql.DbUtils;
+import shopping.util.*;
 import java.awt.SystemColor;
 /**
  * @author Quan Yang
