@@ -24,7 +24,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import net.proteanit.sql.DbUtils;
+import shopping.util.DbUtils;
+
+
 
 public class BillPage extends JFrame {
 

@@ -1,7 +1,5 @@
 package shopping.util;
 
-import net.proteanit.sql.DummySimplestPlusMetaData;
-
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.sql.ResultSet;

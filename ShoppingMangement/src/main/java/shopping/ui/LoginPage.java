@@ -27,6 +27,38 @@ public class LoginPage {
 
 	private JFrame frame;
 
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
+	public JTextField getTextFieldUN() {
+		return textFieldUN;
+	}
+
+	public void setTextFieldUN(JTextField textFieldUN) {
+		this.textFieldUN = textFieldUN;
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public void setPasswordField(JPasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+
 	/**
 	 * Launch the application.
 	 */

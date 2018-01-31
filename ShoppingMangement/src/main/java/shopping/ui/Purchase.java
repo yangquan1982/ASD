@@ -28,7 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import net.proteanit.sql.DbUtils;
+import shopping.util.DbUtils;
 
 public class Purchase extends JFrame {
 

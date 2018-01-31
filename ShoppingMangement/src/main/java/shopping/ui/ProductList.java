@@ -30,7 +30,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
-import shopping.util.*;
+import shopping.util.DbUtils;
+
 import java.awt.SystemColor;
 /**
  * @author Quan Yang
@@ -72,6 +73,8 @@ public class ProductList extends JFrame {
 		private JButton btnDeleteProduct;
 		private JButton btnUpdate;
 		private JLabel lblUnit;
+		private JLabel lblSupplier;
+		private JTextField textField_supplier;
 		private JTextField textField_unit;
 		private JLabel label_1;
 		private JLabel label_2;
@@ -112,8 +115,8 @@ public class ProductList extends JFrame {
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Verdana", Font.BOLD, 11));
 		comboBox.setBackground(UIManager.getColor("ComboBox.buttonBackground"));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"p_id", "p_name", "p_catagory"}));
-		comboBox.setBounds(57, 11, 101, 41);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Product ID", "Product Name", "Product Catagory", "Product Supplier"}));
+		comboBox.setBounds(57, 11, 151, 41);
 		contentPane.add(comboBox);
 		
 		txtSearchProducts = new JTextField();
@@ -137,7 +140,7 @@ public class ProductList extends JFrame {
 				
 			}
 		});
-		txtSearchProducts.setBounds(57, 56, 101, 30);
+		txtSearchProducts.setBounds(57, 56, 151, 30);
 		txtSearchProducts.setToolTipText("Search Product s");
 		contentPane.add(txtSearchProducts);
 		txtSearchProducts.setColumns(10);
@@ -243,9 +246,14 @@ public class ProductList extends JFrame {
 		textField_unit.setBounds(117, 261, 109, 20);
 		contentPane.add(textField_unit);
 		
+		textField_supplier = new JTextField();
+		textField_supplier.setColumns(10);
+		textField_supplier.setBounds(117, 296, 109, 20);
+		contentPane.add(textField_supplier);
+		
 		btnAddProduct = new JButton("Add");
 		btnAddProduct.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnAddProduct.setBounds(5, 318, 88, 44);
+		btnAddProduct.setBounds(5, 352, 88, 44);
 		btnAddProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -285,13 +293,13 @@ public class ProductList extends JFrame {
 		
 		label_1 = new JLabel("");
 		label_1.setIcon(new ImageIcon("Icons\\plus.png"));
-		label_1.setBounds(28, 362, 48, 46);
+		label_1.setBounds(28, 397, 48, 46);
 		contentPane.add(label_1);
 		contentPane.add(btnAddProduct);
 		
 		btnUpdate = new JButton("Update");
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnUpdate.setBounds(103, 317, 88, 46);
+		btnUpdate.setBounds(103, 352, 88, 46);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -315,7 +323,7 @@ public class ProductList extends JFrame {
 		
 		btnDeleteProduct = new JButton("Delete");
 		btnDeleteProduct.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnDeleteProduct.setBounds(203, 317, 88, 46);
+		btnDeleteProduct.setBounds(203, 352, 88, 46);
 		btnDeleteProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -337,13 +345,13 @@ public class ProductList extends JFrame {
 		
 		label_3 = new JLabel("");
 		label_3.setIcon(new ImageIcon("Icons\\bt_remove.png"));
-		label_3.setBounds(226, 362, 48, 46);
+		label_3.setBounds(226, 397, 48, 46);
 		contentPane.add(label_3);
 		contentPane.add(btnDeleteProduct);
 		
 		label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon("Icons\\system_software_update.png"));
-		label_2.setBounds(127, 362, 48, 46);
+		label_2.setBounds(127, 397, 48, 46);
 		contentPane.add(label_2);
 		contentPane.add(btnUpdate);
 		
@@ -365,7 +373,7 @@ public class ProductList extends JFrame {
 		JDesktopPane desktopPane = new JDesktopPane();
 		desktopPane.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Product Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
 		desktopPane.setBackground(new Color(102, 204, 102));
-		desktopPane.setBounds(3, 97, 286, 210);
+		desktopPane.setBounds(3, 97, 286, 245);
 		contentPane.add(desktopPane);
 		
 		lblProductId = new JLabel("Product ID");
@@ -392,6 +400,11 @@ public class ProductList extends JFrame {
 		lblUnit.setBounds(10, 160, 107, 29);
 		desktopPane.add(lblUnit);
 		lblUnit.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
+		
+		lblSupplier = new JLabel("Supplier");
+		lblSupplier.setBounds(10, 195, 107, 29);
+		desktopPane.add(lblSupplier);
+		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
 		label_5 = new JLabel("");
 		label_5.setIcon(new ImageIcon("Icons\\default.jpg"));

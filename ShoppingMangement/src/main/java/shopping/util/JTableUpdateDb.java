@@ -1,7 +1,5 @@
 package shopping.util;
 
-import net.proteanit.sql.DbUtils;
-
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.util.ArrayList;
