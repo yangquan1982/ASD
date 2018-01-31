@@ -16,6 +16,7 @@ public class Customer {
     private CustomerProfile customerProfile;
     private CustomerType customerType;
 
+    private boolean loginStatus;
     private List<Order> orderList;
 
     private ShoppingCart shoppingCart;
@@ -74,5 +75,13 @@ public class Customer {
 
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
+    }
+
+    public boolean isLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(boolean loginStatus) {
+        this.loginStatus = loginStatus;
     }
 }

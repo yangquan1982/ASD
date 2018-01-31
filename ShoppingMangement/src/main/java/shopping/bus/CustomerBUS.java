@@ -106,6 +106,25 @@ public class CustomerBUS implements ICustomerBUS {
         return false;
     }
 
+    @Override
+    public Customer getCustomerByUsername(String username) {
+        try {
+            CustomerDTO customerDTO = customerDAO.getCustomerByUserName(username);
+            Customer customer = new Customer();
+            customer.setUsername(customerDTO.getUsername());
+            customer.setPassword(customerDTO.getPassword());
+//            CustomerProfileDTO profile = profileDAO.getCustomerProfileByUsername(username);
+//            if(profile != null) {
+//                return new CustomerProfile(profile.getId(), profile.getUsername(),profile.getFullName(),profile.getAddress(),
+//                        profile.getEmail(),profile.getBankCardNo(),profile.getShippingAddress());
+//            }
+            return customer;
+        } catch (SQLException ex) {
+        }
+
+        return null;
+    }
+
     public CustomerProfile getCustomerProfileByUsername(String username) {
         try {
             CustomerProfileDTO profile = profileDAO.getCustomerProfileByUsername(username);

@@ -16,8 +16,18 @@ public class Product {
 	private ProductSupplier supplier;
 	private boolean isDiscount;
 	private double discountRatio;
-	
-	public double getDiscountRatio() {
+
+	public Product(String productId, String productName, double unitCost) {
+		setId(productId);
+		setName(productName);
+		setUnitPrice(unitCost);
+	}
+
+    public Product() {
+
+    }
+
+    public double getDiscountRatio() {
 		return discountRatio;
 	}
 	public void setDiscountRatio(double discountRatio) {

@@ -85,9 +85,9 @@ public class OrderBUS implements IOrderBUS {
     }
 
     @Override
-    public List<Order> getOrdersByCustomer(String customerId) {
+    public List<Order> getOrdersByCustomer(String username) {
         try {
-            List<OrderDTO> OrderDTOList = orderDAO.getOrdersByCustomer(customerId);
+            List<OrderDTO> OrderDTOList = orderDAO.getOrdersByCustomer(username);
             if(OrderDTOList != null) {
                 DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
                 List<Order> orders = new ArrayList<Order>();

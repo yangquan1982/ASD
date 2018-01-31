@@ -38,6 +38,26 @@ public class CustomerDAO implements ICustomerDAO {
         return null;
     }
 
+    @Override
+    public CustomerDTO getCustomerByUserName(String username) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM Customer WHERE username=?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                return extractCustomerFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
+        return null;
+    }
+
     private CustomerDTO extractCustomerFromResultSet(ResultSet rs) throws SQLException {
         CustomerDTO customer = new CustomerDTO();
         customer.setUsername(rs.getString("username"));

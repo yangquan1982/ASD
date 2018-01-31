@@ -55,11 +55,11 @@ public class OrderDAO implements IOrderDAO {
     }
 
     @Override
-    public List<OrderDTO> getOrdersByCustomer(String customerId) throws SQLException {
+    public List<OrderDTO> getOrdersByCustomer(String username) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM `Order` WHERE customerId=?");
-            ps.setString(1, customerId);
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM `Order` WHERE username=?");
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             List<OrderDTO> orders = new ArrayList<OrderDTO>();
             while(rs.next())

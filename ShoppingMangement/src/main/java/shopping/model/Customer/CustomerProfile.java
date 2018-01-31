@@ -1,5 +1,7 @@
 package shopping.model.Customer;
 
+import shopping.model.ShoppingCart.ShoppingCart;
+
 /**
  * Created by Duong Truong on 1/29/2018.
  */
@@ -8,6 +10,7 @@ public class CustomerProfile {
     private String id;
     private String username;
     private String fullName;
+
 
     private String address;
     private String email;
@@ -22,6 +25,10 @@ public class CustomerProfile {
         this.email = email;
         this.bankCardNo = bankCardNo;
         this.shippingAddress = shippingAddress;
+    }
+
+    public CustomerProfile() {
+
     }
 
     public Customer getCustomer() {
@@ -87,4 +94,6 @@ public class CustomerProfile {
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
+
+
 }

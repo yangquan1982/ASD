@@ -1,5 +1,6 @@
 package shopping.bus;
 
+import shopping.dto.CustomerDTO;
 import shopping.model.Customer.Customer;
 import shopping.model.Customer.CustomerProfile;
 
@@ -14,5 +15,5 @@ public interface ICustomerBUS {
 
     boolean updateCustomer(Customer customer);
 
-    CustomerProfile getCustomerProfileByUsername(String username);
+    Customer getCustomerByUsername(String username);
 }
