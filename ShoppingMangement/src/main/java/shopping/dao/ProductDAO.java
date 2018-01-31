@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import shopping.dto.ProductDTO;
 import shopping.dto.ProductSupplierDTO;
@@ -153,6 +155,19 @@ public class ProductDAO implements IProductDAO {
         }
 
         return false;
+	}
+
+	@Override
+	public List<ProductDTO> getAllProducts() throws SQLException {
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
+        ResultSet rs = ps.executeQuery();
+        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+        if(rs.next())
+        {
+        	productDTOs.add(extractProductFromResultSet(rs));
+        }
+		return productDTOs;
 	}
 
 }

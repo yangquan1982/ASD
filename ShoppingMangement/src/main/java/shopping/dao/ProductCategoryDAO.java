@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import shopping.dto.CustomerDTO;
 import shopping.dto.ProductCategoryDTO;
@@ -123,6 +124,11 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
         }
 
         return false;
+	}
+	@Override
+	public List<ProductCategoryDTO> getAllCategories() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
