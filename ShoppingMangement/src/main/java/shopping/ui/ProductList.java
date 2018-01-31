@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableModel;
 
 import shopping.util.DbUtils;
 
@@ -158,6 +159,7 @@ public class ProductList extends JFrame {
 //					String query = "select * from Product";
 //					PreparedStatement pst = connection.prepareStatement(query);
 //					ResultSet rs = pst.executeQuery();
+//					TableModel
 //					table.setModel(DbUtils.resultSetToTableModel(rs));
 				} catch (Exception e) {
 					e.printStackTrace();

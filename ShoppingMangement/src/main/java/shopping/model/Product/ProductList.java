@@ -5,6 +5,10 @@ package shopping.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import shopping.bus.IProductManager;
 import shopping.bus.ProductManager;

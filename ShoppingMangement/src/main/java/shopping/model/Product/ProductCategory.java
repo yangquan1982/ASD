@@ -13,7 +13,7 @@ public class ProductCategory {
 	
 	public ProductCategory() {
 	}
-	private ProductCategory(String id, String categoryName) {
+	public ProductCategory(String id, String categoryName) {
 		this.id = id;
 		this.categoryName = categoryName;
 	}
