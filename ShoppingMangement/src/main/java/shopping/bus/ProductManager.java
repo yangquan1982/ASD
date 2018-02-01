@@ -289,7 +289,7 @@ public class ProductManager implements IProductManager {
 
 	private Vector<String> getTableColumnNames() {
 		Vector<String> columnNames = new Vector<String>();
-//		columnNames.addElement("Product ID");
+		columnNames.addElement("Product ID");
 		columnNames.addElement("Product Name");
 		columnNames.addElement("Product Category");
 		columnNames.addElement("Product Supplier");
@@ -308,7 +308,7 @@ public class ProductManager implements IProductManager {
 	    Vector<Vector<String>> rows = new Vector<Vector<String>>();
 	    for (Product product : list.getProducts()) {
 			Vector<String> newRow = new Vector<String>();
-//			newRow.addElement(product.getId());
+			newRow.addElement(product.getId());
 			newRow.addElement(product.getName());
 			newRow.addElement(product.getCategory().getCategoryName());
 			newRow.addElement(product.getSupplier().getName());
@@ -416,6 +416,7 @@ public class ProductManager implements IProductManager {
 			productDTO.setDiscount(product.isDiscount());
 			productDTO.setDiscountRatio(product.getDiscountRatio());
 			productDao.insertProduct(productDTO);
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
