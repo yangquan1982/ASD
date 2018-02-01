@@ -18,6 +18,10 @@ import shopping.dto.ProductCategoryDTO;
  */
 public class ProductCategoryDAO implements IProductCategoryDAO {
 	private IDbConnection dbConnection;
+	
+	public ProductCategoryDAO() {
+		dbConnection = new DbConnection();
+	}
 	/* (non-Javadoc)
 	 * @see shopping.dao.IProductCategoryDAO#getCategoryById(java.lang.String)
 	 */

@@ -105,7 +105,7 @@ public class MainPanel extends JFrame {
 		btnNewButton.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ProductList pl = new ProductList();
+				ProductListPage pl = new ProductListPage();
 				pl.setVisible(true);
 			}
 		});

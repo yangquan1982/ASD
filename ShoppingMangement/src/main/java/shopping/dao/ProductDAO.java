@@ -20,6 +20,11 @@ import shopping.dto.ProductSupplierDTO;
  */
 public class ProductDAO implements IProductDAO {
 	private IDbConnection dbConnection;
+	
+	public ProductDAO() {
+		dbConnection = new DbConnection();
+	}
+
 	/* (non-Javadoc)
 	 * @see shopping.dao.IProductDAO#getProductById(java.lang.String)
 	 */

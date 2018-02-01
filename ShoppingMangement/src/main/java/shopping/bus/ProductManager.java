@@ -41,8 +41,6 @@ public class ProductManager implements IProductManager {
 	 */
 	@Override
 	public boolean addProduct(Product product) {
-		ProductDTO productDTO = new ProductDTO();
-		productDTO.setId(product.getId());
 		return list.getProducts().add(product);
 	}
 
@@ -129,7 +127,8 @@ public class ProductManager implements IProductManager {
 	public void getAllProducts() {
 		try {
 			IProductBuilder productBuilder = new ProductBuilder();
-			for (ProductDTO productDTO : productDao.getAllProducts()) {
+			List<ProductDTO> productDTOs = productDao.getAllProducts();
+			for (ProductDTO productDTO : productDTOs) {
 				if (productDTO != null) {
 					productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
 					ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());

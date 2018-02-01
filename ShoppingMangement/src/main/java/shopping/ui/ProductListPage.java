@@ -31,6 +31,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableModel;
 
+import shopping.bus.ProductManager;
+import shopping.model.Product.ProductList;
 import shopping.util.DbUtils;
 
 import java.awt.SystemColor;
@@ -38,12 +40,13 @@ import java.awt.SystemColor;
  * @author Quan Yang
  *
  */
-public class ProductList extends JFrame {
+public class ProductListPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JComboBox comboBox;
-	
+	private ProductManager pManager;
+	private ProductList plist;
 
 	/**
 	 * Launch the application.
@@ -52,7 +55,7 @@ public class ProductList extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProductList frame = new ProductList();
+					ProductListPage frame = new ProductListPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,7 +102,9 @@ public class ProductList extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ProductList() {
+	public ProductListPage() {
+		plist = new ProductList();
+		pManager = new ProductManager(plist);
 		setResizable(false);
 		setForeground(UIManager.getColor("ToolBar.dockingForeground"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Icons\\shopping_bag.png"));
@@ -160,7 +165,13 @@ public class ProductList extends JFrame {
 //					PreparedStatement pst = connection.prepareStatement(query);
 //					ResultSet rs = pst.executeQuery();
 //					TableModel
-//					table.setModel(DbUtils.resultSetToTableModel(rs));
+					pManager.getAllProducts();
+					TableModel tModel = pManager.setAllProductsToTableModel();
+					if (tModel!=null) {
+						table.setModel(tModel);
+						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//						table.setAutoscrolls(true);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -168,13 +179,12 @@ public class ProductList extends JFrame {
 			}
 		});
 		contentPane.add(btnLoadProducts);
-		
 		textField_id = new JTextField();
 		textField_id.setBounds(117, 127, 109, 20);
 		contentPane.add(textField_id);
 		textField_id.setColumns(10);
 		
-		scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setToolTipText("");
 		scrollPane.setViewportBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Products Table", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		scrollPane.addMouseListener(new MouseAdapter() {
