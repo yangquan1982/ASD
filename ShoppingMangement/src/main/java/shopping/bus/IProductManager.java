@@ -32,6 +32,8 @@ public interface IProductManager {
 	public boolean addProduct(Product product);
 	public boolean removeProducts(List<Product> products);
 	public boolean updateProduct(Product product);
+	
+	public boolean removeProductsById(String[] ids);
 	public TableModel setAllProductsToTableModel();
 	public TableModel setOneProductToTableModel();
 }

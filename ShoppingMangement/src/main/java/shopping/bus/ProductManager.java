@@ -112,7 +112,26 @@ public class ProductManager implements IProductManager {
 		return true;
 	}
 	private boolean removeProduct(Product product) {
-		return list.getProducts().remove(product);
+		ProductDTO productDTO = createProductDTOFromProduct(product);
+		try {
+			productDao.deleteProduct(productDTO);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	private ProductDTO createProductDTOFromProduct(Product product) {
+		ProductDTO productDTO = new ProductDTO();
+		productDTO.setId(product.getId());
+		productDTO.setProductName(product.getName());
+		productDTO.setProductCategoryId(product.getCategory().getId());
+		productDTO.setProductSupplierId(product.getSupplier().getId());
+		productDTO.setUnitPrice(product.getUnitPrice());
+		productDTO.setTotalCnt(product.getTotalCnt());
+		productDTO.setDiscount(product.isDiscount());
+		productDTO.setDiscountRatio(product.getDiscountRatio());
+		return productDTO;
 	}
 	/* (non-Javadoc)
 	 * @see shopping.bus.IProductManager#updateProduct(shopping.model.Product.Product)
@@ -341,7 +360,7 @@ public class ProductManager implements IProductManager {
 	private Vector<Vector<String>> getOneProductTableData() {
 		Vector<Vector<String>> rows = new Vector<Vector<String>>();
 		Vector<String> newRow = new Vector<String>();
-//		newRow.addElement(oneProduct.getId());
+		newRow.addElement(oneProduct.getId());
 		newRow.addElement(oneProduct.getName());
 		newRow.addElement(oneProduct.getCategory().getCategoryName());
 		newRow.addElement(oneProduct.getSupplier().getName());
@@ -422,5 +441,22 @@ public class ProductManager implements IProductManager {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	@Override
+	public boolean removeProductsById(String[] ids) {
+		List<Product> products = new ArrayList<Product>();
+		for (int i = 0; i < ids.length; i++) {
+			String id = ids[i];
+			Product product = getProductById(id);
+			if (product!=null) {
+				if (!products.add(product)) {
+					return false;
+				}
+			}
+		}
+		if (!removeProducts(products)) {
+			return false;
+		}
+		return true;
 	}
 }

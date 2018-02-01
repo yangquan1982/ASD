@@ -251,8 +251,12 @@ public class ProductListPage extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				try {
-//					int row = table.getSelectedRow();
-//					String p_id_=(table.getModel().getValueAt(row, 0)).toString();
+					int[] rows = table.getSelectedRows();
+					if (rows.length>0) {
+						for (int i = 0; i < rows.length; i++) {
+							String productId = (table.getModel().getValueAt(rows[i], 0)).toString();
+						}	
+					}		
 //					String query = "select * from Product where p_id='"+p_id_+"' ";
 //					PreparedStatement pst = connection.prepareStatement(query);
 //					ResultSet rs=pst.executeQuery();
