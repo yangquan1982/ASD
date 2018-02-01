@@ -7,11 +7,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import shopping.dto.CustomerDTO;
 import shopping.dto.ProductCategoryDTO;
+import shopping.dto.ProductSupplierDTO;
 
 /**
  * @author Quan Yang
@@ -149,7 +151,22 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	}
 	@Override
 	public List<ProductCategoryDTO> getAllCategories() throws SQLException {
-		// TODO Auto-generated method stub
+		Connection connection = dbConnection.getConnection();
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier");
+	        ResultSet rs = ps.executeQuery();
+	        List<ProductCategoryDTO> productCategoryDTOs = new ArrayList<ProductCategoryDTO>();
+	        while(rs.next())
+	        {
+	            productCategoryDTOs.add(extractProductCategoryFromResultSet(rs));
+	        }
+	        return productCategoryDTOs;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			connection.close();
+		}
+
 		return null;
 	}
 

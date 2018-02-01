@@ -182,18 +182,20 @@ public class ProductManager implements IProductManager {
 	public void getAllProducts() {
 		list.getProducts().clear();
 		try {
-			IProductBuilder productBuilder = new ProductBuilder();
 			List<ProductDTO> productDTOs = productDao.getAllProducts();
-			for (ProductDTO productDTO : productDTOs) {
-				if (productDTO != null) {
-					productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
-					ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());
-					productBuilder.buildProductCategory(category);
-					ProductSupplier supplier = getProductSupplierById(productDTO.getProductSupplierId());
-					productBuilder.buildProductSupplier(supplier);
-					productBuilder.buildPriceAndCount(productDTO.getUnitPrice(), productDTO.getTotalCnt());
-					productBuilder.buildDiscount(productDTO.isDiscount(), productDTO.getDiscountRatio());
-					list.addProduct(productBuilder.getProduct());
+			if (productDTOs != null) {
+				for (ProductDTO productDTO : productDTOs) {
+					if (productDTO != null) {
+						IProductBuilder productBuilder = new ProductBuilder();
+						productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
+						ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());
+						productBuilder.buildProductCategory(category);
+						ProductSupplier supplier = getProductSupplierById(productDTO.getProductSupplierId());
+						productBuilder.buildProductSupplier(supplier);
+						productBuilder.buildPriceAndCount(productDTO.getUnitPrice(), productDTO.getTotalCnt());
+						productBuilder.buildDiscount(productDTO.isDiscount(), productDTO.getDiscountRatio());
+						list.addProduct(productBuilder.getProduct());
+					}
 				}
 			}
 		} catch (SQLException e) {

@@ -180,14 +180,21 @@ public class ProductDAO implements IProductDAO {
 	@Override
 	public List<ProductDTO> getAllProducts() throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
-        ResultSet rs = ps.executeQuery();
-        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-        if(rs.next())
-        {
-        	productDTOs.add(extractProductFromResultSet(rs));
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
+	        ResultSet rs = ps.executeQuery();
+	        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+	        while(rs.next())
+	        {
+	        	productDTOs.add(extractProductFromResultSet(rs));
+	        }
+	        return productDTOs;
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
-		return productDTOs;
+		return null;
 	}
 
 	@Override
