@@ -96,23 +96,7 @@ public class Purchase extends JFrame {
 	 */
 	public Purchase() {
 		setResizable(false);
-//		connection=sqliteConnection.dbConnector();
-		
-		try{
-			String query1 = "select max(bill_id) from Billpay";
-			PreparedStatement pst1 = connection.prepareStatement(query1);
-			ResultSet rs1=pst1.executeQuery();
-			rs1.next();
-			billId = Integer.valueOf(rs1.getString(1));
-			billId++;
-			pst1.execute();
-			pst1.close();
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-		}
-		
+
 		setBackground(new Color(204, 102, 51));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 723, 482);
@@ -253,7 +237,6 @@ public class Purchase extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
 					selectItem = table.getValueAt(table.getSelectedRow(), 0).toString();
 
 				} catch (Exception e1) {
@@ -301,7 +284,7 @@ public class Purchase extends JFrame {
 
 
 				try{
-					Product product = pManager.getProductByName(selectItem);
+					Product product = pManager.getProductById(selectItem);
 
 					ILineItemBUS lineItemBUS = LineItemBUS.getLineItemBUS();
 					IOrderBUS orderBUS = OrderBUS.getOrderBUS();

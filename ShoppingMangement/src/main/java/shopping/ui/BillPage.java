@@ -24,7 +24,17 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+import shopping.UserData;
+import shopping.bus.IProductManager;
+import shopping.bus.ProductManager;
+import shopping.model.Customer.Customer;
+import shopping.model.Customer.CustomerProfile;
+import shopping.model.Product.ProductList;
+import shopping.model.ShoppingCart.LineItem;
+import shopping.model.ShoppingCart.ShoppingCart;
 import shopping.util.DbUtils;
 
 
@@ -38,6 +48,9 @@ public class BillPage extends JFrame {
 	private JTextField textField_sn;
 	private JTextField textField_ad;
 	private JTable table;
+	private ShoppingCart shoppingCart = Purchase.shoppingCart;
+	private Customer customer = LoginPage.userData.getCustomer();
+	private CustomerProfile profile = customer.getCustomerProfile();
 
 	/**
 	 * Launch the application.
@@ -65,22 +78,6 @@ public class BillPage extends JFrame {
 	 * Create the frame.
 	 */
 	public BillPage() {
-//		connection=sqliteConnection.dbConnector();
-		
-		try{
-			String query1 = "select max(bill_id) from Billpay";
-			PreparedStatement pst1 = connection.prepareStatement(query1);
-			ResultSet rs1=pst1.executeQuery();
-			rs1.next();
-			Purchase.billId = Integer.valueOf(rs1.getString(1));
-
-			pst1.execute();
-			pst1.close();
-		}
-		catch(Exception e1)
-		{
-			System.out.println(e1.getMessage());
-		}
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 736, 479);
@@ -97,6 +94,7 @@ public class BillPage extends JFrame {
 		textField_n = new JTextField();
 		textField_n.setBounds(85, 80, 70, 20);
 		textField_n.setColumns(10);
+		textField_n.setText(profile.getFullName().split(" ")[0]);
 		contentPane.add(textField_n);
 		
 		JLabel label_1 = new JLabel("Contact");
@@ -107,11 +105,13 @@ public class BillPage extends JFrame {
 		textField_cn = new JTextField();
 		textField_cn.setBounds(85, 111, 150, 20);
 		textField_cn.setColumns(10);
+		textField_cn.setText(profile.getEmail());
 		contentPane.add(textField_cn);
 		
 		textField_sn = new JTextField();
 		textField_sn.setBounds(165, 80, 70, 20);
 		textField_sn.setColumns(10);
+		textField_sn.setText(profile.getFullName().split(" ")[1]);
 		contentPane.add(textField_sn);
 		
 		JLabel label_2 = new JLabel("Address");
@@ -122,6 +122,7 @@ public class BillPage extends JFrame {
 		textField_ad = new JTextField();
 		textField_ad.setBounds(85, 147, 150, 20);
 		textField_ad.setColumns(10);
+		textField_ad.setText(profile.getAddress());
 		contentPane.add(textField_ad);
 		
 		JDesktopPane desktopPane = new JDesktopPane();
@@ -141,17 +142,27 @@ public class BillPage extends JFrame {
 		
 		table = new JTable();
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+
 		scrollPane_1.setViewportView(table);
 		double sum = 0;
 		try {
-			String query = "select p_name,p_catagory, p_unit,p_price,date from Billpay where bill_id='"+Purchase.billId+"' ";
-			PreparedStatement pst = connection.prepareStatement(query);
-			ResultSet rs = pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-			for(int i = 0; i<table.getRowCount();i++)
-			{
-				sum += Double.parseDouble(table.getValueAt(i, 3)+"");
+			ProductList plist = new ProductList();
+			IProductManager pManager = ProductManager.getProductManager(plist);
+			pManager.clearProductList();
+			for (LineItem lineItem:shoppingCart.getLineItemList()){
+				pManager.addProduct(lineItem.getProduct());
+				sum+= lineItem.getSubtotal();
 			}
+
+			TableModel tModel = pManager.setAllProductsToTableModel();
+			if (tModel!=null) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+				table.setModel(tModel);
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+			}
+
 			
 			//System.out.println("Sum"+sum);
 			JLabel lblTotaltk = new JLabel("Total (Tk)");
@@ -162,20 +173,8 @@ public class BillPage extends JFrame {
 			textField_sum.setBounds(112, 216, 108, 20);
 			
 			textField_sum.setText(String.valueOf(sum));
-			
-			
-			query = "select c_name,c_sname, c_contact, c_address from Billpay where bill_id='"+Purchase.billId+"' ";
-			pst = connection.prepareStatement(query);
-			rs = pst.executeQuery();
-			rs.next();
-			
-			textField_n.setText(rs.getString("c_name"));
-			textField_cn.setText(rs.getString("c_contact"));
-			textField_sn.setText(rs.getString("c_sname"));
-			textField_ad.setText(rs.getString("c_address"));
-			
-			pst.close();
-			rs.close();
+
+
 			textField_sum.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {					
 					
