@@ -19,22 +19,27 @@ public class CustomerProfileDAO implements ICustomerProfileDAO{
         dbConnection = new DbConnection();
     }
 
-    private CustomerProfileDTO extractUserSettingFromResultSet(ResultSet rs) throws SQLException {
-        CustomerProfileDTO userSetting = new CustomerProfileDTO();
-        userSetting.setId( rs.getString("id"));
-
-        return userSetting;
+    private CustomerProfileDTO extractProfileFromResultSet(ResultSet rs) throws SQLException {
+        CustomerProfileDTO profileDTO = new CustomerProfileDTO();
+        profileDTO.setId( rs.getString("id"));
+        profileDTO.setUsername(rs.getString("username"));
+        profileDTO.setFullName(rs.getString("customerName"));
+        profileDTO.setAddress(rs.getString("address"));
+        profileDTO.setEmail(rs.getString("email"));
+        profileDTO.setBankCardNo(rs.getString("bankCardNo"));
+        profileDTO.setShippingAddress(rs.getString("shippingAddress"));
+        return profileDTO;
     }
 
     public CustomerProfileDTO getCustomerProfileByUsername(String username) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM UserSetting WHERE username=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM CustomerProfile WHERE username=?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            CustomerProfileDTO userSettings = new CustomerProfileDTO();
+            CustomerProfileDTO profileDTO = extractProfileFromResultSet(rs);
 
-            return userSettings;
+            return profileDTO;
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {

@@ -1,7 +1,9 @@
 package shopping.ui;
+import shopping.UserData;
 import shopping.bus.CustomerBUS;
 import shopping.bus.ICustomerBUS;
 import shopping.model.Customer.Customer;
+import shopping.model.Customer.CustomerProfile;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -58,6 +60,7 @@ public class LoginPage {
 	public void setPasswordField(JPasswordField passwordField) {
 		this.passwordField = passwordField;
 	}
+	public static UserData userData = new UserData();
 
 	/**
 	 * Launch the application.
@@ -120,11 +123,18 @@ public class LoginPage {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					String username = textFieldUN.getText();
+					String password = passwordField.getText();
 					ICustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
-					boolean login = customerBUS.login(textFieldUN.getText(),passwordField.getText());
+					boolean login = customerBUS.login(username,password);
 
 					if (login)
 					{
+
+						Customer customer = customerBUS.getCustomerByUsername(username);
+						CustomerProfile profile = customerBUS.getCustomerProfileByUsername(username);
+						customer.setCustomerProfile(profile);
+						userData.setCustomer(customer);
 						JOptionPane.showMessageDialog(null, "Username & Password is correct");
 						frame.dispose();
 						MainPanel mainPanel = new MainPanel();

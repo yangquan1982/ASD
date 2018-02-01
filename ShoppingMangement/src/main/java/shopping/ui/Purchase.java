@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -28,6 +30,13 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import shopping.UserData;
+import shopping.bus.IProductManager;
+import shopping.bus.ProductBUS;
+import shopping.bus.ProductManager;
+import shopping.model.Customer.Customer;
+import shopping.model.Customer.CustomerProfile;
+import shopping.model.Product.Product;
 import shopping.util.DbUtils;
 
 public class Purchase extends JFrame {
@@ -54,6 +63,10 @@ public class Purchase extends JFrame {
 	private JTextField textSearchProducts;
 	private JDesktopPane desktopPane_2;
 	public static int billId = 1;
+
+	private UserData userData = LoginPage.userData;
+	private Customer customer = userData.getCustomer();
+	private CustomerProfile profile = customer.getCustomerProfile();
 	/**
 	 * Launch the application.
 	 */
@@ -119,6 +132,8 @@ public class Purchase extends JFrame {
 		
 		textField_cname = new JTextField();
 		textField_cname.setBounds(75, 74, 70, 20);
+		String[] fulname = profile.getFullName().split(" ");
+		textField_cname.setText(fulname[0]);
 		contentPane.add(textField_cname);
 		textField_cname.setColumns(10);
 		
@@ -130,11 +145,15 @@ public class Purchase extends JFrame {
 		textField_contact = new JTextField();
 		textField_contact.setColumns(10);
 		textField_contact.setBounds(75, 105, 150, 20);
+		textField_contact.setText(profile.getEmail());
 		contentPane.add(textField_contact);
 		
 		textField_csname = new JTextField();
 		textField_csname.setColumns(10);
 		textField_csname.setBounds(155, 74, 70, 20);
+		if(fulname.length > 1){
+			textField_csname.setText(fulname[1]);
+		}
 		contentPane.add(textField_csname);
 		
 		JLabel lblAddress = new JLabel("Address");
@@ -145,6 +164,7 @@ public class Purchase extends JFrame {
 		textField_address = new JTextField();
 		textField_address.setColumns(10);
 		textField_address.setBounds(75, 141, 150, 20);
+		textField_address.setText(profile.getAddress());
 		contentPane.add(textField_address);
 		
 		desktopPane = new JDesktopPane();
@@ -213,20 +233,13 @@ public class Purchase extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					int row = table.getSelectedRow();
-					String p_name_=(table.getModel().getValueAt(row, 1)).toString();
-					String query = "select * from Product where p_name='"+p_name_+"' ";
-					PreparedStatement pst = connection.prepareStatement(query);
-					ResultSet rs=pst.executeQuery();
-					
-					while (rs.next())
-							{
-								
-								textField_name.setText(rs.getString("p_name"));
-								textField_catagory.setText(rs.getString("p_catagory"));
-								textField_price.setText(rs.getString("p_price"));
-								textField_unit.setText(rs.getString("p_unit"));
-							}
+					ProductBUS productBUS = ProductBUS.getProductBUS();
+					List<Product> productList = productBUS.getAllProducts();
+					for(Product product:productList){
+						textField_name.setText(product.getName());
+						textField_catagory.setText(product.getCategory().toString());
+						textField_price.setText(String.valueOf(product.getUnitPrice()));
+					}
 					
 				} catch (Exception e1) {
 					e1.printStackTrace();

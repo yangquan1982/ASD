@@ -7,11 +7,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import shopping.dto.CustomerDTO;
 import shopping.dto.ProductCategoryDTO;
+import shopping.dto.ProductSupplierDTO;
 
 /**
  * @author Quan Yang
@@ -29,13 +31,20 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	@Override
 	public ProductCategoryDTO getCategoryById(String id) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE id=?");
-        ps.setString(1, id);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductCategoryFromResultSet(rs);
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE id=?");
+	        ps.setString(1, id);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductCategoryFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
+
 		return null;
 	}
     private ProductCategoryDTO extractProductCategoryFromResultSet(ResultSet rs) throws SQLException {
@@ -51,13 +60,20 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
     @Override
 	public ProductCategoryDTO getCategoryByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryName=?");
-        ps.setString(1, name);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductCategoryFromResultSet(rs);
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryName=?");
+	        ps.setString(1, name);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductCategoryFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
+
 		return null;
 	}
 
@@ -135,7 +151,22 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	}
 	@Override
 	public List<ProductCategoryDTO> getAllCategories() throws SQLException {
-		// TODO Auto-generated method stub
+		Connection connection = dbConnection.getConnection();
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier");
+	        ResultSet rs = ps.executeQuery();
+	        List<ProductCategoryDTO> productCategoryDTOs = new ArrayList<ProductCategoryDTO>();
+	        while(rs.next())
+	        {
+	            productCategoryDTOs.add(extractProductCategoryFromResultSet(rs));
+	        }
+	        return productCategoryDTOs;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			connection.close();
+		}
+
 		return null;
 	}
 

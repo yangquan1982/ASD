@@ -125,6 +125,8 @@ public class CustomerBUS implements ICustomerBUS {
         return null;
     }
 
+
+
     public CustomerProfile getCustomerProfileByUsername(String username) {
         try {
             CustomerProfileDTO profile = profileDAO.getCustomerProfileByUsername(username);

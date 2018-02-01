@@ -16,4 +16,6 @@ public interface ICustomerBUS {
     boolean updateCustomer(Customer customer);
 
     Customer getCustomerByUsername(String username);
+
+    CustomerProfile getCustomerProfileByUsername(String username);
 }

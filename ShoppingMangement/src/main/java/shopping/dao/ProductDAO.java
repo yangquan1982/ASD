@@ -31,13 +31,20 @@ public class ProductDAO implements IProductDAO {
 	@Override
 	public ProductDTO getProductById(String id) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE id=?");
-        ps.setString(1, id);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductFromResultSet(rs);
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE id=?");
+	        ps.setString(1, id);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
+
 		return null;
 	}
 
@@ -47,13 +54,20 @@ public class ProductDAO implements IProductDAO {
 	@Override
 	public ProductDTO getProductByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE productName=?");
-        ps.setString(1, name);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductFromResultSet(rs);
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE productName=?");
+	        ps.setString(1, name);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
+
 		return null;
 	}
     private ProductDTO extractProductFromResultSet(ResultSet rs) throws SQLException {
@@ -166,14 +180,21 @@ public class ProductDAO implements IProductDAO {
 	@Override
 	public List<ProductDTO> getAllProducts() throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
-        ResultSet rs = ps.executeQuery();
-        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-        if(rs.next())
-        {
-        	productDTOs.add(extractProductFromResultSet(rs));
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
+	        ResultSet rs = ps.executeQuery();
+	        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+	        while(rs.next())
+	        {
+	        	productDTOs.add(extractProductFromResultSet(rs));
+	        }
+	        return productDTOs;
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
-		return productDTOs;
+		return null;
 	}
 
 	@Override

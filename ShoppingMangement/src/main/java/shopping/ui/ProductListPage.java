@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.UUID;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -314,7 +315,7 @@ public class ProductListPage extends JFrame {
 //				
 //				JOptionPane.showMessageDialog(null, "Data Saved");
 					IProductBuilder pBuilder = new ProductBuilder();
-					pBuilder.buildProductIdName(textField_id.getText(), textField_name.getText());
+					pBuilder.buildProductIdName(UUID.randomUUID().toString(), textField_name.getText());
 					pBuilder.buildProductCategory(new ProductCategory(null, textField_catagory.getText()));
 					pBuilder.buildProductSupplier(new ProductSupplier(null, 
 							textField_supplier.getText(), textField_address.getText(), textField_phone.getText()));

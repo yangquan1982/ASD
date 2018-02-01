@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -234,7 +235,8 @@ public class BillPage extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					JOptionPane.showMessageDialog(null, "Bill Done....!");
 					frame.dispose();
-					Purchase purchase = new Purchase();
+					Purchase purchase = null;
+					purchase = new Purchase();
 					purchase.setVisible(true);
 					
 				}
