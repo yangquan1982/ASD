@@ -109,6 +109,9 @@ public class ProductListPage extends JFrame {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					model.setRowCount(0);
 					table.setModel(tModel);
+					table.getColumnModel().getColumn(0).setMaxWidth(0);
+					table.getColumnModel().getColumn(0).setMinWidth(0);
+					table.getColumnModel().getColumn(0).setWidth(0);
 					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //					table.setAutoscrolls(true);
 				}
@@ -189,6 +192,9 @@ public class ProductListPage extends JFrame {
 						DefaultTableModel model = (DefaultTableModel) table.getModel();
 						model.setRowCount(0);
 						table.setModel(tModel);
+						table.getColumnModel().getColumn(0).setMaxWidth(0);
+						table.getColumnModel().getColumn(0).setMinWidth(0);
+						table.getColumnModel().getColumn(0).setWidth(0);
 						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //						table.setAutoscrolls(true);
 					}
@@ -314,6 +320,13 @@ public class ProductListPage extends JFrame {
 //				pst.close();
 //				
 //				JOptionPane.showMessageDialog(null, "Data Saved");
+					if (textField_name.getText().trim().equals("") || textField_catagory.getText().trim().equals("")
+							|| textField_supplier.getText().trim().equals("") || textField_address.getText().trim().equals("")
+							|| textField_phone.getText().trim().equals("") || textField_price.getText().trim().equals("")
+							|| textField_ttcnt.getText().trim().equals("") || textField_discount.getText().trim().equals("")) {
+						JOptionPane.showMessageDialog(null, "Wrong Data");
+						return;
+					}
 					IProductBuilder pBuilder = new ProductBuilder();
 					pBuilder.buildProductIdName(UUID.randomUUID().toString(), textField_name.getText());
 					pBuilder.buildProductCategory(new ProductCategory(null, textField_catagory.getText()));
@@ -333,11 +346,11 @@ public class ProductListPage extends JFrame {
 					Product product = pBuilder.getProduct();
 					if (pManager.addNewProduct(product)) {
 						JOptionPane.showMessageDialog(null, "Data Saved");
+						refreshTable();
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				refreshTable();
 			}
 		});
 		
