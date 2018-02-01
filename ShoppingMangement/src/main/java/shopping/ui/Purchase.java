@@ -29,14 +29,18 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import shopping.UserData;
-import shopping.bus.IProductManager;
-import shopping.bus.ProductBUS;
-import shopping.bus.ProductManager;
+import shopping.bus.*;
 import shopping.model.Customer.Customer;
 import shopping.model.Customer.CustomerProfile;
 import shopping.model.Product.Product;
+import shopping.model.Product.ProductList;
+import shopping.model.ShoppingCart.LineItem;
+import shopping.model.ShoppingCart.Order;
+import shopping.model.ShoppingCart.ShoppingCart;
 import shopping.util.DbUtils;
 
 public class Purchase extends JFrame {
@@ -63,6 +67,9 @@ public class Purchase extends JFrame {
 	private JTextField textSearchProducts;
 	private JDesktopPane desktopPane_2;
 	public static int billId = 1;
+	private String selectItem;
+
+	public static ShoppingCart shoppingCart = new ShoppingCart();
 
 	private UserData userData = LoginPage.userData;
 	private Customer customer = userData.getCustomer();
@@ -229,39 +236,47 @@ public class Purchase extends JFrame {
 		contentPane.add(scrollPane_1);
 		
 		table = new JTable();
+
+		ProductList plist = new ProductList();
+		IProductManager pManager = ProductManager.getProductManager(plist);
+
+		pManager.getAllProducts();
+		TableModel tModel = pManager.setAllProductsToTableModel();
+		if (tModel!=null) {
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			table.setModel(tModel);
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		}
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					ProductBUS productBUS = ProductBUS.getProductBUS();
-					List<Product> productList = productBUS.getAllProducts();
-					for(Product product:productList){
-						textField_name.setText(product.getName());
-						textField_catagory.setText(product.getCategory().toString());
-						textField_price.setText(String.valueOf(product.getUnitPrice()));
-					}
-					
+					System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
+					selectItem = table.getValueAt(table.getSelectedRow(), 0).toString();
+
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 		scrollPane_1.setViewportView(table);
-		
+
 		textSearchProducts = new JTextField();
 		textSearchProducts.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				try {
-					String selection= (String)comboBox.getSelectedItem();
-					String query = "select *  from Product where "+selection+"=?";
-					PreparedStatement pst = connection.prepareStatement(query);
-					pst.setString(1, textSearchProducts.getText());
-					ResultSet rs = pst.executeQuery();
-					table.setModel(DbUtils.resultSetToTableModel(rs));
-					pst.close();
-					
-					
+//					String selection= (String)comboBox.getSelectedItem();
+//					String query = "select *  from Product where "+selection+"=?";
+//					PreparedStatement pst = connection.prepareStatement(query);
+//					pst.setString(1, textSearchProducts.getText());
+//					ResultSet rs = pst.executeQuery();
+//					table.setModel(DbUtils.resultSetToTableModel(rs));
+//					pst.close();
+
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -283,32 +298,15 @@ public class Purchase extends JFrame {
 		btnAddToCurt.setFont(new Font("Vrinda", Font.BOLD, 15));
 		btnAddToCurt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
+
+
 				try{
-					
-					
-					System.out.println("Bill id"+billId);
-					String query = "insert into Billpay (id,bill_id,c_name,c_sname,c_contact,c_address,p_name,p_catagory,p_unit,p_price) values (?,?,?,?,?,?,?,?,?,?)";
-					PreparedStatement pst = connection.prepareStatement(query);
-					
-					pst.setString(1, null);
-					pst.setString(2, String.valueOf(billId));
-					pst.setString(3, textField_cname.getText());
-					pst.setString(4, textField_csname.getText());
-					pst.setString(5, textField_contact.getText());
-					pst.setString(6, textField_address.getText());
-					pst.setString(7, textField_name.getText());
-					pst.setString(8, textField_catagory.getText());
-					pst.setString(9, textField_unit.getText());
-					pst.setString(10, textField_price.getText());
-					
-					
-					pst.execute();
-					pst.close();
-					
-					JOptionPane.showMessageDialog(null, "Added to tha curt!");
-					
+					Product product = pManager.getProductByName(selectItem);
+
+					ILineItemBUS lineItemBUS = LineItemBUS.getLineItemBUS();
+					IOrderBUS orderBUS = OrderBUS.getOrderBUS();
+					LineItem lineItem = new LineItem(product);
+					shoppingCart.addCartItem(lineItem);
 					} catch (Exception e1) {
 					e1.printStackTrace();
 					}

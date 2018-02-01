@@ -6,8 +6,13 @@ import shopping.model.Product.Product;
  * Created by Duong Truong on 1/30/2018.
  */
 public class LineItem {
-    public LineItem() {
-        setProduct(new Product());
+    public LineItem(Product product) {
+        setProduct(product);
+        setQuantity(1);
+        setProductName(product.getName());
+        setLineItemId(product.getId());
+        setUnitCost(product.getUnitPrice());
+        setSubtotal(product.getUnitPrice());
     }
 
     public LineItem(String lineItemId, String productName, int quantity, double unitCost, double subtotal) {
