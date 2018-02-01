@@ -407,7 +407,7 @@ public class ProductManager implements IProductManager {
 					productDTO.setProductSupplierId(supplierId);
 				}
 			}
-			productDTO.setId(UUID.randomUUID().toString());
+			productDTO.setId(product.getId());
 			productDTO.setProductName(product.getName());
 			productDTO.setUnitPrice(product.getUnitPrice());
 			productDTO.setTotalCnt(product.getTotalCnt());

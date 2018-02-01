@@ -29,13 +29,20 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	@Override
 	public ProductCategoryDTO getCategoryById(String id) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE id=?");
-        ps.setString(1, id);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductCategoryFromResultSet(rs);
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE id=?");
+	        ps.setString(1, id);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductCategoryFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
+
 		return null;
 	}
     private ProductCategoryDTO extractProductCategoryFromResultSet(ResultSet rs) throws SQLException {
@@ -51,13 +58,20 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
     @Override
 	public ProductCategoryDTO getCategoryByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryName=?");
-        ps.setString(1, name);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductCategoryFromResultSet(rs);
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryName=?");
+	        ps.setString(1, name);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductCategoryFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
         }
+
 		return null;
 	}
 

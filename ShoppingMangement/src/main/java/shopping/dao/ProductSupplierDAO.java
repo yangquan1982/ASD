@@ -29,13 +29,20 @@ public class ProductSupplierDAO implements IProductSupplierDAO {
 	@Override
 	public ProductSupplierDTO getSupplierById(String id) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier WHERE id=?");
-        ps.setString(1, id);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductSupplierFromResultSet(rs);
-        }
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier WHERE id=?");
+	        ps.setString(1, id);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductSupplierFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			connection.close();
+		}
+
 		return null;
 	}
     private ProductSupplierDTO extractProductSupplierFromResultSet(ResultSet rs) throws SQLException {
@@ -52,13 +59,20 @@ public class ProductSupplierDAO implements IProductSupplierDAO {
 	@Override
 	public ProductSupplierDTO getSupplierByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier WHERE name=?");
-        ps.setString(1, name);
-        ResultSet rs = ps.executeQuery();
-        if(rs.next())
-        {
-            return extractProductSupplierFromResultSet(rs);
-        }
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier WHERE name=?");
+	        ps.setString(1, name);
+	        ResultSet rs = ps.executeQuery();
+	        if(rs.next())
+	        {
+	            return extractProductSupplierFromResultSet(rs);
+	        }
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			connection.close();
+		}
+
 		return null;
 	}
 
