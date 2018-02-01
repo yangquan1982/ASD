@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -286,7 +287,7 @@ public class ProductManager implements IProductManager {
 
 	private Vector<String> getTableColumnNames() {
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.addElement("Product ID");
+//		columnNames.addElement("Product ID");
 		columnNames.addElement("Product Name");
 		columnNames.addElement("Product Category");
 		columnNames.addElement("Product Supplier");
@@ -305,7 +306,7 @@ public class ProductManager implements IProductManager {
 	    Vector<Vector<String>> rows = new Vector<Vector<String>>();
 	    for (Product product : list.getProducts()) {
 			Vector<String> newRow = new Vector<String>();
-			newRow.addElement(product.getId());
+//			newRow.addElement(product.getId());
 			newRow.addElement(product.getName());
 			newRow.addElement(product.getCategory().getCategoryName());
 			newRow.addElement(product.getSupplier().getName());
@@ -338,7 +339,7 @@ public class ProductManager implements IProductManager {
 	private Vector<Vector<String>> getOneProductTableData() {
 		Vector<Vector<String>> rows = new Vector<Vector<String>>();
 		Vector<String> newRow = new Vector<String>();
-		newRow.addElement(oneProduct.getId());
+//		newRow.addElement(oneProduct.getId());
 		newRow.addElement(oneProduct.getName());
 		newRow.addElement(oneProduct.getCategory().getCategoryName());
 		newRow.addElement(oneProduct.getSupplier().getName());
@@ -371,31 +372,48 @@ public class ProductManager implements IProductManager {
 	@Override
 	public boolean addNewProduct(Product product) {
 		try {
+			ProductDTO productDTO = new ProductDTO();
 			ProductCategoryDTO categoryDTO = 
 					categoryDao.getCategoryByName(product.getCategory().getCategoryName());
 			if (categoryDTO == null) {
-				categoryDTO = new ProductCategoryDTO(null,product.getCategory().getCategoryName());
+				String categoryId = UUID.randomUUID().toString();
+				categoryDTO = new ProductCategoryDTO(categoryId,product.getCategory().getCategoryName());
 				categoryDao.insertCategory(categoryDTO);
+				productDTO.setProductCategoryId(categoryId);
 			} else {
 				product.getCategory().setId(categoryDTO.getId());
+				productDTO.setProductCategoryId(categoryDTO.getId());
 			}
+			
 			ProductSupplierDTO supplierDTO =
 					supplierDao.getSupplierByName(product.getSupplier().getName());
 			if (supplierDTO==null) {
-				supplierDTO = new ProductSupplierDTO(null, product.getSupplier().getName(),
+				String supplierId = UUID.randomUUID().toString();
+				supplierDTO = new ProductSupplierDTO(supplierId, product.getSupplier().getName(),
 						product.getSupplier().getAddress(), product.getSupplier().getPhoneNum());
 				supplierDao.insertSupplier(supplierDTO);
+				productDTO.setProductSupplierId(supplierId);
 			} else {
 				if (supplierDTO.getAddress().equals(product.getSupplier().getAddress())
 						&& supplierDTO.getPhoneNum().equals(product.getSupplier().getPhoneNum())) {
 					product.getSupplier().setId(supplierDTO.getId());
+					productDTO.setProductSupplierId(supplierDTO.getId());
 				} else {
-					supplierDTO.setId(null);
+					String supplierId = UUID.randomUUID().toString();
+					supplierDTO.setId(supplierId);
 					supplierDTO.setAddress(product.getSupplier().getAddress());
 					supplierDTO.setPhoneNum(product.getSupplier().getPhoneNum());
 					supplierDao.insertSupplier(supplierDTO);
+					productDTO.setProductSupplierId(supplierId);
 				}
 			}
+			productDTO.setId(UUID.randomUUID().toString());
+			productDTO.setProductName(product.getName());
+			productDTO.setUnitPrice(product.getUnitPrice());
+			productDTO.setTotalCnt(product.getTotalCnt());
+			productDTO.setDiscount(product.isDiscount());
+			productDTO.setDiscountRatio(product.getDiscountRatio());
+			productDao.insertProduct(productDTO);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

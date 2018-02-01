@@ -69,9 +69,9 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
         Connection connection = dbConnection.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO ProductCategory VALUES (?, ?)");
-            if (category.getId()==null) {
-            	category.setId(UUID.randomUUID().toString());
-			}
+//            if (category.getId()==null) {
+//            	category.setId(UUID.randomUUID().toString());
+//			}
             ps.setString(1, category.getId());
             ps.setString(2, category.getCategoryName());
             int i = ps.executeUpdate();

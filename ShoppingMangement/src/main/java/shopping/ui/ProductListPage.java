@@ -1,4 +1,5 @@
 package shopping.ui;
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -16,6 +17,7 @@ import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -71,7 +73,7 @@ public class ProductListPage extends JFrame {
 	}
 		Connection connection = null;
 		private JTextField txtSearchProducts;
-		private JLabel lblProductId;
+		private JLabel lblProductIsDiscount;
 		private JLabel lblProductName;
 		private JLabel lblProductCatagory;
 		private JLabel lblProductPrice;
@@ -95,6 +97,7 @@ public class ProductListPage extends JFrame {
 		private JLabel label_4;
 		private JScrollPane scrollPane;
 		private JLabel label_5;
+		private JCheckBox checkBox_discount;
 		
 		public void refreshTable ()
 		{
@@ -195,10 +198,14 @@ public class ProductListPage extends JFrame {
 			}
 		});
 		contentPane.add(btnLoadProducts);
-		textField_id = new JTextField();
-		textField_id.setBounds(147, 130, 109, 20);
-		contentPane.add(textField_id);
-		textField_id.setColumns(10);
+		checkBox_discount = new JCheckBox("");
+		checkBox_discount.setEnabled(true);
+		checkBox_discount.setBounds(147, 130, 18, 18);
+		contentPane.add(checkBox_discount);
+//		textField_id = new JTextField();
+//		textField_id.setBounds(147, 130, 109, 20);
+//		contentPane.add(textField_id);
+//		textField_id.setColumns(10);
 		
 		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setToolTipText("");
@@ -437,10 +444,10 @@ public class ProductListPage extends JFrame {
 		desktopPane.setBounds(3, 97, 286, 315);
 		contentPane.add(desktopPane);
 		
-		lblProductId = new JLabel("Product ID");
-		lblProductId.setBounds(10, 26, 150, 30);
-		desktopPane.add(lblProductId);
-		lblProductId.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
+		lblProductIsDiscount = new JLabel("Is Discount");
+		lblProductIsDiscount.setBounds(10, 26, 150, 30);
+		desktopPane.add(lblProductIsDiscount);
+		lblProductIsDiscount.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
 		lblProductName = new JLabel("Name");
 		lblProductName.setBounds(10, 56, 150, 30);
@@ -477,7 +484,7 @@ public class ProductListPage extends JFrame {
 		desktopPane.add(lblSupplier);
 		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
-		lblSupplier = new JLabel("Is Discount");
+		lblSupplier = new JLabel("Discount Ratio");
 		lblSupplier.setBounds(10, 266, 150, 30);
 		desktopPane.add(lblSupplier);
 		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
