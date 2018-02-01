@@ -3,6 +3,7 @@
  */
 package shopping.bus;
 
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import shopping.model.Product.*;
  */
 public class ProductManager implements IProductManager {
 	private ProductList list;
+	private Product oneProduct;
 	private List<ProductCategory> catehories;
 	private List<ProductSupplier> suppliers;
 	private IProductDAO productDao;
@@ -39,6 +41,8 @@ public class ProductManager implements IProductManager {
 	 */
 	@Override
 	public boolean addProduct(Product product) {
+		ProductDTO productDTO = new ProductDTO();
+		productDTO.setId(product.getId());
 		return list.getProducts().add(product);
 	}
 
@@ -122,18 +126,24 @@ public class ProductManager implements IProductManager {
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public TableModel setToTableModel() {
-		// Get column names
-		Vector<String> columnNames = new Vector<String>();
-		// Get all rows.
-	    Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
-	    
-	    return new DefaultTableModel(rows, columnNames);
+	public void getAllProducts() {
+		try {
+			IProductBuilder productBuilder = new ProductBuilder();
+			for (ProductDTO productDTO : productDao.getAllProducts()) {
+				if (productDTO != null) {
+					productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
+					ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());
+					productBuilder.buildProductCategory(category);
+					ProductSupplier supplier = getProductSupplierById(productDTO.getProductSupplierId());
+					productBuilder.buildProductSupplier(supplier);
+					productBuilder.buildPriceAndCount(productDTO.getUnitPrice(), productDTO.getTotalCnt());
+					productBuilder.buildDiscount(productDTO.isDiscount(), productDTO.getDiscountRatio());
+					list.addProduct(productBuilder.getProduct());
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -218,5 +228,89 @@ public class ProductManager implements IProductManager {
 	public List<ProductSupplier> getAllProductSuppliers() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private Vector<String> getTableColumnNames() {
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.addElement("Product ID");
+		columnNames.addElement("Product Name");
+		columnNames.addElement("Product Category");
+		columnNames.addElement("Product Supplier");
+		columnNames.addElement("Supplier Address");
+		columnNames.addElement("Supplier Phone Number");
+		columnNames.addElement("Unit Price");
+		columnNames.addElement("Total Count");
+		columnNames.addElement("Is Discount");
+		columnNames.addElement("Discount Ratio");
+		return columnNames;
+	}
+	private Vector<Vector<String>> getAllProductsTableData(){
+		if (list.getProducts().isEmpty()) {
+			return null;
+		}
+	    Vector<Vector<String>> rows = new Vector<Vector<String>>();
+	    for (Product product : list.getProducts()) {
+			Vector<String> newRow = new Vector<String>();
+			newRow.addElement(product.getId());
+			newRow.addElement(product.getName());
+			newRow.addElement(product.getCategory().getCategoryName());
+			newRow.addElement(product.getSupplier().getName());
+			newRow.addElement(product.getSupplier().getAddress());
+			newRow.addElement(product.getSupplier().getPhoneNum());
+			newRow.addElement(Double.toString(product.getUnitPrice()));
+			newRow.addElement(Integer.toString(product.getTotalCnt()));
+			if (product.isDiscount()) {
+				newRow.addElement("True");
+			} else {
+				newRow.addElement("False");
+			}
+			newRow.addElement(Double.toString(product.getDiscountRatio()));
+		    rows.addElement(newRow);
+		}
+	    return rows;
+	}
+	@Override
+	public TableModel setAllProductsToTableModel() {
+		// Get column names
+		Vector<String> columnNames = getTableColumnNames();
+		// Get all rows.
+		Vector<Vector<String>> rows = getAllProductsTableData();
+		if (rows == null) {
+			System.out.println("Product List is empty!!!");
+			return null;
+		}
+	    return new DefaultTableModel(rows, columnNames);
+	}
+	private Vector<Vector<String>> getOneProductTableData() {
+		Vector<Vector<String>> rows = new Vector<Vector<String>>();
+		Vector<String> newRow = new Vector<String>();
+		newRow.addElement(oneProduct.getId());
+		newRow.addElement(oneProduct.getName());
+		newRow.addElement(oneProduct.getCategory().getCategoryName());
+		newRow.addElement(oneProduct.getSupplier().getName());
+		newRow.addElement(oneProduct.getSupplier().getAddress());
+		newRow.addElement(oneProduct.getSupplier().getPhoneNum());
+		newRow.addElement(Double.toString(oneProduct.getUnitPrice()));
+		newRow.addElement(Integer.toString(oneProduct.getTotalCnt()));
+		if (oneProduct.isDiscount()) {
+			newRow.addElement("True");
+		} else {
+			newRow.addElement("False");
+		}
+		newRow.addElement(Double.toString(oneProduct.getDiscountRatio()));
+	    rows.addElement(newRow);
+	    return rows;
+	}
+	@Override
+	public TableModel setOneProductToTableModel() {
+		// Get column names
+		Vector<String> columnNames = getTableColumnNames();
+		// Get all rows.
+		Vector<Vector<String>> rows = getOneProductTableData();
+		if (rows == null) {
+			System.out.println("Product doesn't exist!!!");
+			return null;
+		}
+		return new DefaultTableModel(rows, columnNames);
 	}
 }

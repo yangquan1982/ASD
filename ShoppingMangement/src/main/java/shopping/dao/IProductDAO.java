@@ -1,5 +1,6 @@
 package shopping.dao;
 
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface IProductDAO {
 	boolean insertProduct(ProductDTO product) throws SQLException;
 	boolean deleteProduct(ProductDTO product) throws SQLException;
 	boolean updateProduct(ProductDTO product) throws SQLException;
+	ResultSetMetaData getMetaData() throws SQLException;
 }

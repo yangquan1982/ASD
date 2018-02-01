@@ -27,9 +27,10 @@ public interface IProductManager {
 	public List<ProductSupplier> getAllProductSuppliers();
 	public Product getProductById(String id);
 	public Product getProductByName(String name);
-	public List<Product> getAllProducts();
+	public void getAllProducts();
 	public boolean addProduct(Product product);
 	public boolean removeProducts(List<Product> products);
 	public boolean updateProduct(Product product);
-	public TableModel setToTableModel();
+	public TableModel setAllProductsToTableModel();
+	public TableModel setOneProductToTableModel();
 }

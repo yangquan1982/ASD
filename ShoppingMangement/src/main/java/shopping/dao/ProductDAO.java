@@ -6,6 +6,7 @@ package shopping.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,6 +169,13 @@ public class ProductDAO implements IProductDAO {
         	productDTOs.add(extractProductFromResultSet(rs));
         }
 		return productDTOs;
+	}
+
+	@Override
+	public ResultSetMetaData getMetaData() throws SQLException {
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
+        return ps.executeQuery().getMetaData();
 	}
 
 }
