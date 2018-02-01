@@ -459,4 +459,8 @@ public class ProductManager implements IProductManager {
 		}
 		return true;
 	}
+	@Override
+	public void clearProductList() {
+		list.getProducts().clear();
+	}
 }
