@@ -125,6 +125,7 @@ public class ProductManager implements IProductManager {
 
 	@Override
 	public void getAllProducts() {
+		list.getProducts().clear();
 		try {
 			IProductBuilder productBuilder = new ProductBuilder();
 			List<ProductDTO> productDTOs = productDao.getAllProducts();

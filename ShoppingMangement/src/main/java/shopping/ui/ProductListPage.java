@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import shopping.bus.ProductManager;
@@ -98,7 +99,11 @@ public class ProductListPage extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		
+		private void clearTable() {
+			DefaultTableModel dm = (DefaultTableModel)table.getModel();
+			dm.getDataVector().removeAllElements();
+			dm.fireTableDataChanged();
+		}
 	/**
 	 * Create the frame.
 	 */
@@ -168,6 +173,8 @@ public class ProductListPage extends JFrame {
 					pManager.getAllProducts();
 					TableModel tModel = pManager.setAllProductsToTableModel();
 					if (tModel!=null) {
+						DefaultTableModel model = (DefaultTableModel) table.getModel();
+						model.setRowCount(0);
 						table.setModel(tModel);
 						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //						table.setAutoscrolls(true);
