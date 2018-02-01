@@ -23,7 +23,7 @@ public class ProductList {
 
 	public ProductList() {
 		products = new ArrayList<Product>();
-		manager = new ProductManager(this);
+		manager = ProductManager.getProductManager(this);
 	}
 
 	public List<Product> getProducts() {

@@ -28,6 +28,7 @@ public interface IProductManager {
 	public Product getProductById(String id);
 	public Product getProductByName(String name);
 	public void getAllProducts();
+	public boolean addNewProduct(Product product);
 	public boolean addProduct(Product product);
 	public boolean removeProducts(List<Product> products);
 	public boolean updateProduct(Product product);

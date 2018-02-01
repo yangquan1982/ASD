@@ -26,16 +26,70 @@ public class ProductManager implements IProductManager {
 	private IProductDAO productDao;
 	private IProductCategoryDAO categoryDao;
 	private IProductSupplierDAO supplierDao;
-	
-	public ProductManager(ProductList list) {
-		this.list = list;
-		this.catehories = new ArrayList<ProductCategory>();
-		this.suppliers = new ArrayList<ProductSupplier>();
-		this.productDao = new ProductDAO();
-		this.categoryDao = new ProductCategoryDAO();
-		this.supplierDao = new ProductSupplierDAO();
+	private static ProductManager productManager;
+	public ProductManager() {
+	}
+	public static ProductManager getProductManager(ProductList list) {
+		if (productManager==null) {
+			productManager = new ProductManager();
+			productManager.setCatehories(new ArrayList<ProductCategory>());
+			productManager.setSuppliers(new ArrayList<ProductSupplier>());
+			productManager.setProductDao(new ProductDAO());
+			productManager.setCategoryDao(new ProductCategoryDAO());
+			productManager.setSupplierDao(new ProductSupplierDAO());
+			productManager.setList(list);
+		}
+		return productManager;
 	}
 	
+	public ProductList getList() {
+		return list;
+	}
+	public void setList(ProductList list) {
+		this.list = list;
+	}
+	public Product getOneProduct() {
+		return oneProduct;
+	}
+	public void setOneProduct(Product oneProduct) {
+		this.oneProduct = oneProduct;
+	}
+	public List<ProductCategory> getCatehories() {
+		return catehories;
+	}
+	public void setCatehories(List<ProductCategory> catehories) {
+		this.catehories = catehories;
+	}
+	public List<ProductSupplier> getSuppliers() {
+		return suppliers;
+	}
+	public void setSuppliers(List<ProductSupplier> suppliers) {
+		this.suppliers = suppliers;
+	}
+	public IProductDAO getProductDao() {
+		return productDao;
+	}
+	public void setProductDao(IProductDAO productDao) {
+		this.productDao = productDao;
+	}
+	public IProductCategoryDAO getCategoryDao() {
+		return categoryDao;
+	}
+	public void setCategoryDao(IProductCategoryDAO categoryDao) {
+		this.categoryDao = categoryDao;
+	}
+	public IProductSupplierDAO getSupplierDao() {
+		return supplierDao;
+	}
+	public void setSupplierDao(IProductSupplierDAO supplierDao) {
+		this.supplierDao = supplierDao;
+	}
+	public static ProductManager getProductManager() {
+		return productManager;
+	}
+	public static void setProductManager(ProductManager productManager) {
+		ProductManager.productManager = productManager;
+	}
 	/* (non-Javadoc)
 	 * @see shopping.bus.IProductManager#addProduct(shopping.model.Product.Product)
 	 */
@@ -312,5 +366,40 @@ public class ProductManager implements IProductManager {
 			return null;
 		}
 		return new DefaultTableModel(rows, columnNames);
+	}
+
+	@Override
+	public boolean addNewProduct(Product product) {
+		try {
+			ProductCategoryDTO categoryDTO = 
+					categoryDao.getCategoryByName(product.getCategory().getCategoryName());
+			if (categoryDTO == null) {
+				categoryDTO = new ProductCategoryDTO(null,product.getCategory().getCategoryName());
+				categoryDao.insertCategory(categoryDTO);
+			} else {
+				product.getCategory().setId(categoryDTO.getId());
+			}
+			ProductSupplierDTO supplierDTO =
+					supplierDao.getSupplierByName(product.getSupplier().getName());
+			if (supplierDTO==null) {
+				supplierDTO = new ProductSupplierDTO(null, product.getSupplier().getName(),
+						product.getSupplier().getAddress(), product.getSupplier().getPhoneNum());
+				supplierDao.insertSupplier(supplierDTO);
+			} else {
+				if (supplierDTO.getAddress().equals(product.getSupplier().getAddress())
+						&& supplierDTO.getPhoneNum().equals(product.getSupplier().getPhoneNum())) {
+					product.getSupplier().setId(supplierDTO.getId());
+				} else {
+					supplierDTO.setId(null);
+					supplierDTO.setAddress(product.getSupplier().getAddress());
+					supplierDTO.setPhoneNum(product.getSupplier().getPhoneNum());
+					supplierDao.insertSupplier(supplierDTO);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import shopping.dto.CustomerDTO;
 import shopping.dto.ProductCategoryDTO;
@@ -68,6 +69,9 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
         Connection connection = dbConnection.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO ProductCategory VALUES (?, ?)");
+            if (category.getId()==null) {
+            	category.setId(UUID.randomUUID().toString());
+			}
             ps.setString(1, category.getId());
             ps.setString(2, category.getCategoryName());
             int i = ps.executeUpdate();

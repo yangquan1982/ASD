@@ -10,6 +10,13 @@ package shopping.dto;
 public class ProductCategoryDTO {
 	private String id;
 	private String categoryName;
+	
+	public ProductCategoryDTO() {
+	}
+	public ProductCategoryDTO(String id, String categoryName) {
+		this.id = id;
+		this.categoryName = categoryName;
+	}
 	public String getId() {
 		return id;
 	}

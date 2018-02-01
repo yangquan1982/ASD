@@ -33,7 +33,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import shopping.bus.ProductManager;
+import shopping.model.Product.IProductBuilder;
+import shopping.model.Product.Product;
+import shopping.model.Product.ProductBuilder;
+import shopping.model.Product.ProductCategory;
 import shopping.model.Product.ProductList;
+import shopping.model.Product.ProductSupplier;
 import shopping.util.DbUtils;
 
 import java.awt.SystemColor;
@@ -80,7 +85,10 @@ public class ProductListPage extends JFrame {
 		private JLabel lblUnit;
 		private JLabel lblSupplier;
 		private JTextField textField_supplier;
-		private JTextField textField_unit;
+		private JTextField textField_ttcnt;
+		private JTextField textField_address;
+		private JTextField textField_phone;
+		private JTextField textField_discount;
 		private JLabel label_1;
 		private JLabel label_2;
 		private JLabel label_3;
@@ -91,12 +99,17 @@ public class ProductListPage extends JFrame {
 		public void refreshTable ()
 		{
 			try {
-				String query = "select * from Product";
-				PreparedStatement pst = connection.prepareStatement(query);
-				ResultSet rs = pst.executeQuery();
-				table.setModel(DbUtils.resultSetToTableModel(rs));
-			} catch (Exception e1) {
-				e1.printStackTrace();
+				pManager.getAllProducts();
+				TableModel tModel = pManager.setAllProductsToTableModel();
+				if (tModel!=null) {
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					table.setModel(tModel);
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//					table.setAutoscrolls(true);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		private void clearTable() {
@@ -109,7 +122,7 @@ public class ProductListPage extends JFrame {
 	 */
 	public ProductListPage() {
 		plist = new ProductList();
-		pManager = new ProductManager(plist);
+		pManager = ProductManager.getProductManager(plist);
 		setResizable(false);
 		setForeground(UIManager.getColor("ToolBar.dockingForeground"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Icons\\shopping_bag.png"));
@@ -166,10 +179,6 @@ public class ProductListPage extends JFrame {
 		btnLoadProducts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-//					String query = "select * from Product";
-//					PreparedStatement pst = connection.prepareStatement(query);
-//					ResultSet rs = pst.executeQuery();
-//					TableModel
 					pManager.getAllProducts();
 					TableModel tModel = pManager.setAllProductsToTableModel();
 					if (tModel!=null) {
@@ -187,7 +196,7 @@ public class ProductListPage extends JFrame {
 		});
 		contentPane.add(btnLoadProducts);
 		textField_id = new JTextField();
-		textField_id.setBounds(117, 127, 109, 20);
+		textField_id.setBounds(147, 130, 109, 20);
 		contentPane.add(textField_id);
 		textField_id.setColumns(10);
 		
@@ -251,28 +260,28 @@ public class ProductListPage extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		textField_name = new JTextField();
-		textField_name.setBounds(117, 159, 109, 20);
+		textField_name.setBounds(147, 160, 109, 20);
 		textField_name.setColumns(10);
 		contentPane.add(textField_name);
 		
 		textField_catagory = new JTextField();
-		textField_catagory.setBounds(117, 193, 109, 20);
+		textField_catagory.setBounds(147, 190, 109, 20);
 		textField_catagory.setColumns(10);
 		contentPane.add(textField_catagory);
 		
-		textField_unit = new JTextField();
-		textField_unit.setColumns(10);
-		textField_unit.setBounds(117, 261, 109, 20);
-		contentPane.add(textField_unit);
+		textField_price = new JTextField();
+		textField_price.setColumns(10);
+		textField_price.setBounds(147, 220, 109, 20);
+		contentPane.add(textField_price);
 		
-		textField_supplier = new JTextField();
-		textField_supplier.setColumns(10);
-		textField_supplier.setBounds(117, 296, 109, 20);
-		contentPane.add(textField_supplier);
+		textField_ttcnt = new JTextField();
+		textField_ttcnt.setColumns(10);
+		textField_ttcnt.setBounds(147, 250, 109, 20);
+		contentPane.add(textField_ttcnt);
 		
 		btnAddProduct = new JButton("Add");
 		btnAddProduct.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnAddProduct.setBounds(5, 352, 88, 44);
+		btnAddProduct.setBounds(5, 420, 88, 30);
 		btnAddProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -297,28 +306,61 @@ public class ProductListPage extends JFrame {
 //				pst.close();
 //				
 //				JOptionPane.showMessageDialog(null, "Data Saved");
-				
+					IProductBuilder pBuilder = new ProductBuilder();
+					pBuilder.buildProductIdName(textField_id.getText(), textField_name.getText());
+					pBuilder.buildProductCategory(new ProductCategory(null, textField_catagory.getText()));
+					pBuilder.buildProductSupplier(new ProductSupplier(null, 
+							textField_supplier.getText(), textField_address.getText(), textField_phone.getText()));
+					String strPrice = textField_price.getText();
+					double price = Double.valueOf(strPrice);
+					String strCnt = textField_ttcnt.getText();
+					int ttCnt = Integer.valueOf(strCnt);
+					pBuilder.buildPriceAndCount(price, ttCnt);
+					String strDiscount = textField_discount.getText();
+					double discount = Double.valueOf(strDiscount);
+					boolean isDiscount = true;
+					if (isDiscount) {
+						pBuilder.buildDiscount(isDiscount, discount);
+					}
+					Product product = pBuilder.getProduct();
+					if (pManager.addNewProduct(product)) {
+						JOptionPane.showMessageDialog(null, "Data Saved");
+					}
 				} catch (Exception e1) {
-				e1.printStackTrace();
+					e1.printStackTrace();
 				}
 				refreshTable();
 			}
 		});
 		
-		textField_price = new JTextField();
-		textField_price.setBounds(117, 227, 109, 20);
-		textField_price.setColumns(10);
-		contentPane.add(textField_price);
+		textField_supplier = new JTextField();
+		textField_supplier.setBounds(147, 280, 109, 20);
+		textField_supplier.setColumns(10);
+		contentPane.add(textField_supplier);
 		
-		label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon("Icons\\plus.png"));
-		label_1.setBounds(28, 397, 48, 46);
-		contentPane.add(label_1);
+		textField_address = new JTextField();
+		textField_address.setBounds(147, 310, 109, 20);
+		textField_address.setColumns(10);
+		contentPane.add(textField_address);
+		
+		textField_phone = new JTextField();
+		textField_phone.setBounds(147, 340, 109, 20);
+		textField_phone.setColumns(10);
+		contentPane.add(textField_phone);
+		
+		textField_discount = new JTextField();
+		textField_discount.setBounds(147, 370, 109, 20);
+		textField_discount.setColumns(10);
+		contentPane.add(textField_discount);
+//		label_1 = new JLabel("");
+//		label_1.setIcon(new ImageIcon("Icons\\plus.png"));
+//		label_1.setBounds(28, 397, 48, 46);
+//		contentPane.add(label_1);
 		contentPane.add(btnAddProduct);
 		
 		btnUpdate = new JButton("Update");
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnUpdate.setBounds(103, 352, 88, 46);
+		btnUpdate.setBounds(103, 420, 88, 30);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -342,7 +384,7 @@ public class ProductListPage extends JFrame {
 		
 		btnDeleteProduct = new JButton("Delete");
 		btnDeleteProduct.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnDeleteProduct.setBounds(203, 352, 88, 46);
+		btnDeleteProduct.setBounds(203, 420, 88, 30);
 		btnDeleteProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -362,16 +404,16 @@ public class ProductListPage extends JFrame {
 			}
 		});
 		
-		label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon("Icons\\bt_remove.png"));
-		label_3.setBounds(226, 397, 48, 46);
-		contentPane.add(label_3);
+//		label_3 = new JLabel("");
+//		label_3.setIcon(new ImageIcon("Icons\\bt_remove.png"));
+//		label_3.setBounds(226, 397, 48, 46);
+//		contentPane.add(label_3);
 		contentPane.add(btnDeleteProduct);
-		
-		label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon("Icons\\system_software_update.png"));
-		label_2.setBounds(127, 397, 48, 46);
-		contentPane.add(label_2);
+//		
+//		label_2 = new JLabel("");
+//		label_2.setIcon(new ImageIcon("Icons\\system_software_update.png"));
+//		label_2.setBounds(127, 397, 48, 46);
+//		contentPane.add(label_2);
 		contentPane.add(btnUpdate);
 		
 		JLabel label = new JLabel("");
@@ -392,36 +434,51 @@ public class ProductListPage extends JFrame {
 		JDesktopPane desktopPane = new JDesktopPane();
 		desktopPane.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Product Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
 		desktopPane.setBackground(new Color(102, 204, 102));
-		desktopPane.setBounds(3, 97, 286, 245);
+		desktopPane.setBounds(3, 97, 286, 315);
 		contentPane.add(desktopPane);
 		
 		lblProductId = new JLabel("Product ID");
-		lblProductId.setBounds(10, 26, 80, 24);
+		lblProductId.setBounds(10, 26, 150, 30);
 		desktopPane.add(lblProductId);
 		lblProductId.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
 		lblProductName = new JLabel("Name");
-		lblProductName.setBounds(10, 52, 42, 30);
+		lblProductName.setBounds(10, 56, 150, 30);
 		desktopPane.add(lblProductName);
 		lblProductName.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
-		lblProductCatagory = new JLabel("Catagory");
-		lblProductCatagory.setBounds(10, 90, 107, 29);
+		lblProductCatagory = new JLabel("Catagory Name");
+		lblProductCatagory.setBounds(10, 86, 150, 30);
 		desktopPane.add(lblProductCatagory);
 		lblProductCatagory.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
-		lblProductPrice = new JLabel("Price");
-		lblProductPrice.setBounds(10, 125, 107, 29);
+		lblProductPrice = new JLabel("Unit Price");
+		lblProductPrice.setBounds(10, 116, 150, 30);
 		desktopPane.add(lblProductPrice);
 		lblProductPrice.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
-		lblUnit = new JLabel("Unit");
-		lblUnit.setBounds(10, 160, 107, 29);
+		lblUnit = new JLabel("Total Count");
+		lblUnit.setBounds(10, 146, 150, 30);
 		desktopPane.add(lblUnit);
 		lblUnit.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
-		lblSupplier = new JLabel("Supplier");
-		lblSupplier.setBounds(10, 195, 107, 29);
+		lblSupplier = new JLabel("Supplier Name");
+		lblSupplier.setBounds(10, 176, 150, 30);
+		desktopPane.add(lblSupplier);
+		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
+		
+		lblSupplier = new JLabel("Supplier Address");
+		lblSupplier.setBounds(10, 206, 150, 30);
+		desktopPane.add(lblSupplier);
+		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
+		
+		lblSupplier = new JLabel("Supplier Phone");
+		lblSupplier.setBounds(10, 236, 150, 30);
+		desktopPane.add(lblSupplier);
+		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
+		
+		lblSupplier = new JLabel("Is Discount");
+		lblSupplier.setBounds(10, 266, 150, 30);
 		desktopPane.add(lblSupplier);
 		lblSupplier.setFont(new Font("Siyam Rupali", Font.BOLD, 15));
 		
