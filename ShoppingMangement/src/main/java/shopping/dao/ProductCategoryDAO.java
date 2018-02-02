@@ -165,16 +165,14 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 		} finally {
 			connection.close();
 		}
-
 		return null;
 	}
 	@Override
 	public ProductCategoryDTO getCategoryByName(String name) throws SQLException {
 		List<ProductCategoryDTO> categoryDTOs = getCategoriesByName(name);
-		if (categoryDTOs != null) {
+		if (categoryDTOs != null && !categoryDTOs.isEmpty()) {
 			return categoryDTOs.get(0);
 		}
 		return null;
 	}
-
 }

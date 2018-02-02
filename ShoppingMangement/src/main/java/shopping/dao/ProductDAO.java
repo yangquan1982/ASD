@@ -241,7 +241,7 @@ public class ProductDAO implements IProductDAO {
 		try {
 			for (ProductSupplierDTO productSupplierDTO : productSupplierDTOs) {
 				String productSupplierId = productSupplierDTO.getId();
-				PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE id=?");
+				PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE productSupplierId=?");
 		        ps.setString(1, productSupplierId);
 		        ResultSet rs = ps.executeQuery();
 		        while(rs.next())

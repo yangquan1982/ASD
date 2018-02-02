@@ -186,7 +186,7 @@ public class ProductManager implements IProductManager {
 		try {
 			List<Product> products = new ArrayList<Product>();
 			List<ProductDTO> productDTOs = productDao.getProductsByName(name);
-			if (productDTOs != null) {
+			if (productDTOs != null && !productDTOs.isEmpty()) {
 				for (ProductDTO productDTO : productDTOs) {
 					IProductBuilder productBuilder = new ProductBuilder();
 					productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
@@ -249,7 +249,7 @@ public class ProductManager implements IProductManager {
 		try {
 			List<ProductCategoryDTO> categoryDTOs = categoryDao.getCategoriesByName(name);
 			List<ProductCategory> pCategories = new ArrayList<ProductCategory>();
-			if (categoryDTOs != null) {
+			if (categoryDTOs != null && !categoryDTOs.isEmpty()) {
 				for (ProductCategoryDTO pCategoryDTO : categoryDTOs) {
 					pCategories.add(new ProductCategory(pCategoryDTO.getId(), 
 							pCategoryDTO.getCategoryName()));
@@ -282,6 +282,15 @@ public class ProductManager implements IProductManager {
 
 	@Override
 	public boolean addProductCategory(ProductCategory category) {
+		try {
+			if (categoryDao.getCategoryByName(category.getCategoryName())==null) {
+				return categoryDao.insertCategory(new ProductCategoryDTO(category.getId(), 
+						category.getCategoryName()));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -304,7 +313,7 @@ public class ProductManager implements IProductManager {
 		try {
 			List<ProductSupplier> pSuppliers = new ArrayList<ProductSupplier>();
 			List<ProductSupplierDTO> supplierDTO = supplierDao.getSuppliersByName(name);
-			if (supplierDTO != null) {
+			if (supplierDTO != null && !supplierDTO.isEmpty()) {
 				for (ProductSupplierDTO productSupplierDTO : supplierDTO) {
 					ProductSupplier pSupplier = new ProductSupplier();
 					pSupplier.setId(productSupplierDTO.getId());
@@ -323,7 +332,25 @@ public class ProductManager implements IProductManager {
 
 	@Override
 	public boolean addProductSupplier(ProductSupplier supplier) {
-		// TODO Auto-generated method stub
+		try {
+			List<ProductSupplierDTO> pSupplierDTOs = supplierDao.getAllSuppliers();
+			boolean isExist = false;
+			for (ProductSupplierDTO item : pSupplierDTOs) {
+				if (item.getName().equals(supplier.getName()) 
+						&& item.getAddress().equals(supplier.getAddress()) 
+						&& item.getPhoneNum().equals(supplier.getPhoneNum())) {
+					isExist = true;
+					break;
+				}
+			}
+			if (!isExist) {
+				return supplierDao.insertSupplier(new ProductSupplierDTO(supplier.getId(), 
+						supplier.getName(), supplier.getAddress(), supplier.getPhoneNum()));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 	private ProductSupplier createSupplierFromSupplierDTO(ProductSupplierDTO supplierDTO) {
@@ -547,5 +574,42 @@ public class ProductManager implements IProductManager {
 			}
 		}
 		return false;
+	}
+
+	private List<Product> getProductsByProductDTO(List<ProductDTO> productDTOs) {
+		List<Product> products = new ArrayList<Product>();
+		if (productDTOs != null && !productDTOs.isEmpty()) {
+			for (ProductDTO productDTO : productDTOs) {
+				IProductBuilder productBuilder = new ProductBuilder();
+				productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
+				ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());
+				productBuilder.buildProductCategory(category);
+				ProductSupplier supplier = getProductSupplierById(productDTO.getProductSupplierId());
+				productBuilder.buildProductSupplier(supplier);
+				productBuilder.buildPriceAndCount(productDTO.getUnitPrice(), productDTO.getTotalCnt());
+				productBuilder.buildDiscount(productDTO.isDiscount(), productDTO.getDiscountRatio());
+				products.add(productBuilder.getProduct());
+			}
+			return products;
+		}
+		return null;
+	}
+	@Override
+	public List<Product> getProductsByCategoryName(String categoryName) {
+		try {
+			return getProductsByProductDTO(productDao.getProductsByCategoryName(categoryName));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public List<Product> getProductsBySupplierName(String supplierName) {
+		try {
+			return getProductsByProductDTO(productDao.getProductsBySupplierName(supplierName));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -3,10 +3,12 @@
  */
 package shopping.bus;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.table.TableModel;
 
+import shopping.dto.ProductDTO;
 import shopping.model.Product.Product;
 import shopping.model.Product.ProductCategory;
 import shopping.model.Product.ProductSupplier;
@@ -28,6 +30,8 @@ public interface IProductManager {
 	public void getAllProductSuppliers();
 	public Product getProductById(String id);
 	public List<Product> getProductsByName(String name);
+	public List<Product> getProductsByCategoryName(String categoryName);
+	public List<Product> getProductsBySupplierName(String supplierName);
 	public void getAllProducts();
 	public boolean addNewProduct(Product product);
 	public boolean addProduct(Product product);

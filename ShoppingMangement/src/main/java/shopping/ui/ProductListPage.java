@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.UUID;
 
 import javax.swing.DefaultComboBoxModel;
@@ -86,6 +87,7 @@ public class ProductListPage extends JFrame {
 		private JButton btnAddProduct;
 		private JButton btnDeleteProduct;
 		private JButton btnUpdate;
+		private JButton btnSearch;
 		private JLabel lblUnit;
 		private JLabel lblSupplier;
 		private JTextField textField_supplier;
@@ -101,25 +103,23 @@ public class ProductListPage extends JFrame {
 		private JLabel label_5;
 		private JCheckBox checkBox_discount;
 		
-		public void refreshTable ()
-		{
-			try {
-				clearTable();
-				pManager.getAllProducts();
-				TableModel tModel = pManager.setAllProductsToTableModel();
-				if (tModel!=null) {
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					model.setRowCount(0);
-					table.setModel(tModel);
-					table.getColumnModel().getColumn(0).setMaxWidth(0);
-					table.getColumnModel().getColumn(0).setMinWidth(0);
-					table.getColumnModel().getColumn(0).setWidth(0);
-					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//					table.setAutoscrolls(true);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+		private void displayResult() {
+			clearTable();
+			TableModel tModel = pManager.setAllProductsToTableModel();
+			if (tModel!=null) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+				table.setModel(tModel);
+				table.getColumnModel().getColumn(0).setMaxWidth(0);
+				table.getColumnModel().getColumn(0).setMinWidth(0);
+				table.getColumnModel().getColumn(0).setWidth(0);
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			}
+		}
+		private void refreshTable ()
+		{
+			pManager.getAllProducts();
+			displayResult();
 		}
 		private void clearTable() {
 			DefaultTableModel dm = (DefaultTableModel)table.getModel();
@@ -154,37 +154,61 @@ public class ProductListPage extends JFrame {
 		contentPane.add(comboBox);
 		
 		txtSearchProducts = new JTextField();
-		txtSearchProducts.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				
-				try {
-					String selection= (String)comboBox.getSelectedItem();
-					if (selection.equals("Product Name")) {
-						
-					} else if (selection.equals("Product Catagory")) {
-						
-					} else if (selection.equals("Product Supplier")) {
-						
-					}
+//		txtSearchProducts.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyReleased(KeyEvent arg0) {
+//				
+//				try {
+//					String selection= (String)comboBox.getSelectedItem();
+//					if (selection.equals("Product Name")) {
+//						
+//					} else if (selection.equals("Product Catagory")) {
+//						
+//					} else if (selection.equals("Product Supplier")) {
+//						
+//					}
 //					String query = "select *  from Product where "+selection+"=?";
 //					PreparedStatement pst = connection.prepareStatement(query);
 //					pst.setString(1, txtSearchProducts.getText());
 //					ResultSet rs = pst.executeQuery();
 //					table.setModel(DbUtils.resultSetToTableModel(rs));
 //					pst.close();
-					
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-			}
-		});
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 		txtSearchProducts.setBounds(57, 56, 151, 30);
 		txtSearchProducts.setToolTipText("Search Products");
 		contentPane.add(txtSearchProducts);
 		txtSearchProducts.setColumns(10);
+		
+		btnSearch = new JButton("");
+		btnSearch.setIcon(new ImageIcon("Icons\\find.png"));
+		btnSearch.setBounds(5, 48, 46, 47);
+		btnSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selection= (String)comboBox.getSelectedItem();
+				List<Product> products = null;
+				if (selection.equals("Product Name")) {
+					products = pManager.getProductsByName(txtSearchProducts.getText());
+				} else if (selection.equals("Product Catagory")) {
+					products = pManager.getProductsByCategoryName(txtSearchProducts.getText());
+				} else if (selection.equals("Product Supplier")) {
+					products = pManager.getProductsBySupplierName(txtSearchProducts.getText());
+				}
+				if (products != null) {
+					plist.setProducts(products);
+				} else {
+					return;
+				}
+				pManager.setList(plist);
+				displayResult();
+			}
+		});
+		contentPane.add(btnSearch);
 		
 		JButton btnLoadProducts = new JButton("Load Products");
 		btnLoadProducts.setForeground(Color.DARK_GRAY);
@@ -339,7 +363,6 @@ public class ProductListPage extends JFrame {
 					}
 					Product product = pBuilder.getProduct();
 					if (pManager.addNewProduct(product)) {
-//						JOptionPane.showMessageDialog(null, "Data Saved");
 						refreshTable();
 					}
 				} catch (Exception e1) {
@@ -376,14 +399,57 @@ public class ProductListPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-//					String query = "Update Product set p_id='"+textField_id.getText()+"' , p_name='"+textField_name.getText()+"' , p_catagory='"+textField_catagory.getText()+"' , p_price='"+textField_price.getText()+"', p_unit='"+textField_unit.getText()+"' where p_id='"+textField_id.getText()+"' ";
-//					PreparedStatement pst = connection.prepareStatement(query);
-//					
-//					pst.execute();
-//					JOptionPane.showMessageDialog(null, "Data updated");
-//					pst.close();
-					
-					
+					IProductBuilder pBuilder = new ProductBuilder();
+					pBuilder.buildProductIdName(textField_id.getText(), textField_name.getText());
+					pBuilder.buildProductCategory(new ProductCategory(null, textField_catagory.getText()));
+					pBuilder.buildProductSupplier(new ProductSupplier(null, 
+							textField_supplier.getText(), textField_address.getText(), textField_phone.getText()));
+					String strPrice = textField_price.getText();
+					double price = Double.valueOf(strPrice);
+					String strCnt = textField_ttcnt.getText();
+					int ttCnt = Integer.valueOf(strCnt);
+					pBuilder.buildPriceAndCount(price, ttCnt);
+					String strDiscount = textField_discount.getText();
+					double discount = Double.valueOf(strDiscount);
+					boolean isDiscount = true;
+					if (isDiscount) {
+						pBuilder.buildDiscount(isDiscount, discount);
+					}
+					Product product = pBuilder.getProduct();
+					List<ProductCategory> pCategories = 
+							pManager.getProductCategoriesByName(textField_catagory.getText());
+					if (pCategories != null && !pCategories.isEmpty()) {
+						product.getCategory().setId(pCategories.get(0).getId());
+					} else {
+						ProductCategory newCategory = new ProductCategory(UUID.randomUUID().toString(), 
+								textField_catagory.getText());
+						pManager.addProductCategory(newCategory);
+						product.getCategory().setId(newCategory.getId());
+					}
+					pManager.getAllProductSuppliers();
+					boolean isSupplierExist = false;
+					for (ProductSupplier item : pManager.getSuppliers()) {
+						if (item.getName().equals(textField_supplier.getText()) 
+								&& item.getAddress().equals(textField_address.getText()) 
+								&& item.getPhoneNum().equals(textField_phone.getText())) {
+							isSupplierExist = true;
+							product.getSupplier().setId(item.getId());
+							break;
+						}
+					}
+					if (!isSupplierExist) {
+						ProductSupplier newSupplier = new ProductSupplier();
+						newSupplier.setId(UUID.randomUUID().toString());
+						newSupplier.setName(textField_supplier.getText());
+						newSupplier.setAddress(textField_address.getText());
+						newSupplier.setPhoneNum(textField_phone.getText());
+						pManager.addProductSupplier(newSupplier);
+						product.getSupplier().setId(newSupplier.getId());
+					}
+					if (!pManager.updateProduct(product)) {
+						System.out.println("Update Data Failed!!!");
+						return;
+					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -427,11 +493,6 @@ public class ProductListPage extends JFrame {
 		lblProductList.setFont(new Font("Footlight MT Light", Font.BOLD, 17));
 		lblProductList.setBounds(333, 22, 123, 47);
 		contentPane.add(lblProductList);
-		
-		label_4 = new JLabel("");
-		label_4.setIcon(new ImageIcon("Icons\\find.png"));
-		label_4.setBounds(5, 50, 46, 47);
-		contentPane.add(label_4);
 		
 		JDesktopPane desktopPane = new JDesktopPane();
 		desktopPane.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), 

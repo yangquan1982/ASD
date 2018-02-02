@@ -179,7 +179,7 @@ public class ProductSupplierDAO implements IProductSupplierDAO {
 	@Override
 	public ProductSupplierDTO getSupplierByName(String name) throws SQLException {
 		List<ProductSupplierDTO> supplierDTOs = getSuppliersByName(name);
-		if (supplierDTOs != null) {
+		if (supplierDTOs != null && !supplierDTOs.isEmpty()) {
 			return supplierDTOs.get(0);
 		}
 		return null;
