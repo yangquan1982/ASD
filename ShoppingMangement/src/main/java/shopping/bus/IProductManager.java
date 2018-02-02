@@ -17,23 +17,24 @@ import shopping.model.Product.ProductSupplier;
  */
 public interface IProductManager {
 	public ProductCategory getProductCategoryById(String id);
-	public ProductCategory getProductCategoryByName(String name);
-	public List<ProductCategory> getAllProductCategories();
+	public List<ProductCategory> getProductCategoriesByName(String name);
+	public void getAllProductCategories();
 	public boolean addProductCategory(ProductCategory category);
+	public boolean updateProductCategory(ProductCategory category);
 	public ProductSupplier getProductSupplierById(String id);
-	public ProductSupplier getProductSupplierByName(String name);
+	public List<ProductSupplier> getProductSuppliersByName(String name);
 	public boolean addProductSupplier(ProductSupplier supplier);
 	public boolean updateProductSupplier(ProductSupplier supplier);
-	public List<ProductSupplier> getAllProductSuppliers();
+	public void getAllProductSuppliers();
 	public Product getProductById(String id);
-	public Product getProductByName(String name);
+	public List<Product> getProductsByName(String name);
 	public void getAllProducts();
 	public boolean addNewProduct(Product product);
 	public boolean addProduct(Product product);
 	public boolean removeProducts(List<Product> products);
 	public boolean updateProduct(Product product);
 	public void clearProductList();
-	public boolean removeProductsById(String[] ids);
+	public boolean removeProductById(String id);
 	public TableModel setAllProductsToTableModel();
 	public TableModel setOneProductToTableModel();
 }

@@ -14,6 +14,7 @@ import shopping.dto.ProductSupplierDTO;
  */
 public interface IProductSupplierDAO {
 	ProductSupplierDTO getSupplierById(String id) throws SQLException;
+	List<ProductSupplierDTO> getSuppliersByName(String name) throws SQLException;
 	ProductSupplierDTO getSupplierByName(String name) throws SQLException;
 	List<ProductSupplierDTO> getAllSuppliers() throws SQLException;
 	boolean insertSupplier(ProductSupplierDTO supplier) throws SQLException;

@@ -22,7 +22,7 @@ import shopping.model.Product.*;
 public class ProductManager implements IProductManager {
 	private ProductList list;
 	private Product oneProduct;
-	private List<ProductCategory> catehories;
+	private List<ProductCategory> categories;
 	private List<ProductSupplier> suppliers;
 	private IProductDAO productDao;
 	private IProductCategoryDAO categoryDao;
@@ -56,10 +56,10 @@ public class ProductManager implements IProductManager {
 		this.oneProduct = oneProduct;
 	}
 	public List<ProductCategory> getCatehories() {
-		return catehories;
+		return categories;
 	}
 	public void setCatehories(List<ProductCategory> catehories) {
-		this.catehories = catehories;
+		this.categories = catehories;
 	}
 	public List<ProductSupplier> getSuppliers() {
 		return suppliers;
@@ -149,7 +149,12 @@ public class ProductManager implements IProductManager {
 		}
 		if (isExist) {
 			list.getProducts().set(list.getProducts().indexOf(toBeUpdated), product);
-			return true;
+			try {
+				productDao.updateProduct(createProductDTOFromProduct(product));
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		System.out.println("Product: " + product.getName() + "does not exist!");
 		return false;
@@ -177,19 +182,23 @@ public class ProductManager implements IProductManager {
 	}
 
 	@Override
-	public Product getProductByName(String name) {
+	public List<Product> getProductsByName(String name) {
 		try {
-			ProductDTO productDTO = productDao.getProductByName(name);
-			if (productDTO != null) {
-				IProductBuilder productBuilder = new ProductBuilder();
-				productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
-				ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());
-				productBuilder.buildProductCategory(category);
-				ProductSupplier supplier = getProductSupplierById(productDTO.getProductSupplierId());
-				productBuilder.buildProductSupplier(supplier);
-				productBuilder.buildPriceAndCount(productDTO.getUnitPrice(), productDTO.getTotalCnt());
-				productBuilder.buildDiscount(productDTO.isDiscount(), productDTO.getDiscountRatio());
-				return productBuilder.getProduct();
+			List<Product> products = new ArrayList<Product>();
+			List<ProductDTO> productDTOs = productDao.getProductsByName(name);
+			if (productDTOs != null) {
+				for (ProductDTO productDTO : productDTOs) {
+					IProductBuilder productBuilder = new ProductBuilder();
+					productBuilder.buildProductIdName(productDTO.getId(), productDTO.getProductName());
+					ProductCategory category = getProductCategoryById(productDTO.getProductCategoryId());
+					productBuilder.buildProductCategory(category);
+					ProductSupplier supplier = getProductSupplierById(productDTO.getProductSupplierId());
+					productBuilder.buildProductSupplier(supplier);
+					productBuilder.buildPriceAndCount(productDTO.getUnitPrice(), productDTO.getTotalCnt());
+					productBuilder.buildDiscount(productDTO.isDiscount(), productDTO.getDiscountRatio());
+					products.add(productBuilder.getProduct());
+				}
+				return products;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -236,27 +245,43 @@ public class ProductManager implements IProductManager {
 	}
 
 	@Override
-	public ProductCategory getProductCategoryByName(String name) {
+	public List<ProductCategory> getProductCategoriesByName(String name) {
 		try {
-			ProductCategoryDTO categoryDTO = categoryDao.getCategoryByName(name);
-			if (categoryDTO != null) {
-				return new ProductCategory(categoryDTO.getId(), categoryDTO.getCategoryName());
+			List<ProductCategoryDTO> categoryDTOs = categoryDao.getCategoriesByName(name);
+			List<ProductCategory> pCategories = new ArrayList<ProductCategory>();
+			if (categoryDTOs != null) {
+				for (ProductCategoryDTO pCategoryDTO : categoryDTOs) {
+					pCategories.add(new ProductCategory(pCategoryDTO.getId(), 
+							pCategoryDTO.getCategoryName()));
+				}
+				return pCategories;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
+	private ProductCategory createCategoryFromCategoryDTO(ProductCategoryDTO categoryDTO) {
+		ProductCategory category = new ProductCategory();
+		category.setId(categoryDTO.getId());
+		category.setCategoryName(categoryDTO.getCategoryName());
+		return category;
+	}
 	@Override
-	public List<ProductCategory> getAllProductCategories() {
-		// TODO Auto-generated method stub
-		return null;
+	public void getAllProductCategories() {
+		try {
+			List<ProductCategoryDTO> categoryDTOs = categoryDao.getAllCategories();
+			for (ProductCategoryDTO productCategoryDTO : categoryDTOs) {
+				categories.add(createCategoryFromCategoryDTO(productCategoryDTO));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public boolean addProductCategory(ProductCategory category) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -275,12 +300,20 @@ public class ProductManager implements IProductManager {
 	}
 
 	@Override
-	public ProductSupplier getProductSupplierByName(String name) {
+	public List<ProductSupplier> getProductSuppliersByName(String name) {
 		try {
-			ProductSupplierDTO supplierDTO = supplierDao.getSupplierByName(name);
+			List<ProductSupplier> pSuppliers = new ArrayList<ProductSupplier>();
+			List<ProductSupplierDTO> supplierDTO = supplierDao.getSuppliersByName(name);
 			if (supplierDTO != null) {
-				return new ProductSupplier(supplierDTO.getId(), supplierDTO.getName(),
-						supplierDTO.getAddress(), supplierDTO.getPhoneNum());
+				for (ProductSupplierDTO productSupplierDTO : supplierDTO) {
+					ProductSupplier pSupplier = new ProductSupplier();
+					pSupplier.setId(productSupplierDTO.getId());
+					pSupplier.setName(productSupplierDTO.getName());
+					pSupplier.setAddress(productSupplierDTO.getAddress());
+					pSupplier.setPhoneNum(productSupplierDTO.getPhoneNum());
+					pSuppliers.add(pSupplier);
+				}
+				return pSuppliers;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -293,17 +326,58 @@ public class ProductManager implements IProductManager {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	private ProductSupplier createSupplierFromSupplierDTO(ProductSupplierDTO supplierDTO) {
+		ProductSupplier supplier = new ProductSupplier();
+		supplier.setId(supplierDTO.getId());
+		supplier.setName(supplierDTO.getName());
+		supplier.setAddress(supplierDTO.getAddress());
+		supplier.setPhoneNum(supplierDTO.getPhoneNum());
+		return supplier;
+	}
+	private ProductSupplierDTO createSupplierDTOFromSupplier(ProductSupplier supplier) {
+		ProductSupplierDTO supplierDTO = new ProductSupplierDTO();
+		supplierDTO.setId(supplier.getId());
+		supplierDTO.setName(supplier.getName());
+		supplierDTO.setAddress(supplier.getAddress());
+		supplierDTO.setPhoneNum(supplier.getPhoneNum());
+		return supplierDTO;
+	}
 	@Override
 	public boolean updateProductSupplier(ProductSupplier supplier) {
-		// TODO Auto-generated method stub
+		boolean isExist = false;
+		ProductSupplier toBeUpdated = null;
+		for (ProductSupplier productSupplier : suppliers) {
+			if (productSupplier.getId().equals(supplier.getId())) {
+				isExist = true;
+				toBeUpdated = productSupplier;
+				break;
+			}
+		}
+		if (isExist) {
+			suppliers.set(suppliers.indexOf(toBeUpdated), supplier);
+			try {
+				supplierDao.updateSupplier(createSupplierDTOFromSupplier(supplier));
+				return true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Product Supplier: "+supplier.getName()+"does not exist!!!");
 		return false;
 	}
 
 	@Override
-	public List<ProductSupplier> getAllProductSuppliers() {
-		// TODO Auto-generated method stub
-		return null;
+	public void getAllProductSuppliers() {
+		try {
+			List<ProductSupplierDTO> supplierDTOs = supplierDao.getAllSuppliers();
+			for (ProductSupplierDTO productSupplierDTO : supplierDTOs) {
+				suppliers.add(createSupplierFromSupplierDTO(productSupplierDTO));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private Vector<String> getTableColumnNames() {
@@ -437,30 +511,41 @@ public class ProductManager implements IProductManager {
 			productDao.insertProduct(productDTO);
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
 	@Override
-	public boolean removeProductsById(String[] ids) {
-		List<Product> products = new ArrayList<Product>();
-		for (int i = 0; i < ids.length; i++) {
-			String id = ids[i];
-			Product product = getProductById(id);
-			if (product!=null) {
-				if (!products.add(product)) {
-					return false;
-				}
-			}
-		}
-		if (!removeProducts(products)) {
-			return false;
-		}
-		return true;
+	public boolean removeProductById(String id) {
+		Product product = getProductById(id);
+		return removeProduct(product);
 	}
 	@Override
 	public void clearProductList() {
 		list.getProducts().clear();
+	}
+	@Override
+	public boolean updateProductCategory(ProductCategory category) {
+		boolean isExist = false;
+		ProductCategory toBeUpdated = null;
+		for (ProductCategory productCategory : categories) {
+			if (productCategory.getId().equals(category.getId())) {
+				isExist = true;
+				toBeUpdated = productCategory;
+			}
+		}
+		if (isExist) {
+			categories.set(categories.indexOf(toBeUpdated), category);
+			try {
+				ProductCategoryDTO categoryDTO = new ProductCategoryDTO(category.getId(),
+						category.getCategoryName());
+				categoryDao.updateCategory(categoryDTO);
+				return true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 }

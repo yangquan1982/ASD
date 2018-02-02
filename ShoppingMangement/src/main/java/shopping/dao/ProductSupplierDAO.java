@@ -59,16 +59,18 @@ public class ProductSupplierDAO implements IProductSupplierDAO {
 	 * @see shopping.dao.IProductSupplierDAO#getSupplierByName(java.lang.String)
 	 */
 	@Override
-	public ProductSupplierDTO getSupplierByName(String name) throws SQLException {
+	public List<ProductSupplierDTO> getSuppliersByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
+		List<ProductSupplierDTO> productSupplierDTOs = new ArrayList<ProductSupplierDTO>();
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier WHERE name=?");
 	        ps.setString(1, name);
 	        ResultSet rs = ps.executeQuery();
 	        if(rs.next())
 	        {
-	            return extractProductSupplierFromResultSet(rs);
+	        	productSupplierDTOs.add(extractProductSupplierFromResultSet(rs));
 	        }
+	        return productSupplierDTOs;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -172,6 +174,14 @@ public class ProductSupplierDAO implements IProductSupplierDAO {
 			connection.close();
 		}
 
+		return null;
+	}
+	@Override
+	public ProductSupplierDTO getSupplierByName(String name) throws SQLException {
+		List<ProductSupplierDTO> supplierDTOs = getSuppliersByName(name);
+		if (supplierDTOs != null) {
+			return supplierDTOs.get(0);
+		}
 		return null;
 	}
 

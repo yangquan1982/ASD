@@ -58,16 +58,18 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	 * @see shopping.dao.IProductCategoryDAO#getCategoryByName(java.lang.String)
 	 */
     @Override
-	public ProductCategoryDTO getCategoryByName(String name) throws SQLException {
+	public List<ProductCategoryDTO> getCategoriesByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
+		List<ProductCategoryDTO> productCategoryDTOs = new ArrayList<ProductCategoryDTO>();
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory WHERE categoryName=?");
 	        ps.setString(1, name);
 	        ResultSet rs = ps.executeQuery();
-	        if(rs.next())
+	        while(rs.next())
 	        {
-	            return extractProductCategoryFromResultSet(rs);
+	        	productCategoryDTOs.add(extractProductCategoryFromResultSet(rs));
 	        }
+	        return productCategoryDTOs;
 		} catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -85,9 +87,6 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
         Connection connection = dbConnection.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO ProductCategory VALUES (?, ?)");
-//            if (category.getId()==null) {
-//            	category.setId(UUID.randomUUID().toString());
-//			}
             ps.setString(1, category.getId());
             ps.setString(2, category.getCategoryName());
             int i = ps.executeUpdate();
@@ -153,7 +152,7 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 	public List<ProductCategoryDTO> getAllCategories() throws SQLException {
 		Connection connection = dbConnection.getConnection();
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductSupplier");
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM ProductCategory");
 	        ResultSet rs = ps.executeQuery();
 	        List<ProductCategoryDTO> productCategoryDTOs = new ArrayList<ProductCategoryDTO>();
 	        while(rs.next())
@@ -167,6 +166,14 @@ public class ProductCategoryDAO implements IProductCategoryDAO {
 			connection.close();
 		}
 
+		return null;
+	}
+	@Override
+	public ProductCategoryDTO getCategoryByName(String name) throws SQLException {
+		List<ProductCategoryDTO> categoryDTOs = getCategoriesByName(name);
+		if (categoryDTOs != null) {
+			return categoryDTOs.get(0);
+		}
 		return null;
 	}
 

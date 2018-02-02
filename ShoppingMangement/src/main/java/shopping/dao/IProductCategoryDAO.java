@@ -16,6 +16,7 @@ import shopping.dto.ProductDTO;
 public interface IProductCategoryDAO {
 	ProductCategoryDTO getCategoryById(String id) throws SQLException;
 	ProductCategoryDTO getCategoryByName(String name) throws SQLException;
+	List<ProductCategoryDTO> getCategoriesByName(String name) throws SQLException;
 	List<ProductCategoryDTO> getAllCategories() throws SQLException;
 	boolean insertCategory(ProductCategoryDTO Category) throws SQLException;
 	boolean deleteCategory(ProductCategoryDTO Category) throws SQLException;

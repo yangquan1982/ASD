@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import shopping.dto.ProductCategoryDTO;
 import shopping.dto.ProductDTO;
 import shopping.dto.ProductSupplierDTO;
 
@@ -52,22 +53,23 @@ public class ProductDAO implements IProductDAO {
 	 * @see shopping.dao.IProductDAO#getProductByName(java.lang.String)
 	 */
 	@Override
-	public ProductDTO getProductByName(String name) throws SQLException {
+	public List<ProductDTO> getProductsByName(String name) throws SQLException {
 		Connection connection = dbConnection.getConnection();
+		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE productName=?");
 	        ps.setString(1, name);
 	        ResultSet rs = ps.executeQuery();
-	        if(rs.next())
+	        while(rs.next())
 	        {
-	            return extractProductFromResultSet(rs);
+	        	productDTOs.add(extractProductFromResultSet(rs));
 	        }
+	        return productDTOs;
 		} catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             connection.close();
         }
-
 		return null;
 	}
     private ProductDTO extractProductFromResultSet(ResultSet rs) throws SQLException {
@@ -202,6 +204,58 @@ public class ProductDAO implements IProductDAO {
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product");
         return ps.executeQuery().getMetaData();
+	}
+
+	@Override
+	public List<ProductDTO> getProductsByCategoryName(String categoryName) throws SQLException {
+		Connection connection = dbConnection.getConnection();
+		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+		IProductCategoryDAO categoryDAO = new ProductCategoryDAO();
+		List<ProductCategoryDTO> productCategoryDTOs = categoryDAO.getCategoriesByName(categoryName);
+		try {
+			for (ProductCategoryDTO productCategoryDTO : productCategoryDTOs) {
+				String productCategoryId = productCategoryDTO.getId();
+				PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE productCategoryId=?");
+		        ps.setString(1, productCategoryId);
+		        ResultSet rs = ps.executeQuery();
+		        while(rs.next())
+		        {
+		        	productDTOs.add(extractProductFromResultSet(rs));
+		        }
+			}
+	        return productDTOs;
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getProductsBySupplierName(String supplierName) throws SQLException {
+		Connection connection = dbConnection.getConnection();
+		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+		IProductSupplierDAO supplierDAO = new ProductSupplierDAO();
+		List<ProductSupplierDTO> productSupplierDTOs = supplierDAO.getSuppliersByName(supplierName);
+		try {
+			for (ProductSupplierDTO productSupplierDTO : productSupplierDTOs) {
+				String productSupplierId = productSupplierDTO.getId();
+				PreparedStatement ps = connection.prepareStatement("SELECT * FROM Product WHERE id=?");
+		        ps.setString(1, productSupplierId);
+		        ResultSet rs = ps.executeQuery();
+		        while(rs.next())
+		        {
+		        	productDTOs.add(extractProductFromResultSet(rs));
+		        }
+			}
+	        return productDTOs;
+		} catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+		return null;
 	}
 
 }
