@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d5e1050-bc6a-419d-886c-5fa1bbf31025" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data.db" afterPath="$PROJECT_DIR$/data.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/bus/LoginBUS.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/bus/LoginBUS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/bus/NewCostomerBUS.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/bus/NewCostomerBUS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/dao/CustomerDAO.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/dao/CustomerDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/dao/ICustomerDAO.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/dao/ICustomerDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/ui/LoginPage.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/ui/LoginPage.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -1362,7 +1356,7 @@
       <workItem from="1517432589082" duration="4885000" />
       <workItem from="1517500119739" duration="7987000" />
       <workItem from="1517516427674" duration="2970000" />
-      <workItem from="1517674608765" duration="6266000" />
+      <workItem from="1517674608765" duration="6275000" />
     </task>
     <task id="LOCAL-00001" summary="Sign up page">
       <created>1517430197641</created>
@@ -1462,11 +1456,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517679868218</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update">
+      <created>1517680942298</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1517680942298</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46274000" />
+    <option name="totallyTimeSpent" value="46283000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
