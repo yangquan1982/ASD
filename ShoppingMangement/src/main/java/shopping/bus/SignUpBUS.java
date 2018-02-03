@@ -1,5 +1,6 @@
 package shopping.bus;
 
+import framework.membership.Template.AbstractLogin;
 import framework.membership.Template.AbstractSignUp;
 import shopping.dao.CustomerDAO;
 import shopping.dao.CustomerProfileDAO;
@@ -12,11 +13,11 @@ import java.sql.SQLException;
 /**
  * Created by Duong Truong on 2/3/2018.
  */
-public class NewCustomerBUS extends AbstractSignUp {
+public class SignUpBUS extends AbstractSignUp {
     private ICustomerDAO customerDAO = new CustomerDAO();
     private ICustomerProfileDAO profileDAO = new CustomerProfileDAO();
 
-    //SignUpTemplate
+    //SignUp Template
     @Override
     protected void saveUser(String username, String hashPassword) {
         CustomerDTO customerDTO = new CustomerDTO();
@@ -29,7 +30,7 @@ public class NewCustomerBUS extends AbstractSignUp {
         }
     }
 
-    //SignUpTemplate
+    //SignUp Template
     @Override
     protected boolean checkUserExist(String username) {
         try {
@@ -42,5 +43,6 @@ public class NewCustomerBUS extends AbstractSignUp {
         }
         return false;
     }
+
 
 }

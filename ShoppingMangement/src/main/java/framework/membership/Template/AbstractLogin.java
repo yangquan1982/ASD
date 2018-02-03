@@ -8,18 +8,13 @@ import framework.membership.Proxy.ProxyFacadeImp;
  */
 public abstract class AbstractLogin {
 
-    public final boolean login(){
-        String username = getUsername();
-        String password = getPassword();
+    public final boolean login(String username, String password){
         String passwordTarget = extractPasswordFromDataBase(username);
         return comparePassword(password,passwordTarget);
 
     }
-    abstract String getUsername();
 
-    abstract String getPassword();
-
-    abstract String extractPasswordFromDataBase(String username);
+    protected abstract String extractPasswordFromDataBase(String username);
 
     private boolean comparePassword(String password, String passwordTarget) {
         IProxyFacade proxy = ProxyFacadeImp.getInstance();

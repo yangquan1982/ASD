@@ -1,10 +1,7 @@
 package shopping.ui;
-import shopping.bus.CustomerBUS;
-import shopping.bus.NewCustomerBUS;
-import shopping.model.Customer.Customer;
+import shopping.bus.SignUpBUS;
 import shopping.ui.framework.APage;
 import shopping.ui.framework.compfactory.*;
-import shopping.ui.framework.navigator.*;
 import shopping.ui.framework.pagefactory.*;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -17,7 +14,6 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
-import java.sql.Connection;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.border.TitledBorder;
@@ -96,11 +92,11 @@ public class Registration extends APage implements Serializable {
 				
 				try {
 //					CustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
-					NewCustomerBUS newCustomerBUS = new NewCustomerBUS();
+					SignUpBUS signUpBUS = new SignUpBUS();
 
 					String username = txtUsername.getText();
 					String password = passwordField_1.getText();
-					newCustomerBUS.SignUp(username,password);
+					signUpBUS.SignUp(username,password);
 //					Customer customer = new Customer(username);
 //					customer.setPassword(password);
 //
