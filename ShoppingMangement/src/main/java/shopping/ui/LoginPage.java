@@ -2,6 +2,7 @@ package shopping.ui;
 import shopping.UserData;
 import shopping.bus.CustomerBUS;
 import shopping.bus.ICustomerBUS;
+import shopping.bus.NewCostomerBUS;
 import shopping.model.Customer.Customer;
 import shopping.model.Customer.CustomerProfile;
 import shopping.ui.framework.APage;
@@ -166,8 +167,11 @@ public class LoginPage extends APage implements Serializable {
 				try {
 					String username = textFieldUN.getText();
 					String password = passwordField.getText();
+					NewCostomerBUS newCostomerBUS = new NewCostomerBUS();
+					boolean login = newCostomerBUS.login(username,password);
+
 					ICustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
-					boolean login = customerBUS.login(username,password);
+//					boolean login = customerBUS.login(username,password);
 
 					if (login)
 					{

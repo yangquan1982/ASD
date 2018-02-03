@@ -18,6 +18,30 @@ public class CustomerDAO implements ICustomerDAO {
         dbConnection = new DbConnection();
     }
 
+    @Override
+    public String getPasswordByUserName(String username) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM Customer WHERE username=?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                return extractPasswordFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
+        return null;
+    }
+
+    private String extractPasswordFromResultSet(ResultSet rs) throws SQLException {
+        return rs.getString("password");
+    }
+
     public CustomerDTO getCustomerByUserNameAndPassword(String username, String password) throws SQLException {
         Connection connection = dbConnection.getConnection();
         try {
