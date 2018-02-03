@@ -1,5 +1,6 @@
 package shopping.ui;
 import shopping.bus.CustomerBUS;
+import shopping.bus.NewCustomerBUS;
 import shopping.model.Customer.Customer;
 import shopping.ui.framework.APage;
 import shopping.ui.framework.compfactory.*;
@@ -94,14 +95,16 @@ public class Registration extends APage implements Serializable {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					CustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
+//					CustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
+					NewCustomerBUS newCustomerBUS = new NewCustomerBUS();
 
 					String username = txtUsername.getText();
 					String password = passwordField_1.getText();
-					Customer customer = new Customer(username);
-					customer.setPassword(password);
-
-					customerBUS.register(customer);
+					newCustomerBUS.SignUp(username,password);
+//					Customer customer = new Customer(username);
+//					customer.setPassword(password);
+//
+//					customerBUS.register(customer);
 					System.out.println("Sign up");
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e);

@@ -9,12 +9,12 @@ import framework.membership.Proxy.Validate.StringType;
  */
 public abstract class AbstractSignUp {
     IProxyFacade proxy = ProxyFacadeImp.getInstance();
-    public final boolean SignUp(){
-        String username = getUsername();
-        String password = getPassword();
+    public final boolean SignUp(String username, String password){
         boolean isUserExist = checkUserExist(username);
-        boolean isInvalidatePassword = validatePassword(password);
-        if(isUserExist || isInvalidatePassword) return false;
+        boolean isValidatePassword = validatePassword(password);
+        if(isUserExist) System.out.println("User exist!!");
+
+        if(isUserExist || !isValidatePassword) return false;
         else{
             String hashPassword = hashPassword(password);
             saveUser(username,hashPassword);
@@ -22,7 +22,7 @@ public abstract class AbstractSignUp {
         }
     }
 
-    abstract void saveUser(String username, String hashPassword);
+    protected abstract void saveUser(String username, String hashPassword);
 
     private String hashPassword(String password) {
         return proxy.getHashString(password);
@@ -32,9 +32,5 @@ public abstract class AbstractSignUp {
     private boolean validatePassword(String password) {
        return proxy.validateString(StringType.Password,password);
     }
-    abstract boolean checkUserExist(String username);
-
-    abstract String getPassword();
-
-    abstract String getUsername();
+    protected abstract boolean checkUserExist(String username);
 }

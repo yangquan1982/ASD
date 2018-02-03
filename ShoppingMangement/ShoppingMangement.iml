@@ -38,5 +38,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.21.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
+    <orderEntry type="library" name="Maven: de.mkammerer:argon2-jvm:2.3" level="project" />
+    <orderEntry type="library" name="Maven: net.java.dev.jna:jna:4.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.activemq:activemq-all:5.14.1" level="project" />
   </component>
 </module>
