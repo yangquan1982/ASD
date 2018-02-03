@@ -6,6 +6,8 @@ package shopping.ui.framework.navigator.factory;
 import shopping.ui.framework.APage;
 import shopping.ui.framework.navigator.APageNavigator;
 import shopping.ui.framework.navigator.MainPListNavigator;
+import shopping.ui.framework.pagefactory.MainPanelFactory;
+import shopping.ui.framework.pagefactory.PListPageFactory;
 
 /**
  * @author Quan Yang
@@ -22,13 +24,11 @@ public class MainPListNavFactory implements INavigatorFactory {
 		return new MainPListNavigator();
 	}
 	@Override
-	public APage createSrcPage() {
-		// TODO Auto-generated method stub
-		return null;
+	public APage createPageA() {
+		return MainPanelFactory.getFactory().createPage();
 	}
 	@Override
-	public APage createDestPage() {
-		// TODO Auto-generated method stub
-		return null;
+	public APage createPageB() {
+		return PListPageFactory.getFactory().createPage();
 	}
 }

@@ -6,6 +6,8 @@ package shopping.ui.framework.navigator.factory;
 import shopping.ui.framework.APage;
 import shopping.ui.framework.navigator.APageNavigator;
 import shopping.ui.framework.navigator.PurchaseBillNavigator;
+import shopping.ui.framework.pagefactory.BillPageFactory;
+import shopping.ui.framework.pagefactory.PurchaseFactory;
 
 /**
  * @author Quan Yang
@@ -22,13 +24,11 @@ public class PurchaseBillNavFactory implements INavigatorFactory {
 		return new PurchaseBillNavigator();
 	}
 	@Override
-	public APage createSrcPage() {
-		// TODO Auto-generated method stub
-		return null;
+	public APage createPageA() {
+		return PurchaseFactory.getFactory().createPage();
 	}
 	@Override
-	public APage createDestPage() {
-		// TODO Auto-generated method stub
-		return null;
+	public APage createPageB() {
+		return BillPageFactory.getFactory().createPage();
 	}
 }
