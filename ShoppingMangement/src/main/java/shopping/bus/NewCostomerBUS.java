@@ -20,6 +20,6 @@ public class NewCostomerBUS {
     }
 
     public boolean updateProfile(StandardUserProfile profile){
-        return updateProfileBUS.saveProfileToDatabase(profile);
+        return updateProfileBUS.updateProfile(profile);
     }
 }

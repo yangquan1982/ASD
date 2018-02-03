@@ -12,14 +12,14 @@ import static framework.membership.Proxy.Validate.StringType.*;
 public abstract class AbstractUpdateProfile {
     IProxyFacade proxy = ProxyFacadeImp.getInstance();
 
-    public final boolean updateProfile(){
+    public final boolean updateProfile(StandardUserProfile profile){
         StandardUserProfile profileFromDatabase = loadProfileFromDatabase();
         if(profileFromDatabase != null){
             profileFromDatabase = decryptProfile(profileFromDatabase);
             showProfile(profileFromDatabase);
         }
 
-        StandardUserProfile profileFromInput = loadProfileFromInput();
+        StandardUserProfile profileFromInput = profile;
         boolean validate = validateProfile(profileFromInput);
         if(!validate) {
             handleInvalidProfile();
@@ -29,8 +29,15 @@ public abstract class AbstractUpdateProfile {
         StandardUserProfile profileEncrypted = encryptProfile(profileFromInput);
 
         saveProfileToDatabase(profileEncrypted);
+
+        //for demo
+        StandardUserProfile debugProfile = decryptProfile(profileEncrypted);
+        debugShowProfileAfterDecrypte(debugProfile);
+
         return true;
     }
+
+    protected abstract void debugShowProfileAfterDecrypte(StandardUserProfile debugProfile);
 
     private StandardUserProfile decryptProfile(StandardUserProfile profileFromDatabase) {
         String decrypted = proxy.decryptString(profileFromDatabase.getBankCardNo());
@@ -71,7 +78,7 @@ public abstract class AbstractUpdateProfile {
         return true;
     }
 
-    protected abstract StandardUserProfile loadProfileFromInput();
+
 
     protected abstract void showProfile(StandardUserProfile profileFromDatabase);
 

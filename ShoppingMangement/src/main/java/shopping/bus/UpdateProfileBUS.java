@@ -15,6 +15,12 @@ import java.sql.SQLException;
  */
 public class UpdateProfileBUS extends AbstractUpdateProfile{
     private ICustomerProfileDAO profileDAO = new CustomerProfileDAO();
+
+    @Override
+    protected void debugShowProfileAfterDecrypte(StandardUserProfile debugProfile) {
+        System.out.println(debugProfile);
+    }
+
     @Override
     protected boolean saveProfileToDatabase(StandardUserProfile profileEncrypted) {
         try {
@@ -30,14 +36,10 @@ public class UpdateProfileBUS extends AbstractUpdateProfile{
         System.out.println("Invalid information input");
     }
 
-    @Override
-    protected StandardUserProfile loadProfileFromInput() {
-        return null;
-    }
 
     @Override
     protected void showProfile(StandardUserProfile profileFromDatabase) {
-
+//        System.out.println(profileFromDatabase.toString());
     }
 
     @Override

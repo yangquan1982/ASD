@@ -18,7 +18,7 @@ public class UpdateProfilePage {
                 .setFirstName("John")
                 .setLastName("Snow")
                 .setEmail("john@email.com")
-                .setPhoneNumber("764-2134-213")
+                .setPhoneNumber("7642142123")
                 .build();
         return  profile;
     }
