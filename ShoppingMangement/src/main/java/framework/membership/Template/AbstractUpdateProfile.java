@@ -38,7 +38,7 @@ public abstract class AbstractUpdateProfile {
         return profileFromDatabase;
     }
 
-    abstract void saveProfileToDatabase(StandardUserProfile profileEncrypted);
+    protected abstract boolean saveProfileToDatabase(StandardUserProfile profileEncrypted);
 
     private StandardUserProfile encryptProfile(StandardUserProfile profileFromInput) {
         String encrypted = proxy.encryptString(profileFromInput.getBankCardNo());
@@ -47,7 +47,7 @@ public abstract class AbstractUpdateProfile {
         return profileFromInput;
     }
 
-    abstract void handleInvalidProfile();
+    protected abstract void handleInvalidProfile();
 
     private boolean validateProfile(StandardUserProfile profileFromInput) {
         String email = profileFromInput.getEmail();
@@ -71,9 +71,9 @@ public abstract class AbstractUpdateProfile {
         return true;
     }
 
-    abstract StandardUserProfile loadProfileFromInput();
+    protected abstract StandardUserProfile loadProfileFromInput();
 
-    abstract void showProfile(StandardUserProfile profileFromDatabase);
+    protected abstract void showProfile(StandardUserProfile profileFromDatabase);
 
-    abstract StandardUserProfile loadProfileFromDatabase();
+    protected abstract StandardUserProfile loadProfileFromDatabase();
 }

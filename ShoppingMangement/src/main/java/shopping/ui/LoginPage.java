@@ -177,8 +177,10 @@ public class LoginPage extends APage implements Serializable {
 					{
 						Customer customer = customerBUS.getCustomerByUsername(username);
 						CustomerProfile profile = customerBUS.getCustomerProfileByUsername(username);
-						customer.setCustomerProfile(profile);
-						userData.setCustomer(customer);
+						if(profile != null){
+							customer.setCustomerProfile(profile);
+							userData.setCustomer(customer);
+						}
 						//JOptionPane.showMessageDialog(null, "Username & Password is correct");
 						frame.dispose();
 						MainPanel mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();

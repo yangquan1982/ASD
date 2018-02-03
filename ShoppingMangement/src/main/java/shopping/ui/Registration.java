@@ -98,6 +98,7 @@ public class Registration extends APage implements Serializable {
 					String password = passwordField_1.getText();
 					
 					if (costomerBUS.register(username,password)) {
+						costomerBUS.updateProfile(UpdateProfilePage.updateProflie(username));
 						JOptionPane.showMessageDialog(null, "Sign Up Success!");
 					} else {
 						JOptionPane.showMessageDialog(null, "Sign Up Failed!!!");

@@ -46,7 +46,7 @@ public class StandardMember extends Member {
         saveOneData("password",this.getPassword());
         saveOneData("firstName",profile.getFirstName());
         saveOneData("lastName",profile.getLastName());
-        saveOneData("fullName",profile.getFirstName() + profile.getLastName());
+        saveOneData("fullName",profile.getFirstName() + " " + profile.getLastName());
         saveOneData("address",profile.getAddress());
         saveOneData("email",profile.getEmail());
         saveOneData("bankCardNo",profile.getBankCardNo());

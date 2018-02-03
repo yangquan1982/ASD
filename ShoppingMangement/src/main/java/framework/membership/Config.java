@@ -13,5 +13,5 @@ public class Config {
     public static final String ENCRYPTE_KEY = "myPassword";
 
     //Validation configuration
-    public static final int PASSWORD_STRENGTH = 7; //0-10
+    public static final int PASSWORD_STRENGTH = 0; //0-10
 }
