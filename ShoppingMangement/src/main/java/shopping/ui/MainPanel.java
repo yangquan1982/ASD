@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,11 +17,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
 import shopping.ui.framework.APage;
-import shopping.ui.framework.JButtonFactory;
-import shopping.ui.framework.JLabelFactory;
-import shopping.ui.framework.JPanelFactory;
+import shopping.ui.framework.compfactory.*;
+import shopping.ui.framework.navigator.*;
+import shopping.ui.framework.pagefactory.*;
 
-public class MainPanel extends APage {
+public class MainPanel extends APage implements Serializable {
 	private static final long serialVersionUID = -7913300791375041079L;
 	private JPanel contentPane;
 	private JLabel label;
@@ -29,8 +30,8 @@ public class MainPanel extends APage {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton;
 	private JButton btnNewButton_5;
-	private static MainPanel frame;
 	private ProductListPage pListPage;
+	public static MainPanel INSTANCE = new MainPanel();
 
 	/**
 	 * Launch the application.
@@ -39,8 +40,7 @@ public class MainPanel extends APage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new MainPanel();
-					frame.setVisible(true);
+					MainPanel.INSTANCE.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,7 +51,7 @@ public class MainPanel extends APage {
 	/**
 	 * Create the frame.
 	 */
-	public MainPanel() {
+	private MainPanel() {
 		initialize();
 	}
 
@@ -81,7 +81,7 @@ public class MainPanel extends APage {
 		btnNewButton_2.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 14));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Purchase purchase = new Purchase();
+				Purchase purchase = (Purchase) PurchaseFactory.getFactory().createPage();
 				purchase.setVisible(true);
 			}
 		});

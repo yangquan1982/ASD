@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,15 +37,11 @@ import shopping.model.Product.ProductList;
 import shopping.model.ShoppingCart.LineItem;
 import shopping.model.ShoppingCart.ShoppingCart;
 import shopping.ui.framework.APage;
-import shopping.ui.framework.JButtonFactory;
-import shopping.ui.framework.JDesktopPaneFactory;
-import shopping.ui.framework.JLabelFactory;
-import shopping.ui.framework.JScrollPaneFactory;
-import shopping.ui.framework.JTableFactory;
-import shopping.ui.framework.JTextFieldFactory;
+import shopping.ui.framework.compfactory.*;
+import shopping.ui.framework.pagefactory.*;
 import shopping.util.DbUtils;
 
-public class BillPage extends APage {
+public class BillPage extends APage implements Serializable {
 	private static final long serialVersionUID = 2613235098516131250L;
 	private static final JLabel textField_csname = null;
 	private JPanel contentPane;
@@ -79,6 +76,7 @@ public class BillPage extends APage {
 	private ShoppingCart shoppingCart = Purchase.shoppingCart;
 	private Customer customer = LoginPage.userData.getCustomer();
 	private CustomerProfile profile = customer.getCustomerProfile();
+	public static BillPage INSTANCE = new BillPage();
 
 	/**
 	 * Launch the application.
@@ -87,8 +85,7 @@ public class BillPage extends APage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BillPage frame = new BillPage();
-					frame.setVisible(true);
+					BillPage.INSTANCE.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -100,7 +97,7 @@ public class BillPage extends APage {
 	/**
 	 * Create the frame.
 	 */
-	public BillPage() {
+	private BillPage() {
 		initialize();
 	}
 
@@ -255,7 +252,7 @@ public class BillPage extends APage {
 					JOptionPane.showMessageDialog(null, "Bill Done....!");
 					frame.dispose();
 					Purchase purchase = null;
-					purchase = new Purchase();
+					purchase = (Purchase) PurchaseFactory.getFactory().createPage();
 					purchase.setVisible(true);
 				}
 			});

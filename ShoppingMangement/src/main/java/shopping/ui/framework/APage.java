@@ -5,6 +5,8 @@ package shopping.ui.framework;
 
 import javax.swing.JFrame;
 
+import shopping.ui.framework.navigator.APageNavigator;
+
 /**
  * @author Quan Yang
  *

@@ -2,13 +2,10 @@ package shopping.ui;
 import shopping.bus.CustomerBUS;
 import shopping.model.Customer.Customer;
 import shopping.ui.framework.APage;
-import shopping.ui.framework.JButtonFactory;
-import shopping.ui.framework.JDesktopPaneFactory;
-import shopping.ui.framework.JLabelFactory;
-import shopping.ui.framework.JTextFieldFactory;
-
+import shopping.ui.framework.compfactory.*;
+import shopping.ui.framework.navigator.*;
+import shopping.ui.framework.pagefactory.*;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +15,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
@@ -25,7 +23,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Dialog.ModalExclusionType;
 
-public class Registration extends APage {
+public class Registration extends APage implements Serializable {
 	private static final long serialVersionUID = 6598475679920825522L;
 	private JTextField txtUsername;
 	private JLabel lblUsername;
@@ -37,7 +35,7 @@ public class Registration extends APage {
 	private JButton btnSignUp;
 	private JDesktopPane desktopPane_1;
 	private JLabel label;
-	private static Registration frame;
+	public static final Registration INSTANCE = new Registration();
 
 	/**
 	 * Launch the application.
@@ -46,8 +44,7 @@ public class Registration extends APage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new Registration();
-					frame.setVisible(true);
+					Registration.INSTANCE.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -56,13 +53,14 @@ public class Registration extends APage {
 	}
 
 	private void closeWindow() {
-		frame.setVisible(false);
-		frame.dispose();
+		Registration.INSTANCE.setVisible(false);
+		Registration.INSTANCE.dispose();
 	}
 	/**
 	 * Create the frame.
 	 */
-	public Registration() {
+	private Registration() {
+		super();
 		initialize();
 	}
 	
@@ -79,7 +77,7 @@ public class Registration extends APage {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LoginPage loginPage = new LoginPage();
+				LoginPage loginPage = (LoginPage) LoginPageFactory.getFactory().createPage();
 				loginPage.getFrame().setVisible(true);
 				closeWindow();
 			}

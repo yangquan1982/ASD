@@ -10,12 +10,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.UUID;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,15 +45,9 @@ import shopping.model.Product.ProductCategory;
 import shopping.model.Product.ProductList;
 import shopping.model.Product.ProductSupplier;
 import shopping.ui.framework.APage;
-import shopping.ui.framework.JButtonFactory;
-import shopping.ui.framework.JCheckBoxFactory;
-import shopping.ui.framework.JComboBoxFactory;
-import shopping.ui.framework.JDesktopPaneFactory;
-import shopping.ui.framework.JLabelFactory;
-import shopping.ui.framework.JPanelFactory;
-import shopping.ui.framework.JScrollPaneFactory;
-import shopping.ui.framework.JTableFactory;
-import shopping.ui.framework.JTextFieldFactory;
+import shopping.ui.framework.compfactory.*;
+import shopping.ui.framework.navigator.*;
+import shopping.ui.framework.pagefactory.*;
 import shopping.util.DbUtils;
 
 import java.awt.SystemColor;
@@ -61,12 +55,12 @@ import java.awt.SystemColor;
  * @author Quan Yang
  *
  */
-public class ProductListPage extends APage {
+public class ProductListPage extends APage implements Serializable {
 	private static final long serialVersionUID = -7713287639128403410L;
+	public static ProductListPage INSTANCE = new ProductListPage();
+	private static MainPanel mainPanel;
 	private ProductManager pManager;
 	private ProductList plist;
-	private static ProductListPage pListPage;
-	private static MainPanel mainPanel;
 	private JPanel contentPane;
 	private JDesktopPane desktopPane;
 	private JTable table;
@@ -99,12 +93,6 @@ public class ProductListPage extends APage {
 	private JScrollPane scrollPane;
 	private JCheckBox checkBox_discount;
 
-	public static ProductListPage getpListPage() {
-		return pListPage;
-	}
-	public static void setpListPage(ProductListPage pListPage) {
-		ProductListPage.pListPage = pListPage;
-	}
 	public static MainPanel getMainPanel() {
 		return mainPanel;
 	}
@@ -118,8 +106,7 @@ public class ProductListPage extends APage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					pListPage = new ProductListPage(mainPanel);
-					pListPage.setVisible(true);
+					ProductListPage.INSTANCE.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,7 +114,7 @@ public class ProductListPage extends APage {
 		});
 	}
 	private void openMainPanel() {
-		this.mainPanel = new MainPanel();
+		this.mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
 		this.mainPanel.setVisible(true);
 	}
 	private void closeWindow() {
@@ -163,7 +150,7 @@ public class ProductListPage extends APage {
 	/**
 	 * Create the frame.
 	 */
-	public ProductListPage(MainPanel mainPanel) {
+	private ProductListPage() {
 		initialize();
 	}
 	

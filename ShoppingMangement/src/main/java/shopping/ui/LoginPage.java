@@ -5,19 +5,16 @@ import shopping.bus.ICustomerBUS;
 import shopping.model.Customer.Customer;
 import shopping.model.Customer.CustomerProfile;
 import shopping.ui.framework.APage;
-import shopping.ui.framework.APageNavigator;
-import shopping.ui.framework.JButtonFactory;
-import shopping.ui.framework.JFrameFactory;
-import shopping.ui.framework.JLabelFactory;
-import shopping.ui.framework.JPasswordFieldFactory;
-import shopping.ui.framework.JTextFieldFactory;
-
+import shopping.ui.framework.compfactory.*;
+import shopping.ui.framework.navigator.*;
+import shopping.ui.framework.pagefactory.*;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +29,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class LoginPage extends APage {
+public class LoginPage extends APage implements Serializable {
 	private static final long serialVersionUID = -535506443986136694L;
 	private JFrame frame;
 	private JButton btnLogin;
@@ -44,6 +41,7 @@ public class LoginPage extends APage {
 	private JLabel label;
 	private JLabel lblNewLabel_total;
 	public static UserData userData = new UserData();
+	public static LoginPage INSTANCE = new LoginPage();
 	
 	public JFrame getFrame() {
 		return frame;
@@ -112,8 +110,8 @@ public class LoginPage extends APage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginPage window = new LoginPage();
-					window.getFrame().setVisible(true);
+					((LoginPage) LoginPageFactory.getFactory().
+							createPage()).getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -124,10 +122,10 @@ public class LoginPage extends APage {
 	/**
 	 * Create the application.
 	 */
-	public LoginPage() {
+	private LoginPage() {
 		initialize();
 	}
-	public LoginPage(APageNavigator navigator, String pageName) {
+	private LoginPage(APageNavigator navigator, String pageName) {
 		super(navigator, pageName);
 		initialize();		
 	}
@@ -179,7 +177,7 @@ public class LoginPage extends APage {
 						userData.setCustomer(customer);
 						//JOptionPane.showMessageDialog(null, "Username & Password is correct");
 						frame.dispose();
-						MainPanel mainPanel = new MainPanel();
+						MainPanel mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
 						mainPanel.setVisible(true);
 					}
 					else 

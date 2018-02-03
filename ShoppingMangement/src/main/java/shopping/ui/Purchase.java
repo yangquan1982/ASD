@@ -8,12 +8,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,7 +31,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import shopping.UserData;
 import shopping.bus.*;
 import shopping.model.Customer.Customer;
@@ -42,17 +41,12 @@ import shopping.model.ShoppingCart.LineItem;
 import shopping.model.ShoppingCart.Order;
 import shopping.model.ShoppingCart.ShoppingCart;
 import shopping.ui.framework.APage;
-import shopping.ui.framework.JButtonFactory;
-import shopping.ui.framework.JComboBoxFactory;
-import shopping.ui.framework.JDesktopPaneFactory;
-import shopping.ui.framework.JLabelFactory;
-import shopping.ui.framework.JPanelFactory;
-import shopping.ui.framework.JScrollPaneFactory;
-import shopping.ui.framework.JTableFactory;
-import shopping.ui.framework.JTextFieldFactory;
+import shopping.ui.framework.compfactory.*;
+import shopping.ui.framework.navigator.*;
+import shopping.ui.framework.pagefactory.*;
 import shopping.util.DbUtils;
 
-public class Purchase extends APage {
+public class Purchase extends APage implements Serializable {
 	private static final long serialVersionUID = 5812669177372609562L;
 	private JPanel contentPane;
 	private JComboBox comboBox;
@@ -85,6 +79,7 @@ public class Purchase extends APage {
 	private JLabel label;
 	private JTable table;
 	public static int billId = 1;
+	public static Purchase INSTANCE = new Purchase();
 	private String selectItem;
 
 	public static ShoppingCart shoppingCart = new ShoppingCart();
@@ -99,8 +94,7 @@ public class Purchase extends APage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Purchase frame = new Purchase();
-					frame.setVisible(true);
+					Purchase.INSTANCE.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -111,7 +105,7 @@ public class Purchase extends APage {
 	/**
 	 * Create the frame.
 	 */
-	public Purchase() {
+	private Purchase() {
 		initialize();
 	}
 	
@@ -329,7 +323,7 @@ public class Purchase extends APage {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				BillPage billPage = new BillPage();
+				BillPage billPage = (BillPage) BillPageFactory.getFactory().createPage();
 				billPage.setVisible(true);
 			}
 			
