@@ -12,7 +12,7 @@ import static framework.membership.Proxy.Validate.StringType.*;
 public abstract class AbstractUpdateProfile {
     IProxyFacade proxy = ProxyFacadeImp.getInstance();
 
-    public final void updateProfile(){
+    public final boolean updateProfile(){
         StandardUserProfile profileFromDatabase = loadProfileFromDatabase();
         if(profileFromDatabase != null){
             profileFromDatabase = decryptProfile(profileFromDatabase);
@@ -21,11 +21,15 @@ public abstract class AbstractUpdateProfile {
 
         StandardUserProfile profileFromInput = loadProfileFromInput();
         boolean validate = validateProfile(profileFromInput);
-        if(!validate) handleInvalidProfile();
+        if(!validate) {
+            handleInvalidProfile();
+            return false;
+        }
 
         StandardUserProfile profileEncrypted = encryptProfile(profileFromInput);
 
         saveProfileToDatabase(profileEncrypted);
+        return true;
     }
 
     private StandardUserProfile decryptProfile(StandardUserProfile profileFromDatabase) {

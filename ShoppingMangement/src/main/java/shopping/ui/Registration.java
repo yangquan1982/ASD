@@ -1,4 +1,5 @@
 package shopping.ui;
+import shopping.bus.NewCostomerBUS;
 import shopping.bus.SignUpBUS;
 import shopping.ui.framework.APage;
 import shopping.ui.framework.compfactory.*;
@@ -92,11 +93,11 @@ public class Registration extends APage implements Serializable {
 				
 				try {
 //					CustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
-					SignUpBUS signUpBUS = new SignUpBUS();
+					NewCostomerBUS costomerBUS = new NewCostomerBUS();
 
 					String username = txtUsername.getText();
 					String password = passwordField_1.getText();
-					signUpBUS.SignUp(username,password);
+					costomerBUS.register(username,password);
 //					Customer customer = new Customer(username);
 //					customer.setPassword(password);
 //
