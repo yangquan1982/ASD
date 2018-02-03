@@ -31,8 +31,15 @@ public class MainPanel extends APage implements Serializable {
 	private JButton btnNewButton;
 	private JButton btnNewButton_5;
 	private ProductListPage pListPage;
+	private String customName;
 	public static MainPanel INSTANCE = new MainPanel();
 
+	public String getCustomName() {
+		return customName;
+	}
+	public void setCustomName(String customName) {
+		this.customName = customName;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -52,10 +59,10 @@ public class MainPanel extends APage implements Serializable {
 	 * Create the frame.
 	 */
 	private MainPanel() {
-		initialize();
+//		initialize();
 	}
 
-	private void initialize() {
+	public void initialize() {
 //		this.pListPage = pListPage;
 		setResizable(false);
 		setType(Type.POPUP);
@@ -96,6 +103,9 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setBounds(0, 109, 145, 35);
 		btnNewButton.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
+		if (customName.equals("admin") || customName.equals("Admin")) {
+			btnNewButton.setEnabled(false);
+		}
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				ProductListPage pl = new ProductListPage(this);
