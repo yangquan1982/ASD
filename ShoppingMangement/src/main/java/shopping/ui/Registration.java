@@ -92,16 +92,16 @@ public class Registration extends APage implements Serializable {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-//					CustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
 					NewCostomerBUS costomerBUS = new NewCostomerBUS();
 
 					String username = txtUsername.getText();
 					String password = passwordField_1.getText();
-					costomerBUS.register(username,password);
-//					Customer customer = new Customer(username);
-//					customer.setPassword(password);
-//
-//					customerBUS.register(customer);
+					
+					if (costomerBUS.register(username,password)) {
+						JOptionPane.showMessageDialog(null, "Sign Up Success!");
+					} else {
+						JOptionPane.showMessageDialog(null, "Sign Up Failed!!!");
+					}
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e);
 				}
