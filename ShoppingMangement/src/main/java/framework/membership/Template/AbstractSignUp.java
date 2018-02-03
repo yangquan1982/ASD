@@ -13,7 +13,7 @@ public abstract class AbstractSignUp {
         boolean isUserExist = checkUserExist(username);
         boolean isValidatePassword = validatePassword(password);
         if(isUserExist) System.out.println("User exist!!");
-
+        if(!isValidatePassword) System.out.println("Password is not strong enough");
         if(isUserExist || !isValidatePassword) return false;
         else{
             String hashPassword = hashPassword(password);
