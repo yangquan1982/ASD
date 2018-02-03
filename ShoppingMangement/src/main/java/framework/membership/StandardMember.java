@@ -49,6 +49,7 @@ public class StandardMember extends Member {
         saveOneData("fullName",profile.getFirstName() + profile.getLastName());
         saveOneData("address",profile.getAddress());
         saveOneData("email",profile.getEmail());
+        saveOneData("bankCardNo",profile.getBankCardNo());
         saveOneData("phone",profile.getPhoneNumber());
         saveOneData("username",profile.getUsername());
     }
