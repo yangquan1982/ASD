@@ -178,6 +178,8 @@ public class LoginPage extends APage implements Serializable {
 						//JOptionPane.showMessageDialog(null, "Username & Password is correct");
 						frame.dispose();
 						MainPanel mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
+						mainPanel.setCustomName(username);
+						mainPanel.initialize();
 						mainPanel.setVisible(true);
 					}
 					else 
