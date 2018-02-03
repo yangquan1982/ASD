@@ -109,7 +109,6 @@ public class Registration extends APage implements Serializable {
 //					customer.setPassword(password);
 //
 //					customerBUS.register(customer);
-					System.out.println("Sign up");
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e);
 				}
