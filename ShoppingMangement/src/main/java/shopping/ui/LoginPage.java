@@ -5,7 +5,7 @@ import shopping.bus.ICustomerBUS;
 import shopping.model.Customer.Customer;
 import shopping.model.Customer.CustomerProfile;
 import shopping.ui.framework.APage;
-import shopping.ui.framework.IPageNavigator;
+import shopping.ui.framework.APageNavigator;
 import shopping.ui.framework.JButtonFactory;
 import shopping.ui.framework.JFrameFactory;
 import shopping.ui.framework.JLabelFactory;
@@ -127,7 +127,7 @@ public class LoginPage extends APage {
 	public LoginPage() {
 		initialize();
 	}
-	public LoginPage(IPageNavigator navigator, String pageName) {
+	public LoginPage(APageNavigator navigator, String pageName) {
 		super(navigator, pageName);
 		initialize();		
 	}

@@ -10,18 +10,18 @@ import javax.swing.JFrame;
  *
  */
 public abstract class APage extends JFrame {
-	protected IPageNavigator navigator;
+	protected APageNavigator navigator;
 	protected String pageName;
 	public APage() {
 	}
-	public APage(IPageNavigator navigator, String pageName) {
+	public APage(APageNavigator navigator, String pageName) {
 		this.navigator = navigator;
 		this.pageName = pageName;
 	}
-	public IPageNavigator getNavigator() {
+	public APageNavigator getNavigator() {
 		return navigator;
 	}
-	public void setNavigator(IPageNavigator navigator) {
+	public void setNavigator(APageNavigator navigator) {
 		this.navigator = navigator;
 	}
 	public String getPageName() {
