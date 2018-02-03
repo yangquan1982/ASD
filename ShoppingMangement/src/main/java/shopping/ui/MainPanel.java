@@ -86,6 +86,9 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton_2.setBackground(Color.WHITE);
 		btnNewButton_2.setBounds(0, 201, 145, 35);
 		btnNewButton_2.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 14));
+		if (customName.equals("admin") || customName.equals("Admin")) {
+			btnNewButton_2.setEnabled(false);
+		}
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Purchase purchase = (Purchase) PurchaseFactory.getFactory().createPage();
@@ -103,7 +106,7 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setBounds(0, 109, 145, 35);
 		btnNewButton.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
-		if (customName.equals("admin") || customName.equals("Admin")) {
+		if (!customName.equals("admin") && !customName.equals("Admin")) {
 			btnNewButton.setEnabled(false);
 		}
 		btnNewButton.addActionListener(new ActionListener() {
