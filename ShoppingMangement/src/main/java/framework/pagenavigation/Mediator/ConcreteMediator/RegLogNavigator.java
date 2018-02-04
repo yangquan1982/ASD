@@ -4,7 +4,6 @@
 package framework.pagenavigation.Mediator.ConcreteMediator;
 
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
-import framework.pagenavigation.State.ConcreteState.ENavState;
 import framework.pagenavigation.State.ConcreteState.LogToRegState;
 import framework.pagenavigation.State.ConcreteState.RegToLogState;
 import shopping.ui.Registration;

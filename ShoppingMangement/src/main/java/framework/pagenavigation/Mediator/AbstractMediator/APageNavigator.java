@@ -3,9 +3,6 @@
  */
 package framework.pagenavigation.Mediator.AbstractMediator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import framework.pagenavigation.State.AbstractState.INavigatorState;
 import shopping.ui.abstractproduct.APage;
 

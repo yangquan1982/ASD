@@ -12,7 +12,6 @@ import shopping.ui.abstractproduct.APage;
  *
  */
 public class RegPageFactory implements IPageFactory {
-	private APage regPage = null;
 	private static IPageFactory factory = new RegPageFactory();
 	private RegPageFactory() {}
 	public static IPageFactory getFactory() {
