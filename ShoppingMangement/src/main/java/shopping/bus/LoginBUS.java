@@ -3,6 +3,7 @@ package shopping.bus;
 import framework.membership.Template.AbstractLogin;
 import shopping.dao.CustomerDAO;
 import shopping.dao.ICustomerDAO;
+import shopping.dto.CustomerDTO;
 
 import java.sql.SQLException;
 
@@ -15,7 +16,7 @@ public class LoginBUS extends AbstractLogin{
     protected String extractPasswordFromDataBase(String username) {
         try {
             customerDAO = new CustomerDAO();
-            customerDAO.getCustomerByUserName(username);
+            return customerDAO.getPasswordByUserName(username);
         } catch (SQLException e) {
             e.printStackTrace();
         }

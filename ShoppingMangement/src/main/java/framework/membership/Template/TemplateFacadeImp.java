@@ -1,5 +1,7 @@
 package framework.membership.Template;
 
+import framework.membership.StandardUserProfile;
+
 /**
  * Created by Duong Truong on 2/3/2018.
  */
@@ -18,7 +20,7 @@ public class TemplateFacadeImp implements ITemplateFacade {
     }
 
     @Override
-    public boolean updateProfile() {
-        return updateProfile.updateProfile();
+    public boolean updateProfile(StandardUserProfile profile) {
+        return updateProfile.updateProfile(profile);
     }
 }

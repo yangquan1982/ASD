@@ -1,6 +1,9 @@
 package shopping.dao;
 
+import framework.membership.StandardMember;
+import framework.membership.StandardUserProfile;
 import shopping.dto.CustomerProfileDTO;
+import shopping.model.Customer.NewCustomer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -84,6 +87,33 @@ public class CustomerProfileDAO implements ICustomerProfileDAO{
             ps.setString(4, profileDTO.getBankCardNo());
             ps.setString(5, profileDTO.getShippingAddress());
             ps.setString(6, profileDTO.getUsername());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            connection.close();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean saveProfileToDatabase(StandardUserProfile profile) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        NewCustomer customer = new NewCustomer(profile.getUsername());
+        customer.saveProfileToData(profile);
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO CustomerProfile VALUES (?, ?, ?, ?, ?, ?, ?)");
+            ps.setString(1, customer.getId());
+            ps.setString(2, profile.getUsername());
+            ps.setString(3, customer.getOneData("fullName"));
+            ps.setString(4, profile.getAddress());
+            ps.setString(5, profile.getEmail());
+            ps.setString(6, profile.getBankCardNo());
+            ps.setString(7, profile.getAddress());
             int i = ps.executeUpdate();
             if(i == 1) {
                 return true;

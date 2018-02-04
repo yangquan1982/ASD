@@ -12,14 +12,14 @@ import static framework.membership.Proxy.Validate.StringType.*;
 public abstract class AbstractUpdateProfile {
     IProxyFacade proxy = ProxyFacadeImp.getInstance();
 
-    public final boolean updateProfile(){
+    public final boolean updateProfile(StandardUserProfile profile){
         StandardUserProfile profileFromDatabase = loadProfileFromDatabase();
         if(profileFromDatabase != null){
             profileFromDatabase = decryptProfile(profileFromDatabase);
             showProfile(profileFromDatabase);
         }
 
-        StandardUserProfile profileFromInput = loadProfileFromInput();
+        StandardUserProfile profileFromInput = profile;
         boolean validate = validateProfile(profileFromInput);
         if(!validate) {
             handleInvalidProfile();
@@ -29,8 +29,15 @@ public abstract class AbstractUpdateProfile {
         StandardUserProfile profileEncrypted = encryptProfile(profileFromInput);
 
         saveProfileToDatabase(profileEncrypted);
+
+        //for demo
+        StandardUserProfile debugProfile = decryptProfile(profileEncrypted);
+        debugShowProfileAfterDecrypte(debugProfile);
+
         return true;
     }
+
+    protected abstract void debugShowProfileAfterDecrypte(StandardUserProfile debugProfile);
 
     private StandardUserProfile decryptProfile(StandardUserProfile profileFromDatabase) {
         String decrypted = proxy.decryptString(profileFromDatabase.getBankCardNo());
@@ -38,7 +45,7 @@ public abstract class AbstractUpdateProfile {
         return profileFromDatabase;
     }
 
-    abstract void saveProfileToDatabase(StandardUserProfile profileEncrypted);
+    protected abstract boolean saveProfileToDatabase(StandardUserProfile profileEncrypted);
 
     private StandardUserProfile encryptProfile(StandardUserProfile profileFromInput) {
         String encrypted = proxy.encryptString(profileFromInput.getBankCardNo());
@@ -47,7 +54,7 @@ public abstract class AbstractUpdateProfile {
         return profileFromInput;
     }
 
-    abstract void handleInvalidProfile();
+    protected abstract void handleInvalidProfile();
 
     private boolean validateProfile(StandardUserProfile profileFromInput) {
         String email = profileFromInput.getEmail();
@@ -71,9 +78,9 @@ public abstract class AbstractUpdateProfile {
         return true;
     }
 
-    abstract StandardUserProfile loadProfileFromInput();
 
-    abstract void showProfile(StandardUserProfile profileFromDatabase);
 
-    abstract StandardUserProfile loadProfileFromDatabase();
+    protected abstract void showProfile(StandardUserProfile profileFromDatabase);
+
+    protected abstract StandardUserProfile loadProfileFromDatabase();
 }

@@ -1,5 +1,6 @@
 package shopping.dao;
 
+import framework.membership.StandardUserProfile;
 import shopping.dto.CustomerProfileDTO;
 
 import java.sql.SQLException;
@@ -12,4 +13,6 @@ public interface ICustomerProfileDAO {
     boolean insertCustomerProfile(CustomerProfileDTO profileDTO) throws SQLException;
 
     boolean updateCustomerProfile(CustomerProfileDTO profileDTO) throws SQLException;
+
+    boolean saveProfileToDatabase(StandardUserProfile profileEncrypted)throws SQLException;
 }

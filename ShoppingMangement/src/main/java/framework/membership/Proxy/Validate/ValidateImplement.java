@@ -34,7 +34,7 @@ public class ValidateImplement implements IValidate {
     }
 
     public static boolean validateMobileNumber(String mobileNumber) {
-        regexPattern = Pattern.compile("^\\+[0-9]{2,3}+-[0-9]{10}$");
+        regexPattern = Pattern.compile("\\d{10}");
         regMatcher   = regexPattern.matcher(mobileNumber);
         return regMatcher.matches();
     }
