@@ -41,7 +41,6 @@ public class Registration extends APage implements Serializable {
 	
 	private Registration(APageNavigator navigator) {
 		super("Registration", navigator);
-		//initialize();
 	}
 	
     public static Registration getInstance(APageNavigator navigator) {
@@ -55,28 +54,8 @@ public class Registration extends APage implements Serializable {
         return INSTANCE;
     }
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					RegPageFactory.getFactory().createPage().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-//	private void closeWindow() {
-//		RegPageFactory.getFactory().createPage().setVisible(false);
-//		RegPageFactory.getFactory().createPage().dispose();
-//	}
-	/**
 	 * Create the frame.
 	 */
-	
 	private void initialize() {
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setTitle("Sign Up");
