@@ -22,14 +22,14 @@ public class MainPListNavFactory implements INavigatorFactory {
 	}
 	@Override
 	public APageNavigator createNavigator() {
-		return new MainPListNavigator();
+		return MainPListNavigator.getInstance();
 	}
 	@Override
-	public APage createPageA() {
-		return MainPanelFactory.getFactory().createPage();
+	public APage createPageA(APageNavigator navigator) {
+		return MainPanelFactory.getFactory().createPage(navigator);
 	}
 	@Override
-	public APage createPageB() {
-		return PListPageFactory.getFactory().createPage();
+	public APage createPageB(APageNavigator navigator) {
+		return PListPageFactory.getFactory().createPage(navigator);
 	}
 }

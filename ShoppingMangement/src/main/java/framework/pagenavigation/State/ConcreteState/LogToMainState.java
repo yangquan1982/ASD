@@ -18,7 +18,7 @@ public class LogToMainState extends INavigatorState {
 
 	@Override
 	public void navigate() {
-		
+		navigator.setCurrentState(navigator.getFromBToAState());
 	}
 
 }

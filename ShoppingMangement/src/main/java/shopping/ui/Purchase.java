@@ -35,6 +35,7 @@ import javax.swing.table.TableModel;
 
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.UserData;
 import shopping.bus.*;
 import shopping.model.Customer.Customer;
@@ -90,14 +91,15 @@ public class Purchase extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	private Purchase() {
-		initialize();
+	private Purchase(APageNavigator navigator) {
+		super("Purchase", navigator);
+		//initialize();
 	}
-    public static Purchase getInstance() {
+    public static Purchase getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (Purchase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new Purchase();
+                    INSTANCE = new Purchase(navigator);
                 }
             }
         }
@@ -118,9 +120,7 @@ public class Purchase extends APage implements Serializable {
 		});
 	}
 //	Connection connection = null;
-
-	
-	private void initialize() {
+	public void initialize() {
 		setResizable(false);
 		setBackground(new Color(204, 102, 51));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -339,8 +339,8 @@ public class Purchase extends APage implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				BillPage billPage = (BillPage) BillPageFactory.getFactory().createPage();
-				billPage.setVisible(true);
+//				BillPage billPage = (BillPage) BillPageFactory.getFactory().createPage();
+//				billPage.setVisible(true);
 			}
 			
 		});
@@ -387,14 +387,22 @@ public class Purchase extends APage implements Serializable {
 //			e1.printStackTrace();
 //		}
 	}
+//	@Override
+//	public void open() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void close() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	@Override
-	public void open() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-		
+	public void navigate() {
+		navigator.navigate(this);
+		if (INSTANCE != null) {
+			INSTANCE.setVisible(false);
+			INSTANCE.dispose();
+		}
 	}
 }

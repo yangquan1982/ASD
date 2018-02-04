@@ -22,14 +22,14 @@ public class RegLogNavFactory implements INavigatorFactory {
 	}
 	@Override
 	public APageNavigator createNavigator() {
-		return new RegLogNavigator();
+		return RegLogNavigator.getInstance();
 	}
 	@Override
-	public APage createPageA() {
-		return RegPageFactory.getFactory().createPage();
+	public APage createPageA(APageNavigator navigator) {
+		return RegPageFactory.getFactory().createPage(navigator);
 	}
 	@Override
-	public APage createPageB() {
-		return LoginPageFactory.getFactory().createPage();
+	public APage createPageB(APageNavigator navigator) {
+		return LoginPageFactory.getFactory().createPage(navigator);
 	}
 }

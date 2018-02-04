@@ -46,18 +46,19 @@ public class LoginPage extends APage implements Serializable {
 	/**
 	 * Create the application.
 	 */
-	private LoginPage() {
-		initialize();
+	private LoginPage(APageNavigator navigator) {
+		super("Login", navigator);
+		//initialize();
 	}
-	private LoginPage(APageNavigator navigator, String pageName) {
-		super(navigator, pageName);
-		initialize();		
-	}
-    public static LoginPage getInstance() {
+//	private LoginPage(APageNavigator navigator, String pageName) {
+//		super(navigator, pageName);
+//		//initialize();		
+//	}
+    public static LoginPage getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (LoginPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new LoginPage();
+                    INSTANCE = new LoginPage(navigator);
                 }
             }
         }
@@ -130,8 +131,8 @@ public class LoginPage extends APage implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					((LoginPage) LoginPageFactory.getFactory().
-							createPage()).getFrame().setVisible(true);
+//					((LoginPage) LoginPageFactory.getFactory().
+//							createPage()).getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -193,10 +194,10 @@ public class LoginPage extends APage implements Serializable {
 						frame.dispose();
 						MainPanelFactory mainFactory = (MainPanelFactory) MainPanelFactory.getFactory();
 						mainFactory.setCustomName(username);
-						MainPanel mainPanel = (MainPanel) mainFactory.createPage();
-						mainPanel.setCustomName(username);
-						//mainPanel.initialize();
-						mainPanel.setVisible(true);
+//						MainPanel mainPanel = (MainPanel) mainFactory.createPage();
+//						mainPanel.setCustomName(username);
+//						//mainPanel.initialize();
+//						mainPanel.setVisible(true);
 					}
 					else 
 					{
@@ -241,22 +242,30 @@ public class LoginPage extends APage implements Serializable {
 		frame.getContentPane().add(lblNewLabel_total);
 	}
 
+//	@Override
+//	public void open() {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+////					LoginPage window = new LoginPage();
+////					window.getFrame().setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+//
+//	@Override
+//	public void close() {
+//		
+//	}
 	@Override
-	public void open() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginPage window = new LoginPage();
-					window.getFrame().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	@Override
-	public void close() {
-		
+	public void navigate() {
+		navigator.navigate(this);
+		if (INSTANCE != null) {
+			INSTANCE.setVisible(false);
+			INSTANCE.dispose();
+		}
 	}
 }

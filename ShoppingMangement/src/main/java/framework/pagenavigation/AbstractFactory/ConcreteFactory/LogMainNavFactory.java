@@ -22,14 +22,14 @@ public class LogMainNavFactory implements INavigatorFactory {
 	}
 	@Override
 	public APageNavigator createNavigator() {
-		return new LogMainNavigator();
+		return LogMainNavigator.getInstance();
 	}
 	@Override
-	public APage createPageA() {
-		return LoginPageFactory.getFactory().createPage();
+	public APage createPageA(APageNavigator navigator) {
+		return LoginPageFactory.getFactory().createPage(navigator);
 	}
 	@Override
-	public APage createPageB() {
-		return MainPanelFactory.getFactory().createPage();
+	public APage createPageB(APageNavigator navigator) {
+		return MainPanelFactory.getFactory().createPage(navigator);
 	}
 }

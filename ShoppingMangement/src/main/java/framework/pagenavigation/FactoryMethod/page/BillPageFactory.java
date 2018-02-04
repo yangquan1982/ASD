@@ -3,6 +3,7 @@
  */
 package framework.pagenavigation.FactoryMethod.page;
 
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.ui.BillPage;
 import shopping.ui.abstractproduct.APage;
 
@@ -17,8 +18,8 @@ public class BillPageFactory implements IPageFactory {
 		return factory;
 	}
 	@Override
-	public APage createPage() {
-		return BillPage.getInstance();
+	public APage createPage(APageNavigator navigator) {
+		return BillPage.getInstance(navigator);
 	}
 
 }

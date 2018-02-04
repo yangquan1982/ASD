@@ -18,7 +18,7 @@ public class PurToMainState extends INavigatorState {
 
 	@Override
 	public void navigate() {
-		
+		navigator.setCurrentState(navigator.getFromAToBState());
 	}
 
 }

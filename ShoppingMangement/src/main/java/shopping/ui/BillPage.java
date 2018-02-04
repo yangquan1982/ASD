@@ -29,6 +29,7 @@ import javax.swing.table.TableModel;
 
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.UserData;
 import shopping.bus.IProductManager;
 import shopping.bus.ProductManager;
@@ -79,14 +80,15 @@ public class BillPage extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	private BillPage() {
-		initialize();
+	private BillPage(APageNavigator navigator) {
+		super("BillPage", navigator);
+		//initialize();
 	}
-    public static BillPage getInstance() {
+    public static BillPage getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (BillPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new BillPage();
+                    INSTANCE = new BillPage(navigator);
                 }
             }
         }
@@ -257,9 +259,9 @@ public class BillPage extends APage implements Serializable {
 				public void actionPerformed(ActionEvent arg0) {
 					JOptionPane.showMessageDialog(null, "Bill Done....!");
 					frame.dispose();
-					Purchase purchase = null;
-					purchase = (Purchase) PurchaseFactory.getFactory().createPage();
-					purchase.setVisible(true);
+//					Purchase purchase = null;
+//					purchase = (Purchase) PurchaseFactory.getFactory().createPage();
+//					purchase.setVisible(true);
 				}
 			});
 			btnPaid.setBackground(new Color(51, 204, 255));
@@ -304,13 +306,21 @@ public class BillPage extends APage implements Serializable {
 			e1.printStackTrace();
 		}
 	}
+//	@Override
+//	public void open() {
+//		
+//	}
+//
+//	@Override
+//	public void close() {
+//		
+//	}
 	@Override
-	public void open() {
-		
-	}
-
-	@Override
-	public void close() {
-		
+	public void navigate() {
+		navigator.navigate(this);
+		if (INSTANCE != null) {
+			INSTANCE.setVisible(false);
+			INSTANCE.dispose();
+		}
 	}
 }

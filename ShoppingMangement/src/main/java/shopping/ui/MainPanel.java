@@ -17,6 +17,7 @@ import javax.swing.border.SoftBevelBorder;
 
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.ui.abstractproduct.APage;
 
 public class MainPanel extends APage implements Serializable {
@@ -34,15 +35,16 @@ public class MainPanel extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	private MainPanel(String customName) {
+	private MainPanel(String customName, APageNavigator navigator) {
+		super("MainPanel", navigator);
 		this.customName = customName;
-		initialize();
+		//initialize();
 	}
-    public static MainPanel getInstance(String customName) {
+    public static MainPanel getInstance(String customName, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (MainPanel.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new MainPanel(customName);
+                    INSTANCE = new MainPanel(customName, navigator);
                 }
             }
         }
@@ -62,7 +64,7 @@ public class MainPanel extends APage implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainPanel.getInstance("Admin").setVisible(true);
+					//MainPanel.getInstance("Admin").setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,8 +72,7 @@ public class MainPanel extends APage implements Serializable {
 		});
 	}
 
-
-	private void initialize() {
+	public void initialize() {
 //		this.pListPage = pListPage;
 		setResizable(false);
 		setType(Type.POPUP);
@@ -100,8 +101,8 @@ public class MainPanel extends APage implements Serializable {
 		}
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Purchase purchase = (Purchase) PurchaseFactory.getFactory().createPage();
-				purchase.setVisible(true);
+//				Purchase purchase = (Purchase) PurchaseFactory.getFactory().createPage();
+//				purchase.setVisible(true);
 			}
 		});
 		
@@ -145,13 +146,21 @@ public class MainPanel extends APage implements Serializable {
 		label_3.setBounds(0, 0, 728, 472);
 		contentPane.add(label_3);
 	}
+//	@Override
+//	public void open() {
+//		
+//	}
+//
+//	@Override
+//	public void close() {
+//		
+//	}
 	@Override
-	public void open() {
-		
-	}
-
-	@Override
-	public void close() {
-		
+	public void navigate() {
+		navigator.navigate(this);
+		if (INSTANCE != null) {
+			INSTANCE.setVisible(false);
+			INSTANCE.dispose();
+		}
 	}
 }

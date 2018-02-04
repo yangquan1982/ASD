@@ -19,6 +19,7 @@ public class PurToBillState extends INavigatorState {
 
 	@Override
 	public void navigate() {
+		navigator.setCurrentState(navigator.getFromBToAState());
 	}
 
 }

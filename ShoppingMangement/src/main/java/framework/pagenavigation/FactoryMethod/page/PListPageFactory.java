@@ -3,6 +3,7 @@
  */
 package framework.pagenavigation.FactoryMethod.page;
 
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.ui.ProductListPage;
 import shopping.ui.abstractproduct.APage;
 
@@ -17,8 +18,8 @@ public class PListPageFactory implements IPageFactory {
 		return factory;
 	}
 	@Override
-	public APage createPage() {
-		return ProductListPage.getInstance();
+	public APage createPage(APageNavigator navigator) {
+		return ProductListPage.getInstance(navigator);
 	}
 
 }

@@ -46,7 +46,9 @@ public abstract class APageNavigator {
 		this.fromBToAState = fromBToAState;
 	}
 	public void addPage(APage page) {
-		this.pages.add(page);
+		if (this.pages != null && this.pages.size() < 2) {//one concrete navigator only has two colleagues at most
+			this.pages.add(page);
+		}
 	}
-	public abstract void navigate();
+	public abstract void navigate(APage senderPage);
 }

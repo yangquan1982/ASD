@@ -17,8 +17,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.border.TitledBorder;
 
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.RegLogNavFactory;
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Dialog.ModalExclusionType;
@@ -37,15 +39,16 @@ public class Registration extends APage implements Serializable {
 	private JLabel label;
 	private static Registration INSTANCE = null;
 	
-	private Registration() {
-		super();
-		initialize();
+	private Registration(APageNavigator navigator) {
+		super("Registration", navigator);
+		//initialize();
 	}
-    public static Registration getInstance() {
+	
+    public static Registration getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (Registration.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new Registration();
+                    INSTANCE = new Registration(navigator);
                 }
             }
         }
@@ -58,7 +61,7 @@ public class Registration extends APage implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegPageFactory.getFactory().createPage().setVisible(true);
+//					RegPageFactory.getFactory().createPage().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -75,7 +78,7 @@ public class Registration extends APage implements Serializable {
 	 */
 
 	
-	private void initialize() {
+	public void initialize() {
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setTitle("Sign Up");
 		setBounds(100, 100, 622, 401);
@@ -88,8 +91,8 @@ public class Registration extends APage implements Serializable {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LoginPage loginPage = (LoginPage) LoginPageFactory.getFactory().createPage();
-				loginPage.getFrame().setVisible(true);
+//				LoginPage loginPage = (LoginPage) LoginPageFactory.getFactory().createPage();
+//				loginPage.getFrame().setVisible(true);
 //				closeWindow();
 			}
 		});
@@ -161,21 +164,30 @@ public class Registration extends APage implements Serializable {
 		label.setBounds(0, 0, 616, 373);
 		getContentPane().add(label);
 	}
-	@Override
-	public void open() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegPageFactory.getFactory().createPage().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//	@Override
+//	public void open() {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+////					RegPageFactory.getFactory().createPage().setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+//	@Override
+	private void close() {
+//		RegPageFactory.getFactory().createPage().setVisible(false);
+//		RegPageFactory.getFactory().createPage().dispose();
 	}
+//
 	@Override
-	public void close() {
-		RegPageFactory.getFactory().createPage().setVisible(false);
-		RegPageFactory.getFactory().createPage().dispose();
+	public void navigate() {
+		navigator.navigate(this);
+		if (INSTANCE != null) {
+			INSTANCE.setVisible(false);
+			INSTANCE.dispose();
+		}
 	}
 }

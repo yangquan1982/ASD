@@ -22,14 +22,14 @@ public class MainPurchaseNavFactory implements INavigatorFactory {
 	}
 	@Override
 	public APageNavigator createNavigator() {
-		return new MainPurchaseNavigator();
+		return MainPurchaseNavigator.getInstance();
 	}
 	@Override
-	public APage createPageA() {
-		return MainPanelFactory.getFactory().createPage();
+	public APage createPageA(APageNavigator navigator) {
+		return MainPanelFactory.getFactory().createPage(navigator);
 	}
 	@Override
-	public APage createPageB() {
-		return PurchaseFactory.getFactory().createPage();
+	public APage createPageB(APageNavigator navigator) {
+		return PurchaseFactory.getFactory().createPage(navigator);
 	}
 }

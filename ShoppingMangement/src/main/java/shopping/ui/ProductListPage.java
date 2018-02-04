@@ -39,6 +39,7 @@ import javax.swing.table.TableModel;
 
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.bus.ProductManager;
 import shopping.model.Product.IProductBuilder;
 import shopping.model.Product.Product;
@@ -95,14 +96,15 @@ public class ProductListPage extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	private ProductListPage() {
-		initialize();
+	private ProductListPage(APageNavigator navigator) {
+		super("ProductList", navigator);
+		//initialize();
 	}
-    public static ProductListPage getInstance() {
+    public static ProductListPage getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (ProductListPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new ProductListPage();
+                    INSTANCE = new ProductListPage(navigator);
                 }
             }
         }
@@ -129,8 +131,8 @@ public class ProductListPage extends APage implements Serializable {
 		});
 	}
 	private void openMainPanel() {
-		this.mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
-		this.mainPanel.setVisible(true);
+//		this.mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
+//		this.mainPanel.setVisible(true);
 	}
 	private void closeWindow() {
 //		this.mainPanel.getpListPage().setVisible(false);
@@ -163,7 +165,7 @@ public class ProductListPage extends APage implements Serializable {
 		dm.fireTableDataChanged();
 	}
 	
-	private void initialize() {
+	public void initialize() {
 		this.mainPanel = mainPanel;
 		plist = new ProductList();
 		pManager = ProductManager.getProductManager(plist);
@@ -547,14 +549,22 @@ public class ProductListPage extends APage implements Serializable {
 		label_5.setBounds(1, 0, 728, 456);
 		contentPane.add(label_5);	
 	}
+//	@Override
+//	public void open() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void close() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	@Override
-	public void open() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-		
+	public void navigate() {
+		navigator.navigate(this);
+		if (INSTANCE != null) {
+			INSTANCE.setVisible(false);
+			INSTANCE.dispose();
+		}
 	}
 }

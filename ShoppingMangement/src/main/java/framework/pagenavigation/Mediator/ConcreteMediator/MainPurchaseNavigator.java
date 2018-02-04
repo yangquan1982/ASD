@@ -6,6 +6,8 @@ package framework.pagenavigation.Mediator.ConcreteMediator;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import framework.pagenavigation.State.ConcreteState.MainToPurState;
 import framework.pagenavigation.State.ConcreteState.PurToMainState;
+import shopping.ui.Registration;
+import shopping.ui.abstractproduct.APage;
 
 /**
  * @author Quan Yang
@@ -13,14 +15,26 @@ import framework.pagenavigation.State.ConcreteState.PurToMainState;
  */
 public class MainPurchaseNavigator extends APageNavigator {
 	
-	public MainPurchaseNavigator() {
+	private static MainPurchaseNavigator INSTANCE;
+    public static MainPurchaseNavigator getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Registration.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new MainPurchaseNavigator();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+	private MainPurchaseNavigator() {
 		super();
 		this.fromAToBState = new MainToPurState(this);
 		this.fromBToAState = new PurToMainState(this);
 	}
 	
 	@Override
-	public void navigate() {
-		
+	public void navigate(APage senderPage) {
+
+		currentState.navigate();
 	}
 }

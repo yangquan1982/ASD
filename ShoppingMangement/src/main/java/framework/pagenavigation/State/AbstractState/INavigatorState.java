@@ -17,21 +17,13 @@ public abstract class INavigatorState {
 		this.state = state;
 		this.navigator = navigator;
 	}
-
-	public APageNavigator getNavigator() {
-		return navigator;
-	}
-
-	public void setNavigator(APageNavigator navigator) {
-		this.navigator = navigator;
-	}
-
+	
 	public ENavState getState() {
 		return state;
 	}
 
-	public void setState(ENavState state) {
-		this.state = state;
+	public APageNavigator getNavigator() {
+		return navigator;
 	}
 
 	public abstract void navigate();

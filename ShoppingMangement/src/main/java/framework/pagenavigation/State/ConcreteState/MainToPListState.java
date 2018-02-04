@@ -19,7 +19,7 @@ public class MainToPListState extends INavigatorState {
 
 	@Override
 	public void navigate() {
-		
+		navigator.setCurrentState(navigator.getFromBToAState());
 	}
 
 }

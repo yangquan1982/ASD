@@ -3,6 +3,7 @@
  */
 package framework.pagenavigation.FactoryMethod.page;
 
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.ui.abstractproduct.APage;
 
 /**
@@ -10,5 +11,5 @@ import shopping.ui.abstractproduct.APage;
  *
  */
 public interface IPageFactory {
-	public APage createPage();
+	public APage createPage(APageNavigator navigator);
 }

@@ -12,11 +12,13 @@ import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
  *
  */
 public abstract class APage extends JFrame {
+
+	private static final long serialVersionUID = 1591777803698880800L;
 	protected APageNavigator navigator;
 	protected String pageName;
 	public APage() {
 	}
-	public APage(APageNavigator navigator, String pageName) {
+	public APage(String pageName, APageNavigator navigator) {
 		this.navigator = navigator;
 		this.pageName = pageName;
 	}
@@ -32,6 +34,7 @@ public abstract class APage extends JFrame {
 	public void setPageName(String pageName) {
 		this.pageName = pageName;
 	}
-	public abstract void open();
-	public abstract void close();
+//	public abstract void open();
+//	public abstract void close();
+	public abstract void navigate();
 }
