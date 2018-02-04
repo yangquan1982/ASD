@@ -20,7 +20,7 @@ public class Starter {
 		APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
 		APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
 		APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
-		regLogNavigator.addPage(regPage);
-		regLogNavigator.addPage(loginPage);
+		regLogNavigator.setPageAB(regPage, loginPage);
+		regPage.open();
 	}
 }

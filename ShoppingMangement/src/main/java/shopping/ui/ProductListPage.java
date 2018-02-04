@@ -37,6 +37,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.LogMainNavFactory;
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.MainPListNavFactory;
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
@@ -93,12 +95,9 @@ public class ProductListPage extends APage implements Serializable {
 	private JCheckBox checkBox_discount;
 	
 	private static ProductListPage INSTANCE = null;
-	/**
-	 * Create the frame.
-	 */
+
 	private ProductListPage(APageNavigator navigator) {
 		super("ProductList", navigator);
-		//initialize();
 	}
     public static ProductListPage getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
@@ -115,32 +114,7 @@ public class ProductListPage extends APage implements Serializable {
 	}
 	public static void setMainPanel(MainPanel mainPanel) {
 		ProductListPage.mainPanel = mainPanel;
-	}
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProductListPage.INSTANCE.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	private void openMainPanel() {
-//		this.mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
-//		this.mainPanel.setVisible(true);
-	}
-	private void closeWindow() {
-//		this.mainPanel.getpListPage().setVisible(false);
-//		this.mainPanel.getpListPage().dispose();
-//		pListPage.setVisible(false);
-//		pListPage.dispose();
-	}
-		
+	}	
 	private void displayResult() {
 		clearTable();
 		TableModel tModel = pManager.setAllProductsToTableModel();
@@ -165,8 +139,7 @@ public class ProductListPage extends APage implements Serializable {
 		dm.fireTableDataChanged();
 	}
 	
-	public void initialize() {
-		this.mainPanel = mainPanel;
+	private void initialize() {
 		plist = new ProductList();
 		pManager = ProductManager.getProductManager(plist);
 		setResizable(false);
@@ -230,8 +203,14 @@ public class ProductListPage extends APage implements Serializable {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				closeWindow();
-				openMainPanel();
+				APageNavigator pListMainNavigator = MainPListNavFactory.getFactory().createNavigator();
+				APage pListPage = MainPListNavFactory.getFactory().createPageB(pListMainNavigator);
+				APage mainPage = MainPListNavFactory.getFactory().createPageA(pListMainNavigator);
+				pListPage.setNavigator(pListMainNavigator);
+				mainPage.setNavigator(pListMainNavigator);
+				pListMainNavigator.setCurrentState(pListMainNavigator.getFromBToAState());
+				pListMainNavigator.setPageAB(mainPage, pListPage);
+				pListPage.navigate();
 			}
 		});
 		contentPane.add(btnBack);
@@ -356,7 +335,7 @@ public class ProductListPage extends APage implements Serializable {
 					pBuilder.buildPriceAndCount(price, ttCnt);
 					String strDiscount = textField_discount.getText();
 					double discount = Double.valueOf(strDiscount);
-					boolean isDiscount = true;
+					boolean isDiscount = checkBox_discount.isSelected();
 					if (isDiscount) {
 						pBuilder.buildDiscount(isDiscount, discount);
 					}
@@ -547,24 +526,28 @@ public class ProductListPage extends APage implements Serializable {
 		label_5 = (JLabel) JLabelFactory.getFactory().createComponent("");
 		label_5.setIcon(new ImageIcon("Icons\\default.jpg"));
 		label_5.setBounds(1, 0, 728, 456);
-		contentPane.add(label_5);	
+		contentPane.add(label_5);
+		INSTANCE.setVisible(true);
 	}
-//	@Override
-//	public void open() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	@Override
-//	public void close() {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					initialize();//Facade
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
 		if (INSTANCE != null) {
 			INSTANCE.setVisible(false);
 			INSTANCE.dispose();
+			INSTANCE = null;
 		}
 	}
 }

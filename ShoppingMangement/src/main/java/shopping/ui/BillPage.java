@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.PurchaseBillNavFactory;
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
@@ -94,20 +95,6 @@ public class BillPage extends APage implements Serializable {
         }
         return INSTANCE;
     }
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BillPage.INSTANCE.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -158,13 +145,15 @@ public class BillPage extends APage implements Serializable {
 		
 		desktopPane = (JDesktopPane) JDesktopPaneFactory.getFactory().createComponent();
 		desktopPane.setBounds(20, 56, 223, 118);
-		desktopPane.setBorder(new TitledBorder(null, "Customer Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		desktopPane.setBorder(new TitledBorder(null, "Customer Data", TitledBorder.LEADING, 
+				TitledBorder.TOP, null, new Color(0, 0, 255)));
 		desktopPane.setBackground(new Color(255, 255, 0));
 		contentPane.add(desktopPane);
 		
 		scrollPane = (JScrollPane) JScrollPaneFactory.getFactory().createComponent();
 		scrollPane.setBounds(20, 66, 223, 106);
-		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Customer Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+				"Customer Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
 		contentPane.add(scrollPane);
 		
 		scrollPane_1 = (JScrollPane) JScrollPaneFactory.getFactory().createComponent();
@@ -190,8 +179,10 @@ public class BillPage extends APage implements Serializable {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.setRowCount(0);
 				table.setModel(tModel);
+				table.getColumnModel().getColumn(0).setMaxWidth(0);
+				table.getColumnModel().getColumn(0).setMinWidth(0);
+				table.getColumnModel().getColumn(0).setWidth(0);
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
 			}
 			lblTotaltk = (JLabel) JLabelFactory.getFactory().createComponent("Total (Tk)");
 			lblTotaltk.setBounds(31, 219, 71, 14);
@@ -222,7 +213,8 @@ public class BillPage extends APage implements Serializable {
 				public void actionPerformed(ActionEvent e) {
 					double sum = Double.valueOf(textField_sum.getText());
 					sum = Double.valueOf(textField_payment.getText()) - sum;
-					textField_change.setText(String.valueOf(new BigDecimal(sum).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue()));
+					textField_change.setText(String.valueOf(new BigDecimal(sum).setScale(3, 
+							BigDecimal.ROUND_HALF_UP).doubleValue()));
 				}
 			});
 			contentPane.add(textField_payment);
@@ -235,7 +227,9 @@ public class BillPage extends APage implements Serializable {
 			
 			desktopPane_1 = (JDesktopPane) JDesktopPaneFactory.getFactory().createComponent();
 			desktopPane_1.setBounds(20, 190, 286, 147);
-			desktopPane_1.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Bill Payment", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+			desktopPane_1.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, 
+					null, null, null, null), "Bill Payment", TitledBorder.LEADING, 
+					TitledBorder.TOP, null, new Color(255, 255, 255)));
 			desktopPane_1.setBackground(new Color(210, 105, 30));
 			contentPane.add(desktopPane_1);
 			
@@ -255,13 +249,16 @@ public class BillPage extends APage implements Serializable {
 			btnPaid.setBounds(20, 348, 99, 52);
 			btnPaid.setIcon(new ImageIcon("Icons\\Cash-register-icon.png"));
 			btnPaid.addActionListener(new ActionListener() {
-				BillPage frame = BillPage.this;
 				public void actionPerformed(ActionEvent arg0) {
 					JOptionPane.showMessageDialog(null, "Bill Done....!");
-					frame.dispose();
-//					Purchase purchase = null;
-//					purchase = (Purchase) PurchaseFactory.getFactory().createPage();
-//					purchase.setVisible(true);
+					APageNavigator purBillNavigator = PurchaseBillNavFactory.getFactory().createNavigator();
+					APage billPage = PurchaseBillNavFactory.getFactory().createPageB(purBillNavigator);
+					APage purPage = PurchaseBillNavFactory.getFactory().createPageA(purBillNavigator);
+					billPage.setNavigator(purBillNavigator);
+					purPage.setNavigator(purBillNavigator);
+					purBillNavigator.setCurrentState(purBillNavigator.getFromBToAState());
+					purBillNavigator.setPageAB(purPage, billPage);
+					billPage.navigate();
 				}
 			});
 			btnPaid.setBackground(new Color(51, 204, 255));
@@ -274,7 +271,14 @@ public class BillPage extends APage implements Serializable {
 			btnBack.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+					APageNavigator purBillNavigator = PurchaseBillNavFactory.getFactory().createNavigator();
+					APage billPage = PurchaseBillNavFactory.getFactory().createPageB(purBillNavigator);
+					APage purPage = PurchaseBillNavFactory.getFactory().createPageA(purBillNavigator);
+					billPage.setNavigator(purBillNavigator);
+					purPage.setNavigator(purBillNavigator);
+					purBillNavigator.setCurrentState(purBillNavigator.getFromBToAState());
+					purBillNavigator.setPageAB(purPage, billPage);
+					billPage.navigate();
 				}
 			});
 			btnBack.setBackground(new Color(255, 204, 51));
@@ -302,25 +306,31 @@ public class BillPage extends APage implements Serializable {
 			label_5.setIcon(new ImageIcon("Icons\\vista_styled_hd_background_by_jcsawyer.jpg"));
 			label_5.setBounds(0, 0, 720, 454);
 			contentPane.add(label_5);
+			INSTANCE.setVisible(true);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
-//	@Override
-//	public void open() {
-//		
-//	}
-//
-//	@Override
-//	public void close() {
-//		
-//	}
+	@Override
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					initialize();//Facade
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
 		if (INSTANCE != null) {
 			INSTANCE.setVisible(false);
 			INSTANCE.dispose();
+			INSTANCE = null;
 		}
 	}
 }

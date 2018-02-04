@@ -26,6 +26,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.LogMainNavFactory;
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.RegLogNavFactory;
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
 import framework.pagenavigation.Mediator.AbstractMediator.*;
@@ -124,27 +126,13 @@ public class LoginPage extends APage implements Serializable {
 	public static void setUserData(UserData userData) {
 		LoginPage.userData = userData;
 	}
-	/**
-	 * Launch the application for test.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					((LoginPage) LoginPageFactory.getFactory().
-//							createPage()).getFrame().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = (JFrame) JFrameFactory.getFactory().createComponent();
+		INSTANCE.getFrame().setVisible(true);
 		frame.setResizable(false);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icons\\shop-icon.png"));
 		frame.setBackground(new Color(153, 153, 204));
@@ -190,14 +178,16 @@ public class LoginPage extends APage implements Serializable {
 							customer.setCustomerProfile(profile);
 							userData.setCustomer(customer);
 						}
-						//JOptionPane.showMessageDialog(null, "Username & Password is correct");
-						frame.dispose();
-						MainPanelFactory mainFactory = (MainPanelFactory) MainPanelFactory.getFactory();
-						mainFactory.setCustomName(username);
-//						MainPanel mainPanel = (MainPanel) mainFactory.createPage();
-//						mainPanel.setCustomName(username);
-//						//mainPanel.initialize();
-//						mainPanel.setVisible(true);
+						
+						APageNavigator logMainNavigator = LogMainNavFactory.getFactory().createNavigator();
+						APage mainPage = LogMainNavFactory.getFactory().createPageB(logMainNavigator);
+						APage loginPage = LogMainNavFactory.getFactory().createPageA(logMainNavigator);
+						loginPage.setNavigator(logMainNavigator);
+						mainPage.setNavigator(logMainNavigator);
+						logMainNavigator.setCurrentState(logMainNavigator.getFromAToBState());
+						((MainPanel) mainPage).setCustomName(username);
+						logMainNavigator.setPageAB(loginPage, mainPage);
+						loginPage.navigate();
 					}
 					else 
 					{
@@ -217,7 +207,14 @@ public class LoginPage extends APage implements Serializable {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//navigator.navigate();
+				APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
+				APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
+				APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
+				regPage.setNavigator(regLogNavigator);
+				loginPage.setNavigator(regLogNavigator);
+				regLogNavigator.setCurrentState(regLogNavigator.getFromBToAState());
+				regLogNavigator.setPageAB(regPage, loginPage);
+				loginPage.navigate();
 			}
 		});
 		btnSignUp.setBounds(301, 354, 87, 28);
@@ -240,32 +237,30 @@ public class LoginPage extends APage implements Serializable {
 		lblNewLabel_total.setIcon(new ImageIcon("Icons\\cool-light-blue-backgrounds.jpg"));
 		lblNewLabel_total.setBounds(0, 0, 721, 445);
 		frame.getContentPane().add(lblNewLabel_total);
+		INSTANCE.setVisible(true);
 	}
 
-//	@Override
-//	public void open() {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-////					LoginPage window = new LoginPage();
-////					window.getFrame().setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-//
-//	@Override
-//	public void close() {
-//		
-//	}
+	@Override
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					initialize();//Facade
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
 		if (INSTANCE != null) {
+			INSTANCE.getFrame().setVisible(false);
 			INSTANCE.setVisible(false);
 			INSTANCE.dispose();
+			INSTANCE = null;
 		}
 	}
 }

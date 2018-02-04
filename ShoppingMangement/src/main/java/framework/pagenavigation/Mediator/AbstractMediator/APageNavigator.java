@@ -14,25 +14,21 @@ import shopping.ui.abstractproduct.APage;
  *
  */
 public abstract class APageNavigator {
-	protected List<APage> pages;
+	protected APage[] pages;
 	protected INavigatorState fromAToBState;
 	protected INavigatorState fromBToAState;
 	protected INavigatorState currentState;
 	public APageNavigator() {
-		this.pages = new ArrayList<APage>();
+		this.pages = new APage[2];
 	}
-	public List<APage> getPages() {
-		return this.pages;
-	}
+
 	public INavigatorState getCurrentState() {
 		return this.currentState;
 	}
 	public void setCurrentState(INavigatorState currentState) {
 		this.currentState = currentState;
 	}
-	public void setPages(List<APage> pages) {
-		this.pages = pages;
-	}
+
 	public INavigatorState getFromAToBState() {
 		return this.fromAToBState;
 	}
@@ -45,10 +41,15 @@ public abstract class APageNavigator {
 	public void setFromBToAState(INavigatorState fromBToAState) {
 		this.fromBToAState = fromBToAState;
 	}
-	public void addPage(APage page) {
-		if (this.pages != null && this.pages.size() < 2) {//one concrete navigator only has two colleagues at most
-			this.pages.add(page);
-		}
+//	public void addPage(APage page) {
+//		if (this.pages != null) {//one concrete navigator only has two colleagues at most
+//			this.pages.add(page);
+//		}
+//	}
+	public void setPageAB(APage pageA, APage pageB) {
+		this.pages[0] = pageA;
+		this.pages[1] = pageB;
 	}
+	
 	public abstract void navigate(APage senderPage);
 }

@@ -15,9 +15,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.LogMainNavFactory;
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.MainPListNavFactory;
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.MainPurchaseNavFactory;
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
+import framework.pagenavigation.Mediator.ConcreteMediator.MainPListNavigator;
 import shopping.ui.abstractproduct.APage;
 
 public class MainPanel extends APage implements Serializable {
@@ -72,8 +76,7 @@ public class MainPanel extends APage implements Serializable {
 		});
 	}
 
-	public void initialize() {
-//		this.pListPage = pListPage;
+	private void initialize() {
 		setResizable(false);
 		setType(Type.POPUP);
 		setFont(new Font("Lucida Fax", Font.BOLD, 14));
@@ -101,8 +104,14 @@ public class MainPanel extends APage implements Serializable {
 		}
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Purchase purchase = (Purchase) PurchaseFactory.getFactory().createPage();
-//				purchase.setVisible(true);
+				APageNavigator mainPurNavigator = MainPurchaseNavFactory.getFactory().createNavigator();
+				APage mainPage = MainPurchaseNavFactory.getFactory().createPageA(mainPurNavigator);
+				APage purPage = MainPurchaseNavFactory.getFactory().createPageB(mainPurNavigator);
+				mainPage.setNavigator(mainPurNavigator);
+				purPage.setNavigator(mainPurNavigator);
+				mainPurNavigator.setCurrentState(mainPurNavigator.getFromAToBState());
+				mainPurNavigator.setPageAB(mainPage, purPage);
+				mainPage.navigate();
 			}
 		});
 		
@@ -121,8 +130,14 @@ public class MainPanel extends APage implements Serializable {
 		}
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				ProductListPage pl = new ProductListPage(this);
-//				pl.setVisible(true);
+				APageNavigator mainPListNavigator = MainPListNavFactory.getFactory().createNavigator();
+				APage mainPage = MainPListNavFactory.getFactory().createPageA(mainPListNavigator);
+				APage pListPage = MainPListNavFactory.getFactory().createPageB(mainPListNavigator);
+				mainPage.setNavigator(mainPListNavigator);
+				pListPage.setNavigator(mainPListNavigator);
+				mainPListNavigator.setCurrentState(mainPListNavigator.getFromAToBState());
+				mainPListNavigator.setPageAB(mainPage, pListPage);
+				mainPage.navigate();
 			}
 		});
 		contentPane.add(btnNewButton);
@@ -135,7 +150,14 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton_5.setFont(new Font("Berlin Sans FB", Font.PLAIN, 14));
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				APageNavigator logMainNavigator = LogMainNavFactory.getFactory().createNavigator();
+				APage mainPage = LogMainNavFactory.getFactory().createPageB(logMainNavigator);
+				APage loginPage = LogMainNavFactory.getFactory().createPageA(logMainNavigator);
+				mainPage.setNavigator(logMainNavigator);
+				loginPage.setNavigator(logMainNavigator);
+				logMainNavigator.setCurrentState(logMainNavigator.getFromBToAState());
+				logMainNavigator.setPageAB(loginPage, mainPage);
+				mainPage.navigate();
 			}
 		});
 		contentPane.add(btnNewButton_5);
@@ -145,22 +167,28 @@ public class MainPanel extends APage implements Serializable {
 		label_3.setIcon(new ImageIcon("Icons\\f9ab3cd3d492197df7be5a99026468db.jpg"));
 		label_3.setBounds(0, 0, 728, 472);
 		contentPane.add(label_3);
+		INSTANCE.setVisible(true);
 	}
-//	@Override
-//	public void open() {
-//		
-//	}
-//
-//	@Override
-//	public void close() {
-//		
-//	}
+	@Override
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					initialize();//Facade
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
 		if (INSTANCE != null) {
 			INSTANCE.setVisible(false);
 			INSTANCE.dispose();
+//			INSTANCE = null;
 		}
 	}
 }

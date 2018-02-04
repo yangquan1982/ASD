@@ -33,6 +33,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.MainPurchaseNavFactory;
+import framework.pagenavigation.AbstractFactory.ConcreteFactory.PurchaseBillNavFactory;
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
@@ -88,12 +90,9 @@ public class Purchase extends APage implements Serializable {
 	private Customer customer = userData.getCustomer();
 	private CustomerProfile profile = customer.getCustomerProfile();
 	private static Purchase INSTANCE = null;
-	/**
-	 * Create the frame.
-	 */
+
 	private Purchase(APageNavigator navigator) {
 		super("Purchase", navigator);
-		//initialize();
 	}
     public static Purchase getInstance(APageNavigator navigator) {
         if (INSTANCE == null) {
@@ -105,22 +104,8 @@ public class Purchase extends APage implements Serializable {
         }
         return INSTANCE;
     }
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Purchase.INSTANCE.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-//	Connection connection = null;
-	public void initialize() {
+
+	private void initialize() {
 		setResizable(false);
 		setBackground(new Color(204, 102, 51));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -138,11 +123,6 @@ public class Purchase extends APage implements Serializable {
 		lblPurchasStation.setFont(new Font("Franklin Gothic Medium", Font.PLAIN, 18));
 		lblPurchasStation.setBounds(298, 0, 180, 62);
 		contentPane.add(lblPurchasStation);
-		
-//		lblName = (JLabel) JLabelFactory.getFactory().createComponent("Name");
-//		lblName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-//		lblName.setBounds(21, 73, 54, 21);
-//		contentPane.add(lblName);
 		
 		textField_cname = (JTextField) JTextFieldFactory.getFactory().createComponent();
 		textField_cname.setBounds(75, 74, 70, 20);
@@ -182,63 +162,18 @@ public class Purchase extends APage implements Serializable {
 		contentPane.add(textField_address);
 		
 		desktopPane = (JDesktopPane) JDesktopPaneFactory.getFactory().createComponent();
-		desktopPane.setBorder(new TitledBorder(null, "Customer Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		desktopPane.setBorder(new TitledBorder(null, "Customer Data", TitledBorder.LEADING, TitledBorder.TOP, 
+				null, new Color(0, 0, 255)));
 		desktopPane.setBackground(Color.LIGHT_GRAY);
 		desktopPane.setBounds(10, 50, 223, 118);
 		contentPane.add(desktopPane);
 		
 		scrollPane = (JScrollPane) JScrollPaneFactory.getFactory().createComponent();
-		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Customer Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+				"Customer Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
 		scrollPane.setBounds(10, 60, 223, 106);
 		contentPane.add(scrollPane);
 		
-//		lblCatagory = (JLabel) JLabelFactory.getFactory().createComponent("Catagory");
-//		lblCatagory.setFont(new Font("Proxima Nova Rg", Font.PLAIN, 13));
-//		lblCatagory.setBounds(21, 237, 54, 23);
-//		contentPane.add(lblCatagory);
-//		
-//		lblUnit = (JLabel) JLabelFactory.getFactory().createComponent("Unit");
-//		lblUnit.setFont(new Font("Proxima Nova Rg", Font.PLAIN, 13));
-//		lblUnit.setBounds(21, 271, 54, 23);
-//		contentPane.add(lblUnit);
-//		
-//		lblPrice = (JLabel) JLabelFactory.getFactory().createComponent("Price");
-//		lblPrice.setFont(new Font("Proxima Nova Rg", Font.PLAIN, 13));
-//		lblPrice.setBounds(21, 305, 54, 17);
-//		contentPane.add(lblPrice);
-		
-//		textField_catagory = (JTextField) JTextFieldFactory.getFactory().createComponent();
-//		textField_catagory.setColumns(10);
-//		textField_catagory.setBounds(96, 238, 108, 20);
-//		contentPane.add(textField_catagory);
-//		
-//		textField_unit = (JTextField) JTextFieldFactory.getFactory().createComponent();
-//		textField_unit.setColumns(10);
-//		textField_unit.setBounds(96, 272, 108, 20);
-//		contentPane.add(textField_unit);
-//		
-//		textField_price = (JTextField) JTextFieldFactory.getFactory().createComponent();
-//		textField_price.setColumns(10);
-//		textField_price.setBounds(96, 303, 108, 20);
-//		contentPane.add(textField_price);
-//		
-//		textField_name = (JTextField) JTextFieldFactory.getFactory().createComponent();
-//		textField_name.setBounds(96, 208, 108, 20);
-//		contentPane.add(textField_name);
-//		textField_name.setColumns(10);
-		
-//		lblNewLabel = (JLabel) JLabelFactory.getFactory().createComponent("Name");
-//		lblNewLabel.setBounds(21, 208, 54, 21);
-//		contentPane.add(lblNewLabel);
-//		lblNewLabel.setFont(new Font("Proxima Nova Rg", Font.PLAIN, 13));
-		
-//		desktopPane_1 = (JDesktopPane) JDesktopPaneFactory.getFactory().createComponent();
-//		desktopPane_1.setBorder(new TitledBorder(null, "Product Data", TitledBorder.LEADING, 
-//				TitledBorder.TOP, null, Color.BLUE));
-//		desktopPane_1.setBackground(Color.LIGHT_GRAY);
-//		desktopPane_1.setBounds(10, 189, 223, 157);
-//		contentPane.add(desktopPane_1);
-//		
 		scrollPane_1 = (JScrollPane) JScrollPaneFactory.getFactory().createComponent();
 		scrollPane_1.setBounds(434, 50, 263, 350);
 		scrollPane_1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -272,33 +207,6 @@ public class Purchase extends APage implements Serializable {
 			}
 		});
 		scrollPane_1.setViewportView(table);
-
-//		textSearchProducts = (JTextField) JTextFieldFactory.getFactory().createComponent();
-//		textSearchProducts.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyReleased(KeyEvent arg0) {
-//				try {
-//					String selection= (String)comboBox.getSelectedItem();
-//					String query = "select *  from Product where "+selection+"=?";
-//					PreparedStatement pst = connection.prepareStatement(query);
-//					pst.setString(1, textSearchProducts.getText());
-//					ResultSet rs = pst.executeQuery();
-//					table.setModel(DbUtils.resultSetToTableModel(rs));
-//					pst.close();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//		textSearchProducts.setBounds(444, 93, 119, 37);
-//		contentPane.add(textSearchProducts);
-//		textSearchProducts.setColumns(10);
-		
-//		comboBox = (JComboBox) JComboBoxFactory.getFactory().createComponent();
-//		comboBox.setFont(new Font("Malgun Gothic", Font.BOLD, 13));
-//		comboBox.setModel(new DefaultComboBoxModel(new String[] {"p_id", "p_name", "p_catagory"}));
-//		comboBox.setBounds(573, 93, 108, 37);
-//		contentPane.add(comboBox);
 		
 		btnAddToCurt = (JButton) JButtonFactory.getFactory().createComponent("Add");
 		btnAddToCurt.setBackground(Color.WHITE);
@@ -327,7 +235,14 @@ public class Purchase extends APage implements Serializable {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				APageNavigator mainPurNavigator = MainPurchaseNavFactory.getFactory().createNavigator();
+				APage purPage = MainPurchaseNavFactory.getFactory().createPageB(mainPurNavigator);
+				APage mainPage = MainPurchaseNavFactory.getFactory().createPageA(mainPurNavigator);
+				purPage.setNavigator(mainPurNavigator);
+				mainPage.setNavigator(mainPurNavigator);
+				mainPurNavigator.setCurrentState(mainPurNavigator.getFromBToAState());
+				mainPurNavigator.setPageAB(mainPage, purPage);
+				purPage.navigate();
 			}
 		});
 		btnBack.setBounds(317, 222, 50, 50);
@@ -335,74 +250,44 @@ public class Purchase extends APage implements Serializable {
 		
 		btnNewButton = (JButton) JButtonFactory.getFactory().createComponent("");
 		btnNewButton.addActionListener(new ActionListener() {
-			Purchase frame = Purchase.this;
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-//				BillPage billPage = (BillPage) BillPageFactory.getFactory().createPage();
-//				billPage.setVisible(true);
+				APageNavigator purBillNavigator = PurchaseBillNavFactory.getFactory().createNavigator();
+				APage purPage = PurchaseBillNavFactory.getFactory().createPageA(purBillNavigator);
+				APage billPage = PurchaseBillNavFactory.getFactory().createPageB(purBillNavigator);
+				purPage.setNavigator(purBillNavigator);
+				billPage.setNavigator(purBillNavigator);
+				purBillNavigator.setCurrentState(purBillNavigator.getFromAToBState());
+				purBillNavigator.setPageAB(purPage, billPage);
+				purPage.navigate();
 			}
-			
 		});
 		btnNewButton.setForeground(new Color(0, 204, 0));
 		btnNewButton.setBackground(new Color(255, 255, 0));
 		btnNewButton.setIcon(new ImageIcon("Icons\\shop-icon.png"));
 		btnNewButton.setBounds(10, 367, 223, 66);
 		contentPane.add(btnNewButton);
-		
-//		desktopPane_2 = (JDesktopPane) JDesktopPaneFactory.getFactory().createComponent();
-//		desktopPane_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Search Items", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
-//		desktopPane_2.setBackground(UIManager.getColor("Button.shadow"));
-//		desktopPane_2.setBounds(434, 73, 263, 66);
-//		contentPane.add(desktopPane_2);
-//		try {
-//			String query = "select * from Product";
-//			PreparedStatement pst = connection.prepareStatement(query);
-//			ResultSet rs = pst.executeQuery();
-//			table.setModel(DbUtils.resultSetToTableModel(rs));
-//			
-//			btnLoadProductData = (JButton) JButtonFactory.getFactory().createComponent("Load Products");
-//			btnLoadProductData.addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent arg0) {
-//					try {
-//						String query = "select * from Product";
-//						PreparedStatement pst = connection.prepareStatement(query);
-//						ResultSet rs = pst.executeQuery();
-//						table.setModel(DbUtils.resultSetToTableModel(rs));
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//			});
-//			btnLoadProductData.setFont(new Font("Segoe Print", Font.BOLD, 12));
-//			btnLoadProductData.setBounds(562, 17, 135, 45);
-//			contentPane.add(btnLoadProductData);
-//			
-//			label = (JLabel) JLabelFactory.getFactory().createComponent("");
-//			label.setIcon(new ImageIcon("Icons\\1.jpg"));
-//			label.setBounds(0, 0, 707, 463);
-//			contentPane.add(label);
-//		} catch (Exception e1) {
-//			e1.printStackTrace();
-//		}
+		INSTANCE.setVisible(true);
 	}
-//	@Override
-//	public void open() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	@Override
-//	public void close() {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					initialize();//Facade
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
 		if (INSTANCE != null) {
 			INSTANCE.setVisible(false);
 			INSTANCE.dispose();
+			INSTANCE = null;
 		}
 	}
 }

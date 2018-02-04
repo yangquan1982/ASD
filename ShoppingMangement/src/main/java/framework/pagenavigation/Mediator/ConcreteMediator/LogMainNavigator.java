@@ -34,7 +34,11 @@ public class LogMainNavigator extends APageNavigator {
 
 	@Override
 	public void navigate(APage senderPage) {
-		
+		for (APage aPage : pages) {
+			if (aPage != senderPage) {
+				aPage.openItself();
+			}
+		}		
 		currentState.navigate();
 	}
 }

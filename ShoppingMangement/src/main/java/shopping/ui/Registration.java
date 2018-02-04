@@ -76,9 +76,8 @@ public class Registration extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-
 	
-	public void initialize() {
+	private void initialize() {
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setTitle("Sign Up");
 		setBounds(100, 100, 622, 401);
@@ -91,9 +90,14 @@ public class Registration extends APage implements Serializable {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				LoginPage loginPage = (LoginPage) LoginPageFactory.getFactory().createPage();
-//				loginPage.getFrame().setVisible(true);
-//				closeWindow();
+				APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
+				APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
+				APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
+				regPage.setNavigator(regLogNavigator);
+				loginPage.setNavigator(regLogNavigator);
+				regLogNavigator.setPageAB(regPage, loginPage);
+				regLogNavigator.setCurrentState(regLogNavigator.getFromAToBState());
+				regPage.navigate();
 			}
 		});
 		btnLogin.setBackground(new Color(69, 255, 0));
@@ -163,31 +167,28 @@ public class Registration extends APage implements Serializable {
 		label.setIcon(new ImageIcon("Icons\\Dark_Red_Background_by_Vik_for_Stuff.png"));
 		label.setBounds(0, 0, 616, 373);
 		getContentPane().add(label);
+		INSTANCE.setVisible(true);
 	}
-//	@Override
-//	public void open() {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-////					RegPageFactory.getFactory().createPage().setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-//	@Override
-	private void close() {
-//		RegPageFactory.getFactory().createPage().setVisible(false);
-//		RegPageFactory.getFactory().createPage().dispose();
+	@Override
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					initialize();//Facade
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-//
+
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
 		if (INSTANCE != null) {
 			INSTANCE.setVisible(false);
 			INSTANCE.dispose();
+			INSTANCE = null;
 		}
 	}
 }
