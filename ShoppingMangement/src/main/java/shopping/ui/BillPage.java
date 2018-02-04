@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -27,7 +26,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import shopping.UserData;
 import shopping.bus.IProductManager;
 import shopping.bus.ProductManager;
@@ -76,8 +74,23 @@ public class BillPage extends APage implements Serializable {
 	private ShoppingCart shoppingCart = Purchase.shoppingCart;
 	private Customer customer = LoginPage.userData.getCustomer();
 	private CustomerProfile profile = customer.getCustomerProfile();
-	public static BillPage INSTANCE = new BillPage();
-
+	private static BillPage INSTANCE = null;
+	/**
+	 * Create the frame.
+	 */
+	private BillPage() {
+		initialize();
+	}
+    public static BillPage getInstance() {
+        if (INSTANCE == null) {
+            synchronized (BillPage.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new BillPage();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 	/**
 	 * Launch the application.
 	 */
@@ -91,14 +104,6 @@ public class BillPage extends APage implements Serializable {
 				}
 			}
 		});
-	}
-
-	
-	/**
-	 * Create the frame.
-	 */
-	private BillPage() {
-		initialize();
 	}
 
 	private void initialize() {

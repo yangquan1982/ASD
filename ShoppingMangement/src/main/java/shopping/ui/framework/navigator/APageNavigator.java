@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shopping.ui.framework.APage;
+import shopping.ui.framework.navigator.state.INavigatorState;
 
 /**
  * @author Quan Yang
@@ -14,11 +15,38 @@ import shopping.ui.framework.APage;
  */
 public abstract class APageNavigator {
 	protected List<APage> pages;
-	protected APageNavigator() {
-		pages = new ArrayList<APage>();
+	protected INavigatorState fromAToBState;
+	protected INavigatorState fromBToAState;
+	protected INavigatorState currentState;
+	public APageNavigator() {
+		this.pages = new ArrayList<APage>();
 	}
-	protected void addPage(APage page) {
-		pages.add(page);
+	public List<APage> getPages() {
+		return this.pages;
+	}
+	public INavigatorState getCurrentState() {
+		return this.currentState;
+	}
+	public void setCurrentState(INavigatorState currentState) {
+		this.currentState = currentState;
+	}
+	public void setPages(List<APage> pages) {
+		this.pages = pages;
+	}
+	public INavigatorState getFromAToBState() {
+		return this.fromAToBState;
+	}
+	public void setFromAToBState(INavigatorState fromAToBState) {
+		this.fromAToBState = fromAToBState;
+	}
+	public INavigatorState getFromBToAState() {
+		return this.fromBToAState;
+	}
+	public void setFromBToAState(INavigatorState fromBToAState) {
+		this.fromBToAState = fromBToAState;
+	}
+	public void addPage(APage page) {
+		this.pages.add(page);
 	}
 	public abstract void navigate();
 }

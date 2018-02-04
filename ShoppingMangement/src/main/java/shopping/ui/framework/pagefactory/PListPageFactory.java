@@ -18,7 +18,7 @@ public class PListPageFactory implements IPageFactory {
 	}
 	@Override
 	public APage createPage() {
-		return ProductListPage.INSTANCE;
+		return ProductListPage.getInstance();
 	}
 
 }

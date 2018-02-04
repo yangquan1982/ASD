@@ -19,7 +19,7 @@ public class RegPageFactory implements IPageFactory {
 	}
 	@Override
 	public APage createPage() {
-		return Registration.INSTANCE;
+		return Registration.getInstance();
 	}
 
 }

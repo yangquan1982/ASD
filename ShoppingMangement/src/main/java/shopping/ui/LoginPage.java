@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -42,8 +41,27 @@ public class LoginPage extends APage implements Serializable {
 	private JLabel label;
 	private JLabel lblNewLabel_total;
 	public static UserData userData = new UserData();
-	public static LoginPage INSTANCE = new LoginPage();
-	
+	private static LoginPage INSTANCE = null;
+	/**
+	 * Create the application.
+	 */
+	private LoginPage() {
+		initialize();
+	}
+	private LoginPage(APageNavigator navigator, String pageName) {
+		super(navigator, pageName);
+		initialize();		
+	}
+    public static LoginPage getInstance() {
+        if (INSTANCE == null) {
+            synchronized (LoginPage.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new LoginPage();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 	public JFrame getFrame() {
 		return frame;
 	}
@@ -121,17 +139,6 @@ public class LoginPage extends APage implements Serializable {
 	}
 
 	/**
-	 * Create the application.
-	 */
-	private LoginPage() {
-		initialize();
-	}
-	private LoginPage(APageNavigator navigator, String pageName) {
-		super(navigator, pageName);
-		initialize();		
-	}
-
-	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
@@ -183,9 +190,11 @@ public class LoginPage extends APage implements Serializable {
 						}
 						//JOptionPane.showMessageDialog(null, "Username & Password is correct");
 						frame.dispose();
-						MainPanel mainPanel = (MainPanel) MainPanelFactory.getFactory().createPage();
+						MainPanelFactory mainFactory = (MainPanelFactory) MainPanelFactory.getFactory();
+						mainFactory.setCustomName(username);
+						MainPanel mainPanel = (MainPanel) mainFactory.createPage();
 						mainPanel.setCustomName(username);
-						mainPanel.initialize();
+						//mainPanel.initialize();
 						mainPanel.setVisible(true);
 					}
 					else 

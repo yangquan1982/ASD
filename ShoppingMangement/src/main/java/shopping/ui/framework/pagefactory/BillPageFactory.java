@@ -18,7 +18,7 @@ public class BillPageFactory implements IPageFactory {
 	}
 	@Override
 	public APage createPage() {
-		return BillPage.INSTANCE;
+		return BillPage.getInstance();
 	}
 
 }
