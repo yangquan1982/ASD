@@ -3,21 +3,21 @@
  */
 package shopping.ui.framework.navigator;
 
-import java.util.List;
-
-import shopping.ui.framework.navigator.state.INavigatorState;
+import shopping.ui.framework.navigator.state.LogToMainState;
+import shopping.ui.framework.navigator.state.MainToLogState;
 
 /**
  * @author Quan Yang
  *
  */
 public class LogMainNavigator extends APageNavigator {
-	private INavigatorState logToMainState;
-	private INavigatorState mainToLogState;
-	private INavigatorState curState;
+	
 	public LogMainNavigator() {
 		super();
+		this.fromAToBState = new LogToMainState(this);
+		this.fromBToAState = new MainToLogState(this);
 	}
+
 	@Override
 	public void navigate() {
 		
