@@ -1,11 +1,11 @@
 /**
  * Abstract Colleague for UI framework
  */
-package shopping.ui.framework;
+package shopping.ui.abstractproduct;
 
 import javax.swing.JFrame;
 
-import shopping.ui.framework.navigator.APageNavigator;
+import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 
 /**
  * @author Quan Yang

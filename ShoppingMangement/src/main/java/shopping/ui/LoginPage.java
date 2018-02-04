@@ -5,10 +5,7 @@ import shopping.bus.ICustomerBUS;
 import shopping.bus.NewCostomerBUS;
 import shopping.model.Customer.Customer;
 import shopping.model.Customer.CustomerProfile;
-import shopping.ui.framework.APage;
-import shopping.ui.framework.compfactory.*;
-import shopping.ui.framework.navigator.*;
-import shopping.ui.framework.pagefactory.*;
+import shopping.ui.abstractproduct.APage;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -28,6 +25,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import framework.pagenavigation.FactoryMethod.component.*;
+import framework.pagenavigation.FactoryMethod.page.*;
+import framework.pagenavigation.Mediator.AbstractMediator.*;
 
 public class LoginPage extends APage implements Serializable {
 	private static final long serialVersionUID = -535506443986136694L;

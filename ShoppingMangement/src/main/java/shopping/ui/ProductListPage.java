@@ -36,6 +36,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import framework.pagenavigation.FactoryMethod.component.*;
+import framework.pagenavigation.FactoryMethod.page.*;
 import shopping.bus.ProductManager;
 import shopping.model.Product.IProductBuilder;
 import shopping.model.Product.Product;
@@ -43,10 +46,7 @@ import shopping.model.Product.ProductBuilder;
 import shopping.model.Product.ProductCategory;
 import shopping.model.Product.ProductList;
 import shopping.model.Product.ProductSupplier;
-import shopping.ui.framework.APage;
-import shopping.ui.framework.compfactory.*;
-import shopping.ui.framework.navigator.*;
-import shopping.ui.framework.pagefactory.*;
+import shopping.ui.abstractproduct.APage;
 import shopping.util.DbUtils;
 
 import java.awt.SystemColor;

@@ -32,6 +32,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import framework.pagenavigation.FactoryMethod.component.*;
+import framework.pagenavigation.FactoryMethod.page.*;
 import shopping.UserData;
 import shopping.bus.*;
 import shopping.model.Customer.Customer;
@@ -41,10 +44,7 @@ import shopping.model.Product.ProductList;
 import shopping.model.ShoppingCart.LineItem;
 import shopping.model.ShoppingCart.Order;
 import shopping.model.ShoppingCart.ShoppingCart;
-import shopping.ui.framework.APage;
-import shopping.ui.framework.compfactory.*;
-import shopping.ui.framework.navigator.*;
-import shopping.ui.framework.pagefactory.*;
+import shopping.ui.abstractproduct.APage;
 import shopping.util.DbUtils;
 
 public class Purchase extends APage implements Serializable {

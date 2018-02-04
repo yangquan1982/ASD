@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
-import shopping.ui.framework.APage;
-import shopping.ui.framework.compfactory.*;
-import shopping.ui.framework.navigator.*;
-import shopping.ui.framework.pagefactory.*;
+
+import framework.pagenavigation.FactoryMethod.component.*;
+import framework.pagenavigation.FactoryMethod.page.*;
+import shopping.ui.abstractproduct.APage;
 
 public class MainPanel extends APage implements Serializable {
 	private static final long serialVersionUID = -7913300791375041079L;

@@ -1,9 +1,7 @@
 package shopping.ui;
 import shopping.bus.NewCostomerBUS;
 import shopping.bus.SignUpBUS;
-import shopping.ui.framework.APage;
-import shopping.ui.framework.compfactory.*;
-import shopping.ui.framework.pagefactory.*;
+import shopping.ui.abstractproduct.APage;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +16,10 @@ import java.io.Serializable;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.border.TitledBorder;
+
+import framework.pagenavigation.FactoryMethod.component.*;
+import framework.pagenavigation.FactoryMethod.page.*;
+
 import javax.swing.border.BevelBorder;
 import java.awt.Dialog.ModalExclusionType;
 
