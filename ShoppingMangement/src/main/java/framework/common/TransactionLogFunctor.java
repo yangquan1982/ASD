@@ -7,7 +7,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import shopping.model.Customer.Customer;
 
-public class TransactionLogFunctor implements LogFunctor<String, Customer, Double> {
+public class TransactionLogFunctor implements ILogFunctorCommand<String, Customer, Double> {
     private Logger logger;
     private StringBuffer sb;
 
