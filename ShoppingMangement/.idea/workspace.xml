@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d5e1050-bc6a-419d-886c-5fa1bbf31025" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data.db" afterPath="$PROJECT_DIR$/data.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/framework/membership/Proxy/Validate/ValidateImplement.java" afterPath="$PROJECT_DIR$/src/main/java/framework/membership/Proxy/Validate/ValidateImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/framework/membership/StandardUserProfile.java" afterPath="$PROJECT_DIR$/src/main/java/framework/membership/StandardUserProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/framework/membership/Template/AbstractUpdateProfile.java" afterPath="$PROJECT_DIR$/src/main/java/framework/membership/Template/AbstractUpdateProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/framework/membership/Template/ITemplateFacade.java" afterPath="$PROJECT_DIR$/src/main/java/framework/membership/Template/ITemplateFacade.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/framework/membership/Template/TemplateFacadeImp.java" afterPath="$PROJECT_DIR$/src/main/java/framework/membership/Template/TemplateFacadeImp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/bus/NewCostomerBUS.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/bus/NewCostomerBUS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/bus/UpdateProfileBUS.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/bus/UpdateProfileBUS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/shopping/ui/UpdateProfilePage.java" afterPath="$PROJECT_DIR$/src/main/java/shopping/ui/UpdateProfilePage.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -1343,7 +1334,7 @@
       <workItem from="1517432589082" duration="4885000" />
       <workItem from="1517500119739" duration="7987000" />
       <workItem from="1517516427674" duration="2970000" />
-      <workItem from="1517674608765" duration="11920000" />
+      <workItem from="1517674608765" duration="12551000" />
     </task>
     <task id="LOCAL-00001" summary="Sign up page">
       <created>1517430197641</created>
@@ -1464,11 +1455,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517690793052</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update">
+      <created>1517692548818</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1517692548818</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51928000" />
+    <option name="totallyTimeSpent" value="52559000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -1493,7 +1491,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936978" sideWeight="0.48702702" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22711058" sideWeight="0.42324325" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22711058" sideWeight="0.42324325" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29297298" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1822,7 +1820,7 @@
         <state relative-caret-position="195">
           <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1932,9 +1930,9 @@
         <state relative-caret-position="354">
           <caret line="22" column="39" lean-forward="false" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#668#669#0" expanded="true" />
-            <element signature="e#730#731#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#668#669#0" expanded="false" />
+            <element signature="e#730#731#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1944,8 +1942,8 @@
         <state relative-caret-position="284">
           <caret line="22" column="60" lean-forward="false" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="60" />
           <folding>
-            <element signature="e#652#653#0" expanded="true" />
-            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#652#653#0" expanded="false" />
+            <element signature="e#711#712#0" expanded="false" />
           </folding>
         </state>
       </provider>
