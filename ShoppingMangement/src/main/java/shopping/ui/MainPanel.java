@@ -39,16 +39,15 @@ public class MainPanel extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	private MainPanel(String customName, APageNavigator navigator) {
-		super("MainPanel", navigator);
+	private MainPanel(EPageName name, String customName, APageNavigator navigator) {
+		super(name, navigator);
 		this.customName = customName;
-		//initialize();
 	}
-    public static MainPanel getInstance(String customName, APageNavigator navigator) {
+    public static MainPanel getInstance(EPageName name, String customName, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (MainPanel.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new MainPanel(customName, navigator);
+                    INSTANCE = new MainPanel(name, customName, navigator);
                 }
             }
         }
@@ -105,8 +104,8 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				APageNavigator mainPurNavigator = MainPurchaseNavFactory.getFactory().createNavigator();
-				APage mainPage = MainPurchaseNavFactory.getFactory().createPageA(mainPurNavigator);
-				APage purPage = MainPurchaseNavFactory.getFactory().createPageB(mainPurNavigator);
+				APage mainPage = MainPurchaseNavFactory.getFactory().createPageA(EPageName.MAINPANEL, mainPurNavigator);
+				APage purPage = MainPurchaseNavFactory.getFactory().createPageB(EPageName.PURCHASE, mainPurNavigator);
 				mainPage.setNavigator(mainPurNavigator);
 				purPage.setNavigator(mainPurNavigator);
 				mainPurNavigator.setCurrentState(mainPurNavigator.getFromAToBState());
@@ -131,8 +130,8 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				APageNavigator mainPListNavigator = MainPListNavFactory.getFactory().createNavigator();
-				APage mainPage = MainPListNavFactory.getFactory().createPageA(mainPListNavigator);
-				APage pListPage = MainPListNavFactory.getFactory().createPageB(mainPListNavigator);
+				APage mainPage = MainPListNavFactory.getFactory().createPageA(EPageName.MAINPANEL, mainPListNavigator);
+				APage pListPage = MainPListNavFactory.getFactory().createPageB(EPageName.PLISTPAGE, mainPListNavigator);
 				mainPage.setNavigator(mainPListNavigator);
 				pListPage.setNavigator(mainPListNavigator);
 				mainPListNavigator.setCurrentState(mainPListNavigator.getFromAToBState());
@@ -151,8 +150,8 @@ public class MainPanel extends APage implements Serializable {
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				APageNavigator logMainNavigator = LogMainNavFactory.getFactory().createNavigator();
-				APage mainPage = LogMainNavFactory.getFactory().createPageB(logMainNavigator);
-				APage loginPage = LogMainNavFactory.getFactory().createPageA(logMainNavigator);
+				APage mainPage = LogMainNavFactory.getFactory().createPageB(EPageName.MAINPANEL, logMainNavigator);
+				APage loginPage = LogMainNavFactory.getFactory().createPageA(EPageName.LOGINPAGE, logMainNavigator);
 				mainPage.setNavigator(logMainNavigator);
 				loginPage.setNavigator(logMainNavigator);
 				logMainNavigator.setCurrentState(logMainNavigator.getFromBToAState());

@@ -49,14 +49,14 @@ public class LoginPage extends APage implements Serializable {
 	/**
 	 * Create the application.
 	 */
-	private LoginPage(APageNavigator navigator) {
-		super("Login", navigator);
+	private LoginPage(EPageName name, APageNavigator navigator) {
+		super(name, navigator);
 	}
-    public static LoginPage getInstance(APageNavigator navigator) {
+    public static LoginPage getInstance(EPageName name, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (LoginPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new LoginPage(navigator);
+                    INSTANCE = new LoginPage(name, navigator);
                 }
             }
         }
@@ -188,8 +188,8 @@ public class LoginPage extends APage implements Serializable {
 							userData.setCustomer(customer);
 						}						
 						APageNavigator logMainNavigator = LogMainNavFactory.getFactory().createNavigator();
-						APage mainPage = LogMainNavFactory.getFactory().createPageB(logMainNavigator);
-						APage loginPage = LogMainNavFactory.getFactory().createPageA(logMainNavigator);
+						APage mainPage = LogMainNavFactory.getFactory().createPageB(EPageName.MAINPANEL, logMainNavigator);
+						APage loginPage = LogMainNavFactory.getFactory().createPageA(EPageName.LOGINPAGE, logMainNavigator);
 						loginPage.setNavigator(logMainNavigator);
 						mainPage.setNavigator(logMainNavigator);
 						logMainNavigator.setCurrentState(logMainNavigator.getFromAToBState());
@@ -216,8 +216,8 @@ public class LoginPage extends APage implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
-				APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
-				APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
+				APage regPage = RegLogNavFactory.getFactory().createPageA(EPageName.REGPAGE, regLogNavigator);
+				APage loginPage = RegLogNavFactory.getFactory().createPageB(EPageName.LOGINPAGE, regLogNavigator);
 				regPage.setNavigator(regLogNavigator);
 				loginPage.setNavigator(regLogNavigator);
 				regLogNavigator.setCurrentState(regLogNavigator.getFromBToAState());

@@ -5,6 +5,7 @@ package shopping.ui.abstractproduct;
 
 import javax.swing.JFrame;
 
+import framework.pagenavigation.FactoryMethod.page.EPageName;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 
 /**
@@ -15,12 +16,12 @@ public abstract class APage extends JFrame {
 
 	private static final long serialVersionUID = 1591777803698880800L;
 	protected APageNavigator navigator;
-	protected String pageName;
+	protected EPageName name;
 	public APage() {
 	}
-	public APage(String pageName, APageNavigator navigator) {
+	public APage(EPageName name, APageNavigator navigator) {
 		this.navigator = navigator;
-		this.pageName = pageName;
+		this.name = name;
 	}
 	public APageNavigator getNavigator() {
 		return navigator;
@@ -28,11 +29,11 @@ public abstract class APage extends JFrame {
 	public void setNavigator(APageNavigator navigator) {
 		this.navigator = navigator;
 	}
-	public String getPageName() {
-		return pageName;
+	public EPageName getPageName() {
+		return name;
 	}
-	public void setPageName(String pageName) {
-		this.pageName = pageName;
+	public void setPageName(EPageName name) {
+		this.name = name;
 	}
 	public void openItself() {//Template Method
 		open();
