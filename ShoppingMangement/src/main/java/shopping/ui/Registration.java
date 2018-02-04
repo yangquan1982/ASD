@@ -33,8 +33,22 @@ public class Registration extends APage implements Serializable {
 	private JButton btnSignUp;
 	private JDesktopPane desktopPane_1;
 	private JLabel label;
-	public static final Registration INSTANCE = new Registration();
-
+	private static Registration INSTANCE = null;
+	
+	private Registration() {
+		super();
+		initialize();
+	}
+    public static Registration getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Registration.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new Registration();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 	/**
 	 * Launch the application.
 	 */
@@ -42,7 +56,7 @@ public class Registration extends APage implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Registration.INSTANCE.setVisible(true);
+					RegPageFactory.getFactory().createPage().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,17 +64,14 @@ public class Registration extends APage implements Serializable {
 		});
 	}
 
-	private void closeWindow() {
-		Registration.INSTANCE.setVisible(false);
-		Registration.INSTANCE.dispose();
-	}
+//	private void closeWindow() {
+//		RegPageFactory.getFactory().createPage().setVisible(false);
+//		RegPageFactory.getFactory().createPage().dispose();
+//	}
 	/**
 	 * Create the frame.
 	 */
-	private Registration() {
-		super();
-		initialize();
-	}
+
 	
 	private void initialize() {
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
@@ -77,7 +88,7 @@ public class Registration extends APage implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				LoginPage loginPage = (LoginPage) LoginPageFactory.getFactory().createPage();
 				loginPage.getFrame().setVisible(true);
-				closeWindow();
+//				closeWindow();
 			}
 		});
 		btnLogin.setBackground(new Color(69, 255, 0));
@@ -149,10 +160,19 @@ public class Registration extends APage implements Serializable {
 	}
 	@Override
 	public void open() {
-		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RegPageFactory.getFactory().createPage().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	@Override
 	public void close() {
-		
+		RegPageFactory.getFactory().createPage().setVisible(false);
+		RegPageFactory.getFactory().createPage().dispose();
 	}
 }

@@ -18,7 +18,7 @@ public class PurchaseFactory implements IPageFactory {
 	}
 	@Override
 	public APage createPage() {
-		return Purchase.INSTANCE;
+		return Purchase.getInstance();
 	}
 
 }

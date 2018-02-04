@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
-
 import shopping.ui.framework.APage;
 import shopping.ui.framework.compfactory.*;
 import shopping.ui.framework.navigator.*;
@@ -32,8 +30,25 @@ public class MainPanel extends APage implements Serializable {
 	private JButton btnNewButton_5;
 	private ProductListPage pListPage;
 	private String customName;
-	public static MainPanel INSTANCE = new MainPanel();
-
+	private static MainPanel INSTANCE = null;
+	/**
+	 * Create the frame.
+	 */
+	private MainPanel(String customName) {
+		this.customName = customName;
+		initialize();
+	}
+    public static MainPanel getInstance(String customName) {
+        if (INSTANCE == null) {
+            synchronized (MainPanel.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new MainPanel(customName);
+                }
+            }
+        }
+        return INSTANCE;
+    }
+    
 	public String getCustomName() {
 		return customName;
 	}
@@ -47,7 +62,7 @@ public class MainPanel extends APage implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainPanel.INSTANCE.setVisible(true);
+					MainPanel.getInstance("Admin").setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,14 +70,8 @@ public class MainPanel extends APage implements Serializable {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	private MainPanel() {
-//		initialize();
-	}
 
-	public void initialize() {
+	private void initialize() {
 //		this.pListPage = pListPage;
 		setResizable(false);
 		setType(Type.POPUP);
@@ -138,13 +147,11 @@ public class MainPanel extends APage implements Serializable {
 	}
 	@Override
 	public void open() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
 		
 	}
 }

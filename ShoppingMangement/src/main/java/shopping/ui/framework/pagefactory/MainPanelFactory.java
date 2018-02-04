@@ -11,14 +11,21 @@ import shopping.ui.framework.APage;
  *
  */
 public class MainPanelFactory implements IPageFactory {
+	private String customName;
 	private static IPageFactory factory = new MainPanelFactory();
 	private MainPanelFactory() {}
+	
+	public String getCustomName() {
+		return customName;
+	}
+	public void setCustomName(String customName) {
+		this.customName = customName;
+	}
 	public static IPageFactory getFactory() {
 		return factory;
 	}
 	@Override
 	public APage createPage() {
-		return MainPanel.INSTANCE;
+		return MainPanel.getInstance(customName);
 	}
-
 }

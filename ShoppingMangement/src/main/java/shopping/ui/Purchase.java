@@ -79,15 +79,30 @@ public class Purchase extends APage implements Serializable {
 	private JLabel lblAddress;
 	private JLabel label;
 	private JTable table;
+	
 	public static int billId = 1;
-	public static Purchase INSTANCE = new Purchase();
 	private String selectItem;
-
 	public static ShoppingCart shoppingCart = new ShoppingCart();
-
 	private UserData userData = LoginPage.userData;
 	private Customer customer = userData.getCustomer();
 	private CustomerProfile profile = customer.getCustomerProfile();
+	private static Purchase INSTANCE = null;
+	/**
+	 * Create the frame.
+	 */
+	private Purchase() {
+		initialize();
+	}
+    public static Purchase getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Purchase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new Purchase();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 	/**
 	 * Launch the application.
 	 */
@@ -103,12 +118,7 @@ public class Purchase extends APage implements Serializable {
 		});
 	}
 //	Connection connection = null;
-	/**
-	 * Create the frame.
-	 */
-	private Purchase() {
-		initialize();
-	}
+
 	
 	private void initialize() {
 		setResizable(false);

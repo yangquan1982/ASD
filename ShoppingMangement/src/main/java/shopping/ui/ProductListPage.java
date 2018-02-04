@@ -36,7 +36,6 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import shopping.bus.ProductManager;
 import shopping.model.Product.IProductBuilder;
 import shopping.model.Product.Product;
@@ -57,7 +56,6 @@ import java.awt.SystemColor;
  */
 public class ProductListPage extends APage implements Serializable {
 	private static final long serialVersionUID = -7713287639128403410L;
-	public static ProductListPage INSTANCE = new ProductListPage();
 	private static MainPanel mainPanel;
 	private ProductManager pManager;
 	private ProductList plist;
@@ -92,7 +90,24 @@ public class ProductListPage extends APage implements Serializable {
 	private JTextField textField_discount;
 	private JScrollPane scrollPane;
 	private JCheckBox checkBox_discount;
-
+	
+	private static ProductListPage INSTANCE = null;
+	/**
+	 * Create the frame.
+	 */
+	private ProductListPage() {
+		initialize();
+	}
+    public static ProductListPage getInstance() {
+        if (INSTANCE == null) {
+            synchronized (ProductListPage.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new ProductListPage();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 	public static MainPanel getMainPanel() {
 		return mainPanel;
 	}
@@ -146,12 +161,6 @@ public class ProductListPage extends APage implements Serializable {
 		DefaultTableModel dm = (DefaultTableModel)table.getModel();
 		dm.getDataVector().removeAllElements();
 		dm.fireTableDataChanged();
-	}
-	/**
-	 * Create the frame.
-	 */
-	private ProductListPage() {
-		initialize();
 	}
 	
 	private void initialize() {

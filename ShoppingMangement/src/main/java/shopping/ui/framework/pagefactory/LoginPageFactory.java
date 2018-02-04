@@ -18,7 +18,7 @@ public class LoginPageFactory implements IPageFactory {
 	}
 	@Override
 	public APage createPage() {
-		return LoginPage.INSTANCE;
+		return LoginPage.getInstance();
 	}
 
 }
