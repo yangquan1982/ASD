@@ -4,8 +4,8 @@
 package framework.pagenavigation.AbstractFactory.ConcreteFactory;
 
 import framework.pagenavigation.AbstractFactory.AbstractFactory.INavigatorFactory;
-import framework.pagenavigation.FactoryMethod.page.MainPanelFactory;
-import framework.pagenavigation.FactoryMethod.page.PurchaseFactory;
+import framework.pagenavigation.FactoryMethod.page.EPageName;
+import framework.pagenavigation.FactoryMethod.page.PageFactory;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import framework.pagenavigation.Mediator.ConcreteMediator.MainPurchaseNavigator;
 import shopping.ui.abstractproduct.APage;
@@ -25,11 +25,11 @@ public class MainPurchaseNavFactory implements INavigatorFactory {
 		return MainPurchaseNavigator.getInstance();
 	}
 	@Override
-	public APage createPageA(APageNavigator navigator) {
-		return MainPanelFactory.getFactory().createPage(navigator);
+	public APage createPageA(EPageName name, APageNavigator navigator) {
+		return PageFactory.getFactory().createPage(name, navigator);
 	}
 	@Override
-	public APage createPageB(APageNavigator navigator) {
-		return PurchaseFactory.getFactory().createPage(navigator);
+	public APage createPageB(EPageName name, APageNavigator navigator) {
+		return PageFactory.getFactory().createPage(name, navigator);
 	}
 }

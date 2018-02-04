@@ -4,6 +4,7 @@
 package shopping.start;
 
 import framework.pagenavigation.AbstractFactory.ConcreteFactory.RegLogNavFactory;
+import framework.pagenavigation.FactoryMethod.page.EPageName;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import shopping.ui.abstractproduct.APage;
 
@@ -18,8 +19,8 @@ public class Starter {
 	 */
 	public static void main(String[] args) {
 		APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
-		APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
-		APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
+		APage regPage = RegLogNavFactory.getFactory().createPageA(EPageName.REGPAGE, regLogNavigator);
+		APage loginPage = RegLogNavFactory.getFactory().createPageB(EPageName.LOGINPAGE, regLogNavigator);
 		regLogNavigator.setPageAB(regPage, loginPage);
 		regPage.open();
 	}

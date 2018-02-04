@@ -81,15 +81,15 @@ public class BillPage extends APage implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	private BillPage(APageNavigator navigator) {
-		super("BillPage", navigator);
+	private BillPage(EPageName name, APageNavigator navigator) {
+		super(name, navigator);
 		//initialize();
 	}
-    public static BillPage getInstance(APageNavigator navigator) {
+    public static BillPage getInstance(EPageName name, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (BillPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new BillPage(navigator);
+                    INSTANCE = new BillPage(name, navigator);
                 }
             }
         }
@@ -252,8 +252,8 @@ public class BillPage extends APage implements Serializable {
 				public void actionPerformed(ActionEvent arg0) {
 					JOptionPane.showMessageDialog(null, "Bill Done....!");
 					APageNavigator purBillNavigator = PurchaseBillNavFactory.getFactory().createNavigator();
-					APage billPage = PurchaseBillNavFactory.getFactory().createPageB(purBillNavigator);
-					APage purPage = PurchaseBillNavFactory.getFactory().createPageA(purBillNavigator);
+					APage billPage = PurchaseBillNavFactory.getFactory().createPageB(EPageName.BILLPAGE, purBillNavigator);
+					APage purPage = PurchaseBillNavFactory.getFactory().createPageA(EPageName.PURCHASE, purBillNavigator);
 					billPage.setNavigator(purBillNavigator);
 					purPage.setNavigator(purBillNavigator);
 					purBillNavigator.setCurrentState(purBillNavigator.getFromBToAState());
@@ -272,8 +272,8 @@ public class BillPage extends APage implements Serializable {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					APageNavigator purBillNavigator = PurchaseBillNavFactory.getFactory().createNavigator();
-					APage billPage = PurchaseBillNavFactory.getFactory().createPageB(purBillNavigator);
-					APage purPage = PurchaseBillNavFactory.getFactory().createPageA(purBillNavigator);
+					APage billPage = PurchaseBillNavFactory.getFactory().createPageB(EPageName.BILLPAGE, purBillNavigator);
+					APage purPage = PurchaseBillNavFactory.getFactory().createPageA(EPageName.PURCHASE, purBillNavigator);
 					billPage.setNavigator(purBillNavigator);
 					purPage.setNavigator(purBillNavigator);
 					purBillNavigator.setCurrentState(purBillNavigator.getFromBToAState());

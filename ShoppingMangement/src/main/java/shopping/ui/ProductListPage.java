@@ -96,14 +96,14 @@ public class ProductListPage extends APage implements Serializable {
 	
 	private static ProductListPage INSTANCE = null;
 
-	private ProductListPage(APageNavigator navigator) {
-		super("ProductList", navigator);
+	private ProductListPage(EPageName name, APageNavigator navigator) {
+		super(name, navigator);
 	}
-    public static ProductListPage getInstance(APageNavigator navigator) {
+    public static ProductListPage getInstance(EPageName name, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (ProductListPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new ProductListPage(navigator);
+                    INSTANCE = new ProductListPage(name, navigator);
                 }
             }
         }
@@ -158,7 +158,7 @@ public class ProductListPage extends APage implements Serializable {
 		comboBox.setFont(new Font("Verdana", Font.BOLD, 11));
 		comboBox.setBackground(UIManager.getColor("ComboBox.buttonBackground"));
 		comboBox.setModel(new DefaultComboBoxModel
-				(new String[] {"Product Name", "Product Catagory", "Product Supplier"}));
+				(new String[] {"Product Name", "Product Catagory"/*, "Product Supplier"*/}));
 		comboBox.setBounds(57, 11, 151, 41);
 		contentPane.add(comboBox);
 		
@@ -181,9 +181,9 @@ public class ProductListPage extends APage implements Serializable {
 					products = pManager.getProductsByName(txtSearchProducts.getText());
 				} else if (selection.equals("Product Catagory")) {
 					products = pManager.getProductsByCategoryName(txtSearchProducts.getText());
-				} else if (selection.equals("Product Supplier")) {
+				} /*else if (selection.equals("Product Supplier")) {
 					products = pManager.getProductsBySupplierName(txtSearchProducts.getText());
-				}
+				}*/
 				if (products != null) {
 					plist.setProducts(products);
 				} else {
@@ -204,8 +204,8 @@ public class ProductListPage extends APage implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				APageNavigator pListMainNavigator = MainPListNavFactory.getFactory().createNavigator();
-				APage pListPage = MainPListNavFactory.getFactory().createPageB(pListMainNavigator);
-				APage mainPage = MainPListNavFactory.getFactory().createPageA(pListMainNavigator);
+				APage pListPage = MainPListNavFactory.getFactory().createPageB(EPageName.PLISTPAGE, pListMainNavigator);
+				APage mainPage = MainPListNavFactory.getFactory().createPageA(EPageName.MAINPANEL, pListMainNavigator);
 				pListPage.setNavigator(pListMainNavigator);
 				mainPage.setNavigator(pListMainNavigator);
 				pListMainNavigator.setCurrentState(pListMainNavigator.getFromBToAState());

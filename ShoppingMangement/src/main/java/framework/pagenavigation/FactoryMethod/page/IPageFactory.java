@@ -11,5 +11,5 @@ import shopping.ui.abstractproduct.APage;
  *
  */
 public interface IPageFactory {
-	public APage createPage(APageNavigator navigator);
+	public APage createPage(EPageName name, APageNavigator navigator);
 }

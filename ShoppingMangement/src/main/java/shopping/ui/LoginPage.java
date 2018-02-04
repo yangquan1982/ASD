@@ -37,6 +37,7 @@ public class LoginPage extends APage implements Serializable {
 	private JFrame frame;
 	private JButton btnLogin;
 	private JButton btnSignUp;
+	private JButton btnExit;
 	private JTextField textFieldUN;
 	private JPasswordField passwordField;
 	private JLabel lblNewLabel;
@@ -48,19 +49,14 @@ public class LoginPage extends APage implements Serializable {
 	/**
 	 * Create the application.
 	 */
-	private LoginPage(APageNavigator navigator) {
-		super("Login", navigator);
-		//initialize();
+	private LoginPage(EPageName name, APageNavigator navigator) {
+		super(name, navigator);
 	}
-//	private LoginPage(APageNavigator navigator, String pageName) {
-//		super(navigator, pageName);
-//		//initialize();		
-//	}
-    public static LoginPage getInstance(APageNavigator navigator) {
+    public static LoginPage getInstance(EPageName name, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (LoginPage.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new LoginPage(navigator);
+                    INSTANCE = new LoginPage(name, navigator);
                 }
             }
         }
@@ -132,7 +128,6 @@ public class LoginPage extends APage implements Serializable {
 	 */
 	private void initialize() {
 		frame = (JFrame) JFrameFactory.getFactory().createComponent();
-		INSTANCE.getFrame().setVisible(true);
 		frame.setResizable(false);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icons\\shop-icon.png"));
 		frame.setBackground(new Color(153, 153, 204));
@@ -157,6 +152,23 @@ public class LoginPage extends APage implements Serializable {
 		frame.getContentPane().add(textFieldUN);
 		textFieldUN.setColumns(10);
 		
+		btnExit = (JButton) JButtonFactory.getFactory().createComponent();
+		btnExit.setIcon(new ImageIcon("Icons\\exit.jpg"));
+		btnExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					System.exit(0);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e);
+				}
+			}
+		});
+		btnExit.setBounds(600, 314, 87, 35);
+		getContentPane().add(btnExit);
+		frame.getContentPane().add(btnExit);
+		
 		btnLogin = (JButton) JButtonFactory.getFactory().createComponent("");
 		btnLogin.setIcon(new ImageIcon("Icons\\login.jpg"));
 		btnLogin.addActionListener(new ActionListener() {
@@ -166,10 +178,7 @@ public class LoginPage extends APage implements Serializable {
 					String password = passwordField.getText();
 					NewCostomerBUS newCostomerBUS = new NewCostomerBUS();
 					boolean login = newCostomerBUS.login(username,password);
-
 					ICustomerBUS customerBUS = CustomerBUS.getCustomerBUS();
-//					boolean login = customerBUS.login(username,password);
-
 					if (login)
 					{
 						Customer customer = customerBUS.getCustomerByUsername(username);
@@ -177,11 +186,10 @@ public class LoginPage extends APage implements Serializable {
 						if(profile != null){
 							customer.setCustomerProfile(profile);
 							userData.setCustomer(customer);
-						}
-						
+						}						
 						APageNavigator logMainNavigator = LogMainNavFactory.getFactory().createNavigator();
-						APage mainPage = LogMainNavFactory.getFactory().createPageB(logMainNavigator);
-						APage loginPage = LogMainNavFactory.getFactory().createPageA(logMainNavigator);
+						APage mainPage = LogMainNavFactory.getFactory().createPageB(EPageName.MAINPANEL, logMainNavigator);
+						APage loginPage = LogMainNavFactory.getFactory().createPageA(EPageName.LOGINPAGE, logMainNavigator);
 						loginPage.setNavigator(logMainNavigator);
 						mainPage.setNavigator(logMainNavigator);
 						logMainNavigator.setCurrentState(logMainNavigator.getFromAToBState());
@@ -208,8 +216,8 @@ public class LoginPage extends APage implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
-				APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
-				APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
+				APage regPage = RegLogNavFactory.getFactory().createPageA(EPageName.REGPAGE, regLogNavigator);
+				APage loginPage = RegLogNavFactory.getFactory().createPageB(EPageName.LOGINPAGE, regLogNavigator);
 				regPage.setNavigator(regLogNavigator);
 				loginPage.setNavigator(regLogNavigator);
 				regLogNavigator.setCurrentState(regLogNavigator.getFromBToAState());
@@ -237,6 +245,7 @@ public class LoginPage extends APage implements Serializable {
 		lblNewLabel_total.setIcon(new ImageIcon("Icons\\cool-light-blue-backgrounds.jpg"));
 		lblNewLabel_total.setBounds(0, 0, 721, 445);
 		frame.getContentPane().add(lblNewLabel_total);
+		INSTANCE.getFrame().setVisible(true);
 		INSTANCE.setVisible(true);
 	}
 

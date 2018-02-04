@@ -39,44 +39,23 @@ public class Registration extends APage implements Serializable {
 	private JLabel label;
 	private static Registration INSTANCE = null;
 	
-	private Registration(APageNavigator navigator) {
-		super("Registration", navigator);
-		//initialize();
+	private Registration(EPageName name, APageNavigator navigator) {
+		super(name, navigator);
 	}
 	
-    public static Registration getInstance(APageNavigator navigator) {
+    public static Registration getInstance(EPageName name, APageNavigator navigator) {
         if (INSTANCE == null) {
             synchronized (Registration.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new Registration(navigator);
+                    INSTANCE = new Registration(name, navigator);
                 }
             }
         }
         return INSTANCE;
     }
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					RegPageFactory.getFactory().createPage().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-//	private void closeWindow() {
-//		RegPageFactory.getFactory().createPage().setVisible(false);
-//		RegPageFactory.getFactory().createPage().dispose();
-//	}
-	/**
 	 * Create the frame.
 	 */
-	
 	private void initialize() {
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setTitle("Sign Up");
@@ -91,8 +70,8 @@ public class Registration extends APage implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				APageNavigator regLogNavigator = RegLogNavFactory.getFactory().createNavigator();
-				APage regPage = RegLogNavFactory.getFactory().createPageA(regLogNavigator);
-				APage loginPage = RegLogNavFactory.getFactory().createPageB(regLogNavigator);
+				APage regPage = RegLogNavFactory.getFactory().createPageA(EPageName.REGPAGE, regLogNavigator);
+				APage loginPage = RegLogNavFactory.getFactory().createPageB(EPageName.LOGINPAGE, regLogNavigator);
 				regPage.setNavigator(regLogNavigator);
 				loginPage.setNavigator(regLogNavigator);
 				regLogNavigator.setPageAB(regPage, loginPage);
