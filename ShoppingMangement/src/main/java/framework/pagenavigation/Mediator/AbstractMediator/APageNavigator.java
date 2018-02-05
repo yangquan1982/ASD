@@ -48,5 +48,5 @@ public abstract class APageNavigator {
 		this.pages[1] = pageB;
 	}
 	
-	public abstract void navigate(APage senderPage);
+	public abstract void navigate(APage startPage);
 }

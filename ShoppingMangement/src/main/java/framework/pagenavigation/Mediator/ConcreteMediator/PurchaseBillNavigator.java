@@ -33,9 +33,9 @@ public class PurchaseBillNavigator extends APageNavigator {
 	}
 	
 	@Override
-	public void navigate(APage senderPage) {
+	public void navigate(APage startPage) {
 		for (APage aPage : pages) {
-			if (aPage != senderPage) {
+			if (aPage != startPage) {
 				aPage.openItself();
 			}
 		}		

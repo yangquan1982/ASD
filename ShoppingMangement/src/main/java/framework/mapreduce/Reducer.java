@@ -21,7 +21,7 @@ public class Reducer<K extends Comparable<K>, V> {
         this.reducerInput = reducerInput;
     }
 
-    //4.   Iterate through GroupBy list ¡°sum¡± the values and print out (key, sum) pairs.
+    //4.   Iterate through GroupBy list ï¿½ï¿½sumï¿½ï¿½ the values and print out (key, sum) pairs.
     public Map<K, Integer> reduce() {
         printInput();
         Map<K, Integer> countMap = new TreeMap<K, Integer>();
@@ -30,7 +30,7 @@ public class Reducer<K extends Comparable<K>, V> {
             K k = pair.getKey();
             int count = 0;
             for(V var : listV)
-                count+=(int)var;
+                //count+=(int)var;
             countMap.put(k, count);
         }
         printOutput(countMap);

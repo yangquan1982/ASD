@@ -32,9 +32,9 @@ public class RegLogNavigator extends APageNavigator {
 		this.fromBToAState = new LogToRegState(this);
 	}
 	@Override
-	public void navigate(APage senderPage) {
+	public void navigate(APage startPage) {
 		for (APage aPage : pages) {
-			if (aPage != senderPage) {
+			if (aPage != startPage) {
 				aPage.openItself();
 			}
 		}
