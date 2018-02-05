@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import framework.common.Functor;
 
-public interface GenericDaoAccess <T, ID extends Serializable> extends DataAccess<T, ID> {
+public interface GenericDaoAccess <T, ID extends Serializable> extends IDataAccess<T, ID> {
      
      void insert(T entity) throws SQLException;
 

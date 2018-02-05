@@ -9,7 +9,7 @@ public class RecommendationService implements Runnable {
     public void run() {
         try {
             while(true) {
-                ProducerCosumer.getInstance().consume();
+                ProducerConsumer.getInstance().consume();
                 Thread.sleep(100);
             }
         } catch (Exception ex) {

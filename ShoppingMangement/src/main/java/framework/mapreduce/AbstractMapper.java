@@ -50,29 +50,6 @@ public abstract class AbstractMapper<K extends Comparable<K>, V> {
 
     
     public abstract List<Pair<K,V>> map() throws Exception;
-
-    /*
-    public List<Pair<String, Integer>> map() throws Exception {
-        try {
-            printInput();
-            contents = Utility.toLowerCase(contents);
-            String[] rawWords = Utility.splitWords(contents, "\\,|\\s|\n");
-            rawWords = Utility.filterWords(rawWords);
-            if(inCombine)
-                mapOutput = Utility.sortWords(Utility.combine(rawWords));
-            else
-                mapOutput = Utility.sortWords(rawWords);
-            printOutput(mapOutput);
-            return mapOutput;
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            throw ex;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            throw ex;
-        }
-    }
-    */
     
     protected void printInput() {
         if(ComputeFrameWork.DEBUG) {

@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class FacadeJDBCExecutor {
     
-    private Connection conn;
-    private Statement stat;
-    private PreparedStatement pstmt;
+    protected Connection conn;
+    protected Statement stat;
+    protected PreparedStatement pstmt;
     
     public FacadeJDBCExecutor() {
         try {

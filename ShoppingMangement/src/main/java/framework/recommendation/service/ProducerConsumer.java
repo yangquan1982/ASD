@@ -11,13 +11,13 @@ import framework.recommendation.RateInformation;
 import framework.recommendation.RecommendtaionFactory;
 import shopping.model.Purchase.InterestedPurchaseRecord;
 
-public class ProducerCosumer implements Observer<InterestedPurchaseRecord>{
+public class ProducerConsumer implements Observer<InterestedPurchaseRecord>{
     // Create a list shared by producer and consumer
     // Size of list is 5.
     LinkedList<InterestedPurchaseRecord> list = new LinkedList<>();
 
     int capacity = 5;
-    private static ProducerCosumer INSTANCE = null;
+    private static ProducerConsumer INSTANCE = null;
     
     private RecommendtaionFactory rf = new RecommendtaionFactory();
     private IRecomendation recommendation = rf.createFactory("CF");
@@ -25,11 +25,11 @@ public class ProducerCosumer implements Observer<InterestedPurchaseRecord>{
     private Map<String, Integer[]> recommendationResults = new
             HashMap<String, Integer[]>();
     
-    public static ProducerCosumer getInstance() {
+    public static ProducerConsumer getInstance() {
         if (INSTANCE == null) {
-            synchronized (ProducerCosumer.class) {
+            synchronized (ProducerConsumer.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new ProducerCosumer();
+                    INSTANCE = new ProducerConsumer();
                 }
             }
         }
