@@ -116,4 +116,8 @@ public class ProducerConsumer implements Observer<InterestedPurchaseRecord>{
         Integer[] productsIds = recommendation.predict(productNO);
         recommendationResults.put(transId, productsIds);
     }
+    
+    public Integer[] getRecommendRecords(String transId) {
+        return recommendationResults.get(transId);
+    }
 }

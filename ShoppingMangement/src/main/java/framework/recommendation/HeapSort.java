@@ -14,7 +14,7 @@ public class HeapSort<T extends Comparable<? super T>>{
     public void buildheap(T[] a) {
         n = a.length - 1;
         for (int i = n / 2; i >= 0; i--) {
-            System.out.println(i);
+            //System.out.println(i);
             maxheap(a, i);
         }
     }
