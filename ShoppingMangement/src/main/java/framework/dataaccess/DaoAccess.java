@@ -19,10 +19,6 @@ public interface DaoAccess <T, ID extends Serializable> extends IDataAccess<T, I
 
      <R> void executeAll(Functor<T, R> func, Predicate<T> p) throws SQLException;
      
-     <S extends T> S save(S entity) throws SQLException;
-     
-     <S extends T> Iterable<S> save(Iterable<S> entities) throws SQLException;
-     
      T findOne(ID id) throws SQLException;
      
      boolean exists(ID id) throws SQLException;

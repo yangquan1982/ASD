@@ -52,18 +52,6 @@ public abstract class GenericDaoAccess<ID extends Serializable, T extends Mappin
     }
 
     @Override
-    public <S extends T> S save(S entity) throws SQLException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends T> Iterable<S> save(Iterable<S> entities) throws SQLException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public T findOne(ID id) throws SQLException {
         // TODO Auto-generated method stub
         return null;
