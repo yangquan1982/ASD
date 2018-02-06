@@ -17,7 +17,8 @@ public class SortUtil<T extends Comparable<? super T>> {
         if(numbers<=2) {
             return OnePassCompareSort.sort(list, sortType);
         } else {
-            return HeapSort.sort(rArrays, sortType);
+            HeapSort<T> heapSort = new HeapSort<T>();
+            return heapSort.sort(rArrays, sortType);
         }
     }
 }

@@ -4,19 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HeapSort<T extends Comparable<? super T>>{
-
-    private static int[] a;
-
-    private static int n;
-
-    private static int left;
-
-    private static int right;
-
-    private static int largest;
+    private T[] a;
+    private int n;
+    private int left;
+    private int right;
+    private int largest;
     
     // Build-Heap Function
-    public static void buildheap(int[] a) {
+    public void buildheap(T[] a) {
         n = a.length - 1;
         for (int i = n / 2; i >= 0; i--) {
             System.out.println(i);
@@ -25,17 +20,17 @@ public class HeapSort<T extends Comparable<? super T>>{
     }
     
     // Max-Heap Function
-    public static void maxheap(int[] a, int i) {
+    public void maxheap(T[] a, int i) {
         left = 2 * i;
         right = 2 * i + 1;
-        System.out.println(i + " " + left + " " + right);
-        if (left <= n && a[left] > a[i]) {
+        //System.out.println(i + " " + left + " " + right);
+        if (left <= n && (a[left].compareTo(a[i])>0)) {
             largest = left;
         }
         else {
             largest = i;
         }
-        if (right <= n && a[right] > a[largest]) {
+        if (right <= n && a[right].compareTo(a[largest])>0) {
             largest = right;
         }
         if (largest != i) {
@@ -44,14 +39,14 @@ public class HeapSort<T extends Comparable<? super T>>{
         }
     }
     // Exchange Function
-    public static void exchange(int i, int j) {
-        int t = a[i];
+    public void exchange(int i, int j) {
+        T t = a[i];
         a[i] = a[j];
         a[j] = t;
     }
 
     // Sort Function
-    public static void sort(int[] a0) {
+    public void sort(T[] a0) {
         a = a0;
         buildheap(a);
         for (int i = n; i > 0; i--) {
@@ -62,9 +57,9 @@ public class HeapSort<T extends Comparable<? super T>>{
     }
     
     // Sort Function
-    public static <T extends Comparable<? super T>> Map<Integer,T> sort(T[] a0, SortType sortType) {
+    public Map<Integer,T> sort(T[] a0, SortType sortType) {
         Map<Integer, T> map = new HashMap<Integer, T>();
-        T[]a = a0;
+        //T[]a = a0;
         //buildheap(a);
         for (int i = n; i > 0; i--) {
             exchange(0, i);
@@ -73,13 +68,53 @@ public class HeapSort<T extends Comparable<? super T>>{
         }
         return map;
     }
+    
+    public T[] getA() {
+        return a;
+    }
+
+    public void setA(T[] a) {
+        this.a = a;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public void setLeft(int left) {
+        this.left = left;
+    }
+
+    public int getRight() {
+        return right;
+    }
+
+    public void setRight(int right) {
+        this.right = right;
+    }
+
+    public int getLargest() {
+        return largest;
+    }
+
+    public void setLargest(int largest) {
+        this.largest = largest;
+    }
 
     public static void main(String[] args) {
-        int[] a1 = { 3, 5, 1, 2, 4 };
-        sort(a1);
+        HeapSort<Integer> heap = new HeapSort<Integer>();
+        Integer[] a1 = { 3, 5, 1, 2, 4 };
+        heap.sort(a1);
         for (int i = 0; i < a1.length; i++) {
             System.out.print(a1[i] + " ");
         }
     }
-
 }
