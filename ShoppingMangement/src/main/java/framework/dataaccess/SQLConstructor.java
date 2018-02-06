@@ -156,14 +156,18 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
     //UPDATE table_name
     //SET column1 = value1, column2 = value2, ...
     //WHERE condition; 
-    public String constructUpdate(T t, ID id, Map<String,String> updatedValues) {
+    public String constructUpdate(T t) {
         replaceTableValues(t);
+        Map<String,String> updatedValues = t.getMappedValues();
         StringBuffer updateSQL = new StringBuffer(256);
         updateSQL.append("update ").append(tableName).append(" set ");
         for (Map.Entry<String, String> entry : updatedValues.entrySet()) {
             updateSQL.append(entry.getKey()).append("=").append(entry.getValue()).append(" ");
         }
         updateSQL.append( "where " + ID);
+        updateSQL.append("=\"");
+        updateSQL.append(t.getPrimaryKeyValue());
+        updateSQL.append("=\"");
         return updateSQL.toString();
     }
     

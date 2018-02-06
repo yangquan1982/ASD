@@ -29,7 +29,7 @@ public abstract class GenericDaoAccess<ID extends Serializable, T extends Mappin
 
     @Override
     public void update(T entity) throws SQLException {
-        String updateSQL = constructor.constructUpdate(entity, entity.getPrimaryKeyValue(), entity.getMappedValues());
+        String updateSQL = constructor.constructUpdate(entity);
         executor.executeSQL(updateSQL);
     }
 
