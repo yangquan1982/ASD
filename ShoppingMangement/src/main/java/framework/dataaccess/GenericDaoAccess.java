@@ -1,20 +1,24 @@
 package framework.dataaccess;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import framework.common.Functor;
 
-public class GenericDaoAccess<ID extends Serializable, T extends MappingObject<ID>> implements DaoAccess<T, ID> {
+public abstract class GenericDaoAccess<ID extends Serializable, T extends MappingObject<ID>> implements DaoAccess<T, ID> {
     
     private SQLConstructor<T, ID> constructor;
-    private FacadeJDBCExecutor executor;
+    private FacadeJDBCExecutor<T> executor;
+    Function<ResultSet, T> fun = this::helperOne;
+    Function<ResultSet, List<T>> funList = this::helper;
     
     public GenericDaoAccess(String tableName, String keyName) {//tablename and primary key name
         this.constructor = new SQLConstructor<T, ID>(tableName, keyName);
-        this.executor = new FacadeJDBCExecutor();
+        this.executor = new FacadeJDBCExecutor<T>();
     }
 
     @Override
@@ -31,14 +35,14 @@ public class GenericDaoAccess<ID extends Serializable, T extends MappingObject<I
 
     @Override
     public T getById(ID id) throws SQLException {
-        String selectSQL = constructor.constructSelect(id);
-        return null;
+        String selectSQL = constructor.constructSelectID(id);
+        return executor.executeSelectSQL(selectSQL, fun);
     }
 
     @Override
     public List<T> getAll() throws SQLException {
-        // TODO Auto-generated method stub
-        return null;
+        String selectSQL = constructor.constructSelectTable();
+        return executor.executeSelectSQLAll(selectSQL, funList);
     }
 
     @Override
@@ -79,7 +83,7 @@ public class GenericDaoAccess<ID extends Serializable, T extends MappingObject<I
     
     @Override
     public boolean exists(ID id) throws SQLException {
-        String selectCountSQL = constructor.constructSelect(id);
+        String selectCountSQL = constructor.constructSelectID(id);
         return executor.executeSelectExist(selectCountSQL);
     }
 
@@ -117,4 +121,7 @@ public class GenericDaoAccess<ID extends Serializable, T extends MappingObject<I
         boolean ret = executor.executeSQL(deleteAllSQL);
         if(!ret) throw new SQLException("Delte ALL Failed");
     }
+    
+    abstract List<T> helper(ResultSet rs);
+    abstract T helperOne(ResultSet rs);
 }

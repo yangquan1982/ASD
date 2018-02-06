@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-public class FacadeJDBCExecutor {
+public class FacadeJDBCExecutor<T> {
     
     protected Connection conn;
     protected Statement stat;
@@ -39,6 +40,48 @@ public class FacadeJDBCExecutor {
             }
         }
         return executeSuccess;
+    }
+    
+    public T executeSelectSQL(String sql, Function<ResultSet, T> fun) {
+        T t = null;
+        try {
+            stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            //Extact result from ResultSet rs
+            t = fun.apply(rs);
+            // close ResultSet rs
+            rs.close();
+        } catch(SQLException ex) {
+
+        } finally {
+            try {
+                stat.close();
+            } catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return t;
+    }
+    
+    public List<T> executeSelectSQLAll(String sql, Function<ResultSet, List<T>> funList) {
+        List<T> list = null;
+        try {
+            stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            //Extact result from ResultSet rs
+            list = funList.apply(rs);
+            // close ResultSet rs
+            rs.close();
+        } catch(SQLException ex) {
+
+        } finally {
+            try {
+                stat.close();
+            } catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return list;
     }
     
     public int executeSelectCount(String sql) {

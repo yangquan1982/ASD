@@ -167,7 +167,14 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
         return updateSQL.toString();
     }
     
-    public String constructSelect(ID id) {
+    public String constructSelectTable() {
+        StringBuffer selectSQL = new StringBuffer(128);
+        selectSQL.append("select * from ");
+        selectSQL.append(tableName);
+        return selectSQL.toString();
+    }
+    
+    public String constructSelectID(ID id) {
         StringBuffer selectSQL = new StringBuffer(128);
         selectSQL.append("select * from ");
         selectSQL.append(tableName);
