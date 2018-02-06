@@ -1,5 +1,5 @@
 package framework.dataaccess;
 
 public interface DaoFactory {
-    public GenericDaoAccess<?, ?> createDao(String table);
+    public DaoAccess<?, ?> createDao(String table);
 }

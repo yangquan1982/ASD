@@ -14,13 +14,13 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
     private String tableName;
     private TableMetaData tableMetaData = new TableMetaData();
     private Map<String, String> valueMap = new HashMap<String, String>();
-    private Class cls;//use reflection
+    //private Class cls;//use reflection
 
-    private String ID;
+    private String ID;//primary key;
     
-    public SQLConstructor(String tableName, Class cls, String ID) {
+    public SQLConstructor(String tableName, String ID) {
         this.tableName = tableName;
-        this.cls = cls;
+      //  this.cls = cls;Class cls,
         this.ID = ID;
     }
     
@@ -31,7 +31,8 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-    
+
+    /*
     public Class getCls() {
         return cls;
     }
@@ -39,6 +40,7 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
     public void setCls(Class cls) {
         this.cls = cls;
     }
+    */
 
     public String getID() {
         return ID;
@@ -177,6 +179,13 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
         return selectSQL.toString();
     }
     
+    public String constructSelectCount() {
+        StringBuffer selectSQL = new StringBuffer(128);
+        selectSQL.append("select count(*) from ");
+        selectSQL.append(tableName);
+        return selectSQL.toString();
+    }
+    
     public String constructDelete(ID id) {
         StringBuffer deleteSQL = new StringBuffer(128);
         deleteSQL.append("delete from ");
@@ -186,6 +195,13 @@ public class SQLConstructor <T extends MappingObject, ID extends Serializable> {
         deleteSQL.append("=\"");
         deleteSQL.append(id);
         deleteSQL.append("=\"");
+        return deleteSQL.toString();
+    }
+    
+    public String constructDeleteAll() {
+        StringBuffer deleteSQL = new StringBuffer(128);
+        deleteSQL.append("delete from ");
+        deleteSQL.append(tableName);
         return deleteSQL.toString();
     }
     

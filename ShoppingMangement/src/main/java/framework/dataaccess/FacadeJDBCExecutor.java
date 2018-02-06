@@ -2,6 +2,7 @@ package framework.dataaccess;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -38,6 +39,51 @@ public class FacadeJDBCExecutor {
             }
         }
         return executeSuccess;
+    }
+    
+    public int executeSelectCount(String sql) {
+        int count = -1;
+        try {
+            stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            //Extact result from ResultSet rs
+            while(rs.next()){
+                count = rs.getInt("COUNT(*)");
+            }
+            // close ResultSet rs
+            rs.close();
+        } catch(SQLException ex) {
+            
+        } finally {
+            try {
+                stat.close();
+            } catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return count;
+    }
+    
+    public boolean executeSelectExist(String sql) {
+        try {
+            stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            //Extact result from ResultSet rs
+            while(rs.next()){
+                return true;
+            }
+            // close ResultSet rs
+            rs.close();
+        } catch(SQLException ex) {
+            
+        } finally {
+            try {
+                stat.close();
+            } catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
     }
     
     //int executeUpdate(String sql) throws SQLException;
