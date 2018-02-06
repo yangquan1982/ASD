@@ -35,7 +35,7 @@ public abstract class APage extends JFrame {
 	public void setPageName(EPageName name) {
 		this.name = name;
 	}
-	public void openItself() {//Template Method
+	public final void openItself() {//Template Method
 		open();
 	}
 	public abstract void open();
