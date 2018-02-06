@@ -33,6 +33,7 @@ public class CFRecommendation implements IRecomendation {
     @Override
     public boolean setUp() {
         RateInformation rateInformation = RateInformation.getRateInformation();
+        //rateRow, rateCol,rateScore can be got from database or file
         rateInformation.assignRateInformation(rateRow, rateCol, rateScore);
         return true;
     }
