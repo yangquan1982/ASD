@@ -3,6 +3,7 @@
  */
 package framework.pagenavigation.Mediator.ConcreteMediator;
 
+import framework.pagenavigation.FactoryMethod.page.EPageName;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import framework.pagenavigation.State.ConcreteState.BillToPurState;
 import framework.pagenavigation.State.ConcreteState.PurToBillState;
@@ -36,10 +37,16 @@ public class PurchaseBillNavigator extends APageNavigator {
 	public void navigate(APage startPage) {
 		for (APage aPage : pages) {
 			if (aPage != startPage) {
-				aPage.openItself();
+				aPage.openItself();// open the dest page
 			}
 		}		
 		currentState.navigate();
+		//close the start page
+		startPage.setVisible(false);
+		startPage.dispose();
+		if (!startPage.getPageName().equals(EPageName.MAINPANEL)) {
+			startPage = null;
+		}
 	}
 
 }

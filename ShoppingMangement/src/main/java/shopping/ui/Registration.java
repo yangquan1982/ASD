@@ -21,6 +21,7 @@ import framework.pagenavigation.AbstractFactory.ConcreteFactory.RegLogNavFactory
 import framework.pagenavigation.FactoryMethod.component.*;
 import framework.pagenavigation.FactoryMethod.page.*;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
+import framework.pagenavigation.State.ConcreteState.ENavState;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Dialog.ModalExclusionType;
@@ -75,7 +76,7 @@ public class Registration extends APage implements Serializable {
 				regPage.setNavigator(regLogNavigator);
 				loginPage.setNavigator(regLogNavigator);
 				regLogNavigator.setPageAB(regPage, loginPage);
-				regLogNavigator.setCurrentState(regLogNavigator.getFromAToBState());
+				regLogNavigator.setCurrentState(regLogNavigator.getFromAToBState());// initialize current state
 				regPage.navigate();
 			}
 		});
@@ -164,10 +165,5 @@ public class Registration extends APage implements Serializable {
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
-		if (INSTANCE != null) {
-			INSTANCE.setVisible(false);
-			INSTANCE.dispose();
-			INSTANCE = null;
-		}
 	}
 }

@@ -327,10 +327,5 @@ public class BillPage extends APage implements Serializable {
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
-		if (INSTANCE != null) {
-			INSTANCE.setVisible(false);
-			INSTANCE.dispose();
-			INSTANCE = null;
-		}
 	}
 }

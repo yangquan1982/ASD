@@ -3,9 +3,11 @@
  */
 package framework.pagenavigation.Mediator.ConcreteMediator;
 
+import framework.pagenavigation.FactoryMethod.page.EPageName;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
 import framework.pagenavigation.State.ConcreteState.LogToRegState;
 import framework.pagenavigation.State.ConcreteState.RegToLogState;
+import shopping.ui.LoginPage;
 import shopping.ui.Registration;
 import shopping.ui.abstractproduct.APage;
 
@@ -35,9 +37,18 @@ public class RegLogNavigator extends APageNavigator {
 	public void navigate(APage startPage) {
 		for (APage aPage : pages) {
 			if (aPage != startPage) {
-				aPage.openItself();
+				aPage.openItself();// open the dest page
 			}
 		}
-		currentState.navigate();
+		currentState.navigate();// change currentState
+		//close the start page
+		if (startPage.getPageName().equals(EPageName.LOGINPAGE)) {
+			((LoginPage) startPage).getFrame().setVisible(false);
+		}
+		startPage.setVisible(false);
+		startPage.dispose();
+		if (!startPage.getPageName().equals(EPageName.MAINPANEL)) {
+			startPage = null;
+		}
 	}
 }

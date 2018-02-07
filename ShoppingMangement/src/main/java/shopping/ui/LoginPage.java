@@ -265,11 +265,5 @@ public class LoginPage extends APage implements Serializable {
 	@Override
 	public void navigate() {
 		navigator.navigate(this);
-		if (INSTANCE != null) {
-			INSTANCE.getFrame().setVisible(false);
-			INSTANCE.setVisible(false);
-			INSTANCE.dispose();
-			INSTANCE = null;
-		}
 	}
 }
