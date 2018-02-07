@@ -40,13 +40,11 @@ public class PurchaseBillNavigator extends APageNavigator {
 				aPage.openItself();// open the dest page
 			}
 		}		
-		currentState.navigate();
 		//close the start page
 		startPage.setVisible(false);
 		startPage.dispose();
-		if (!startPage.getPageName().equals(EPageName.MAINPANEL)) {
-			startPage = null;
-		}
+		startPage = null;
+		currentState.navigate();// change currentState
 	}
 
 }

@@ -5,6 +5,7 @@ package framework.pagenavigation.Mediator.ConcreteMediator;
 
 import framework.pagenavigation.FactoryMethod.page.EPageName;
 import framework.pagenavigation.Mediator.AbstractMediator.APageNavigator;
+import framework.pagenavigation.State.ConcreteState.ENavState;
 import framework.pagenavigation.State.ConcreteState.MainToPListState;
 import framework.pagenavigation.State.ConcreteState.PListToMainState;
 import shopping.ui.Registration;
@@ -40,13 +41,13 @@ public class MainPListNavigator extends APageNavigator {
 				aPage.openItself();// open the dest page
 			}
 		}
-		currentState.navigate();// change currentState
 		//close the start page
 		startPage.setVisible(false);
 		startPage.dispose();
-		if (!startPage.getPageName().equals(EPageName.MAINPANEL)) {
+		if (currentState.getState() == ENavState.FROMBTOA) {
 			startPage = null;
 		}
+		currentState.navigate();// change currentState
 	}
 
 }
