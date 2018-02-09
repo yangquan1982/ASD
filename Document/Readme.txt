@@ -1,4 +1,9 @@
-Classes of GUI Navigation Framework:
+Group 6
+Members: Qu Yang, Yu Zhou, Huynh Truong
+
+Source code distribution explaination:
+
+1. Classes of GUI Navigation Framework:
 INavigatorFactory
 IPageFactory
 APageNavigator
@@ -8,7 +13,7 @@ Override createPageA, createPageB and createNavigator methods of INavigatorFacto
 Override navigate method of APageNavigator and INavigatorState to implement real navigation.
 Override open and navigate methods of APage to implement navigation details.
 
-Classes of Membership:
+2. Classes of Membership Framework:
 Member
 IProxyFacade
 IEncryption
@@ -21,14 +26,14 @@ Override getHashString, verifyStringByHash of IHashing
 Override validateString of IValidate
 Override SignUp, login, updateProfile of ITemplateFacade
 
-Classes of DataAccess Framework:
+3. Classes of DataAccess Framework:
 ConnectionPool,PoolConfigure, PoolBuilder,JDBCConnectionInfo
 DaoAccess,DaoFactory,GenericDaoAccess
 SQLConstructor,MappingObject
 ColumnMetaData,TableMetaData,DataType
 FacadeJDBCExecutor,FacadeJDBCProfiler
 
-Classes of Recommendation Framework:
+4. Classes of Recommendation Framework:
 RateInformation
 IRecomendation, CFRecommendation, CoOccurrenceRecommendation,RecommendtaionFactory
 ISortMethod, HeapSort, OnePassCompareSort,SortType, SortUtil
